@@ -1,5 +1,19 @@
 deployment:
   hostname: staging.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: staging.canfar.net
+
+  storageUI:
+    registryURL:
+      - "https://staging.canfar.net/reg"
+
+    # Mount the servops certificate
+    extraVolumeMounts:
+      - mountPath: "/config/RsaSignaturePub.key"
+        name: rsa-public-key-volume
+        subPath: RsaSignaturePub.key
+
+    # Declare the servops certificate volume to be mounted in extraVolumeMounts
+    extraVolumes:
+      - name: rsa-public-key-volume
+        secret:
+          defaultMode: 420
+          secretName: access-rsa-keys

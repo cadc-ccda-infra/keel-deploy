@@ -4,26 +4,47 @@
 
 deployment:
   storageUI:
-    gmsID: "ivo://cadc.nrc.ca/gms"
-    registryURL:
-      - "https://cadc-west-01.canfar.net/reg"
-      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
-
-    themeName: canfar
+    imagePullPolicy: IfNotPresent
+    gmsID: ivo://cadc.nrc.ca/gms
 
     identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+
+    loggingGroups:
+      - "ivo://cadc.nrc.ca/gms?CADC"
+
+    themeName: canfar
 
     backend:
       defaultService: arc
       services:
         arc:
-          resourceID: "ivo://canfar.net/arc"
-          nodeURIPrefix: "vos://canfar.net~arc"
+          resourceID: "ivo://cadc.nrc.ca/arc"
+          nodeURIPrefix: "vos://cadc.nrc.ca~arc"
           userHomeDir: "/home"
           features:
             batchDownload: true
             batchUpload: false
             externalLinks: false
             paging: false
+            directDownload: true
+            
+        vault:
+          resourceID: "ivo://cadc.nrc.ca/vault"
+          nodeURIPrefix: "vos://cadc.nrc.ca~vault"
+          userHomeDir: "/"
+          features:
+            batchDownload: true
+            batchUpload: false
+            externalLinks: true
+            paging: true
+            directDownload: true
+
+    resources:
+      requests:
+        memory: "750Mi"
+        cpu: "500m"
+      limits:
+        memory: "1Gi"
+        cpu: "750m"
 
     # deployment.hostname: integration.yaml, staging.yaml, prod.yaml

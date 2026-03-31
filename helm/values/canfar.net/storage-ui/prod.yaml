@@ -1,5 +1,2 @@
 deployment:
   hostname: www.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: www.canfar.net
