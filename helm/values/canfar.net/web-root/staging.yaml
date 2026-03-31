@@ -1,0 +1,16 @@
+ingress:
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /canfar
+          pathType: Prefix
+        - path: /cadcJS
+          pathType: Prefix
+        - path: /cadcVOTV
+          pathType: Prefix
+        - path: /vosui
+          pathType: Prefix
+  tls:
+    - secretName: canfar-web-root-tls
+      hosts:
+        - staging.canfar.net

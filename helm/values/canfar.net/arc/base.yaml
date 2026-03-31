@@ -1,0 +1,60 @@
+# Shared defaults for arc (Cavern Helm chart:
+# opencadc/deployments/helm/applications/cavern).
+# Ingress serves the app at path deployment.cavern.endpoint (`/arc`).
+#
+# Image and many nested defaults: use the chart’s values.yaml (chart version / appVersion).
+# Replace storage, filesystem ownership, and identity/registry IDs to match your cluster.
+
+replicaCount: 1
+
+deployment:
+  cavern:
+    applicationName: "arc"
+    endpoint: "/arc"
+    resourceID: "ivo://canfar.net/arc"
+
+    registryURL:
+      - "https://cadc-west-01.canfar.net/reg"
+      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
+    gmsID: "ivo://cadc.nrc.ca/gms"
+    posixMapperResourceID: "ivo://cadc.nrc.ca/gms"
+
+    quotaPlugin: "org.opencadc.cavern.nodes.NoQuotaPlugin"
+
+    allocations:
+      defaultSizeGB: 10
+      parentFolders:
+        - "/home"
+        - "/projects"
+
+    filesystem:
+      dataDir: "/data"
+      subPath: "arc"
+      rootOwner:
+        # uid/gid must be non-zero here: the chart template treats 0 as unset.
+        adminUsername: ""
+        username: ""
+        uid: 
+        gid: 
+
+    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+    adminAPIKeys: {}
+
+    # deployment.cavern.image / imagePullPolicy / resources / uws.db: chart defaults
+
+  # deployment.hostname and optional extraHosts: per environment (integration, staging, prod).
+
+livenessProbe:
+  httpGet:
+    path: /arc
+    port: 8080
+readinessProbe:
+  httpGet:
+    path: /arc/availability
+    port: 8080
+
+storage:
+  service:
+    spec:
+      persistentVolumeClaim:
+        claimName: canfar-arc-data

@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-posix-mapper
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: posix-mapper
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/src/charts
+      chart: posix-mapper
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/posix-mapper/base.yaml
+          - $values/helm/values/src.canfar.net/posix-mapper/prod.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: src-posix-mapper
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

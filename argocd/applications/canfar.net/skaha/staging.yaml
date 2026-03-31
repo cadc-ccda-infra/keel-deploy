@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-skaha-staging
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: skaha
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/canfar/charts
+      chart: skaha
+      targetRevision: 1.5.2
+      helm:
+        valueFiles:
+          - $values/helm/values/canfar.net/skaha/base.yaml
+          - $values/helm/values/canfar.net/skaha/staging.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-system-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

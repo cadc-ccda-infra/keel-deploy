@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-web-portal-integration
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: canfar.net
+    argocd.argoproj.io/environment: integration
+    argocd.argoproj.io/service: web-portal
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/canfar/charts
+      chart: canfar-web-portal
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/canfar.net/web-portal/base.yaml
+          - $values/helm/values/canfar.net/web-portal/integration.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-web-portal-integration
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

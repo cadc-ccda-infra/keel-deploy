@@ -1,0 +1,33 @@
+# Shared defaults for skaha — keys taken from
+# opencadc/deployments/helm/applications/skaha/values.yaml only (no ad-hoc keys).
+# Everything else (replicaCount, skahaWorkload, registryHosts, image, redis, ingress, …) uses the chart.
+#
+# Note: templates reference deployment.skaha.skahaTld for skaha.homedir, but that key is not in
+# values.yaml; do not invent it here. Fix belongs in the chart (or accept the template default).
+
+deployment:
+  skaha:
+    gmsID: "ivo://cadc.nrc.ca/gms"
+    oidcURI: "https://www.canfar.net/"
+    posixMapperResourceID: "ivo://cadc.nrc.ca/posix-mapper"
+    registryURL:
+      - "https://cadc-west-01.canfar.net/reg"
+      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
+
+    usersGroup: "ivo://cadc.nrc.ca/gms?CANFAR/platform-users"
+    adminsGroup: "ivo://cadc.nrc.ca/gms?CANFAR/platform-admins"
+    headlessGroup: "ivo://cadc.nrc.ca/gms?CANFAR/headless-users"
+
+    sessions:
+      userStorage:
+        topLevelDirectory: "/arc"
+        serviceURI: "ivo://canfar.net/arc"
+        nodeURIPrefix: "vos://canfar.net~arc"
+        admin:
+          auth:
+            # Same secret as Cavern deployment.cavern.adminAPIKeys skaha entry.
+            apiKey: "REPLACE_WITH_SECRET_MATCHING_CAVERN_SKAHA_ADMIN_KEY"
+
+    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+
+    # deployment.hostname: integration.yaml, staging.yaml, prod.yaml

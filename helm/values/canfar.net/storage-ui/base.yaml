@@ -1,0 +1,29 @@
+# Shared defaults for storage-ui — keys from
+# opencadc/deployments/helm/applications/storage-ui/values.yaml only.
+# replicaCount, image, resources, redis: chart defaults. OIDC is not used.
+
+deployment:
+  storageUI:
+    gmsID: "ivo://cadc.nrc.ca/gms"
+    registryURL:
+      - "https://cadc-west-01.canfar.net/reg"
+      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
+
+    themeName: canfar
+
+    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+
+    backend:
+      defaultService: arc
+      services:
+        arc:
+          resourceID: "ivo://canfar.net/arc"
+          nodeURIPrefix: "vos://canfar.net~arc"
+          userHomeDir: "/home"
+          features:
+            batchDownload: true
+            batchUpload: false
+            externalLinks: false
+            paging: false
+
+    # deployment.hostname: integration.yaml, staging.yaml, prod.yaml

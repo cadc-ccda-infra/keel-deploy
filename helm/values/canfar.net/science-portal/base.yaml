@@ -1,0 +1,18 @@
+# Shared defaults for science-portal — keys from
+# opencadc/deployments/helm/applications/science-portal/values.yaml only.
+# replicaCount, image, resources, redis, tabLabels, defaultProjectName, ingress path: chart defaults.
+
+deployment:
+  sciencePortal:
+    gmsID: "ivo://cadc.nrc.ca/gms"
+    skahaResourceID: "ivo://canfar.net/skaha"
+    registryURL:
+      - "https://cadc-west-01.canfar.net/reg"
+      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
+
+    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+
+    theme:
+      name: canfar
+      logoURL: "https://www.canfar.net/css/images/logo.png"
+

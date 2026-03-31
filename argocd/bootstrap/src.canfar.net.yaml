@@ -1,0 +1,23 @@
+# Parent Application (app-of-apps) for src.canfar.net.
+# Apply once: kubectl apply -f argocd/bootstrap/src.canfar.net.yaml
+# Replace spec.source.repoURL with this repository's clone URL before applying.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-canfar-net-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://git.example.com/your-org/argo-deploy.git
+    targetRevision: main
+    path: argocd/applications/src.canfar.net
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

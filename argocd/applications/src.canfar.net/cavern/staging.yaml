@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-cavern-staging
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: cavern
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/src/charts
+      chart: cavern
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/cavern/base.yaml
+          - $values/helm/values/src.canfar.net/cavern/staging.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: src-cavern-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,6 @@
+# Template values — replace keys with those your Harbor chart `example-app` expects.
+replicaCount: 1
+
+image:
+  repository: harbor.example.com/cadc/example-app
+  tag: "0.1.0"

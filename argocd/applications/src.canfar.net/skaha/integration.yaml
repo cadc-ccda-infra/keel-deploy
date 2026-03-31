@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-skaha-integration
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: integration
+    argocd.argoproj.io/service: skaha
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/src/charts
+      chart: skaha
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/skaha/base.yaml
+          - $values/helm/values/src.canfar.net/skaha/integration.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: src-skaha-integration
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,6 @@
+# Shared defaults for storage-ui (align keys with the Harbor chart).
+replicaCount: 1
+
+image:
+  repository: harbor.example.com/src/storage-ui
+  tag: "0.1.0"

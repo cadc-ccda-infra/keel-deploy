@@ -1,0 +1,6 @@
+# Shared defaults for skaha (align keys with the Harbor chart).
+replicaCount: 1
+
+image:
+  repository: harbor.example.com/src/skaha
+  tag: "0.1.0"

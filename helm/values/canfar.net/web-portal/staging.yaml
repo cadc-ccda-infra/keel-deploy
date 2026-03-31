@@ -1,0 +1,10 @@
+ingress:
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: canfar-web-portal-tls
+      hosts:
+        - staging.canfar.net

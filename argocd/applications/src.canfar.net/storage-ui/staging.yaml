@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-storage-ui-staging
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: storage-ui
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/src/charts
+      chart: storage-ui
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/storage-ui/base.yaml
+          - $values/helm/values/src.canfar.net/storage-ui/staging.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: src-storage-ui-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

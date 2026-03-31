@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-science-portal-integration
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: integration
+    argocd.argoproj.io/service: science-portal
+spec:
+  project: default
+  sources:
+    - repoURL: oci://harbor.example.com/src/charts
+      chart: science-portal
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/science-portal/base.yaml
+          - $values/helm/values/src.canfar.net/science-portal/integration.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: src-science-portal-integration
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

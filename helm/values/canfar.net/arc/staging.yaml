@@ -1,0 +1,5 @@
+deployment:
+  hostname: staging.canfar.net
+  extraHosts:
+    - ip: 132.246.194.20
+      hostname: staging.canfar.net

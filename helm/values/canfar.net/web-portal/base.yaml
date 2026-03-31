@@ -1,0 +1,7 @@
+# Only ingress; all other settings use the chart defaults
+# (opencadc/deployments/helm/applications/canfar-web-portal/values.yaml).
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}

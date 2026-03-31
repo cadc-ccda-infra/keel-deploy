@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-access-staging
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/domain: canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: access
+spec:
+  project: default
+  sources:
+    - repoURL: https://images-rc.canfar.net/chartrepo/skaha-system
+      chart: access
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/canfar.net/access/base.yaml
+          - $values/helm/values/canfar.net/access/staging.yaml
+    - repoURL: https://git.example.com/your-org/argo-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-system-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
