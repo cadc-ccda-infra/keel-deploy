@@ -17,7 +17,7 @@ spec:
         valueFiles:
           - $values/helm/values/canfar.net/access/base.yaml
           - $values/helm/values/canfar.net/access/staging.yaml
-    - repoURL: https://git.example.com/your-org/argo-deploy.git
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
   destination:

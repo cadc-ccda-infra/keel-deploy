@@ -1,0 +1,14 @@
+global:
+  hostname: www.canfar.net
+
+application:
+  serviceEntries:
+    - id: "ivo://canfar.net/reg"
+      url: "https://www.canfar.net/reg"
+
+ingress:
+  hosts:
+    - host: www.canfar.net
+      paths:
+        - path: /reg
+          pathType: Prefix

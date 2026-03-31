@@ -1,0 +1,23 @@
+global:
+  hostname: staging.canfar.net
+
+application:
+  serviceEntries:
+    - id: "ivo://cadc.nrc.ca/arc"
+      url: "https://staging.canfar.net/arc/capabilities"
+    - id: "ivo://cadc.nrc.ca/vault"
+      url: "https://ws-cadc.canfar.net/vault/capabilities"
+    - id: "ivo://cadc.nrc.ca/gms"
+      url: "https://ws-cadc.canfar.net/ac/capabilities"
+    - id: "ivo://canfar.net/skaha"
+      url: "https://staging.canfar.net/skaha/capabilities"
+
+ingress:
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /reg
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth

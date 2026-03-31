@@ -1,0 +1,10 @@
+# IVOA Registry (reg) chart defaults; see chart values:
+# https://images-rc.canfar.net/chartrepo/library (chart reg).
+
+application:
+  authority: "ivo://canfar.net/reg"
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}

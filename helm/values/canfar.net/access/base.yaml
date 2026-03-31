@@ -7,16 +7,6 @@ replicaCount: 1
 # image.repository / image.tag / image.pullPolicy: use the chart's values.yaml (released with each chart version).
 # Override these values in the environment-specific values.yaml files, unless a different image is needed more globally.
 
-imagePullSecrets:
-  - name: bucket-registry
-
-rsaSignatureKeys:
-  existingSecret: canfar-rsa-keys
-
-# Optional RegistryClient base URLs (see ConfigMap cadc-registry.properties).
-registryURLs:
-  - https://canfar.cadc.dao.nrc.ca/reg
-
 ingress:
   enabled: true
   className: ""

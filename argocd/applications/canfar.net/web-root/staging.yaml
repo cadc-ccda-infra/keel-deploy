@@ -17,7 +17,7 @@ spec:
         valueFiles:
           - $values/helm/values/canfar.net/web-root/base.yaml
           - $values/helm/values/canfar.net/web-root/staging.yaml
-    - repoURL: https://github.com/cadc-ccda-infra/argocd-deploy.git
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
   destination:

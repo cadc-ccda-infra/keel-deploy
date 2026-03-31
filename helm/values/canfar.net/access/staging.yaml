@@ -4,7 +4,12 @@ ingress:
       paths:
         - path: /access
           pathType: Prefix
-  tls:
-    - secretName: canfar-access-tls
-      hosts:
-        - staging.canfar.net
+
+registryURLs:
+  - https://staging.canfar.net/reg
+
+rsaSignatureKeys:
+  existingSecret: access-rsa-keys
+
+imagePullSecrets:
+  - name: bucket-registry-auth
