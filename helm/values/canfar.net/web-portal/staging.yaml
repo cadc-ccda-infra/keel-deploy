@@ -4,7 +4,6 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: canfar-web-portal-tls
-      hosts:
-        - staging.canfar.net
+
+imagePullSecrets:
+  - name: bucket-registry-auth

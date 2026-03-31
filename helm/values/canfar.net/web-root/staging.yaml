@@ -10,7 +10,6 @@ ingress:
           pathType: Prefix
         - path: /vosui
           pathType: Prefix
-  tls:
-    - secretName: canfar-web-root-tls
-      hosts:
-        - staging.canfar.net
+
+imagePullSecrets:
+  - name: bucket-registry-auth
