@@ -1,5 +1,2 @@
 deployment:
   hostname: integration.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: integration.canfar.net

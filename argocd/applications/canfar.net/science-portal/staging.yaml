@@ -10,14 +10,14 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: oci://harbor.example.com/canfar/charts
+    - repoURL: https://image.opencadc.org/chartrepo/platform
       chart: scienceportal
       targetRevision: 1.2.0
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/science-portal/base.yaml
           - $values/helm/values/canfar.net/science-portal/staging.yaml
-    - repoURL: https://git.example.com/your-org/argo-deploy.git
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
   destination:

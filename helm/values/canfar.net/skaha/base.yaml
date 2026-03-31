@@ -5,29 +5,174 @@
 # Note: templates reference deployment.skaha.skahaTld for skaha.homedir, but that key is not in
 # values.yaml; do not invent it here. Fix belongs in the chart (or accept the template default).
 
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  allowPrivilegeEscalation: false
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+# Skaha web service deployment
 deployment:
   skaha:
-    gmsID: "ivo://cadc.nrc.ca/gms"
-    oidcURI: "https://www.canfar.net/"
-    posixMapperResourceID: "ivo://cadc.nrc.ca/posix-mapper"
-    registryURL:
-      - "https://cadc-west-01.canfar.net/reg"
-      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
+    imagePullPolicy: Always
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference: 
+          matchExpressions:
+          - key: skaha.opencadc.org/node-type
+            operator: In
+            values:
+            - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
 
-    usersGroup: "ivo://cadc.nrc.ca/gms?CANFAR/platform-users"
-    adminsGroup: "ivo://cadc.nrc.ca/gms?CANFAR/platform-admins"
-    headlessGroup: "ivo://cadc.nrc.ca/gms?CANFAR/headless-users"
+    # Used when allocating first-time users into the system.
+    defaultQuotaGB: "200"
 
+    # Space delimited list of allowed Image Registry hosts.  These hosts should match the hosts in the User Session images.
+    registryHosts: "images.canfar.net"
+
+    # The group name to verify users against for permission to use the Science Platform.
+    usersGroup: "ivo://cadc.nrc.ca/gms?skaha-users"
+
+    adminsGroup: "ivo://cadc.nrc.ca/gms?skaha-admins"
+
+    headlessGroup: "ivo://cadc.nrc.ca/gms?skaha-users"
+
+    headlessPriorityGroup: "ivo://cadc.nrc.ca/gms?skaha-priority-headless-users"
+
+    headlessPriorityClass: uber-user-preempt-high
+
+    loggingGroups:
+      - "ivo://cadc.nrc.ca/gms?CADC"
+
+    # URI or URL of the OIDC (IAM) server
+    oidcURI: ivo://cadc.nrc.ca/gms
+
+    # ID (URI) of the GMS Service.
+    gmsID: ivo://cadc.nrc.ca/gms
+
+    # The Resource ID of the Service that contains the Posix Mapping information.  For CANFAR, this is set
+    # in the cadc-registry.properties file.
+    posixMapperResourceID: "ivo://cadc.nrc.ca/gms"
+
+    # The IdentityManager class handling authentication.  This should generally be left alone
+    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+
+    # Setting to control how often image registry is queried for available images.
+    imageCache:
+      refreshSchedule: "*/15 * * * *"
+
+    # Ten (10) minutes cache TTL for posix mapper results
+    posixMapperCacheTTLSeconds: "600"
+
+    # Settings for User Sessions.
     sessions:
+      hostname: workloads.canfar.net
+      gpuEnabled: true
+      expirySeconds: "345600"
+      maxCount: "3"
+      nodeLabelSelector: "skaha.opencadc.org/node-type=worker-node"
+      nodeAffinity:
+        # Only allow executions of User Sessions on specific Nodes.
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: skaha.opencadc.org/node-type
+              operator: NotIn
+              values:
+              - service-node
+
+      limitRange:
+        enabled: true
+        rbac:
+          create: false
+        spec:
+          max:  # maximum allowed requested
+            memory: "192Gi"
+            cpu: "16"
+            nvidia.com/gpu: "8"
+          default:  # actually refers to default limits
+            memory: "24Gi"
+            cpu: "4"
+            nvidia.com/gpu: "0"
+          defaultRequest:  # default requests
+            memory: "4Gi"
+            cpu: "1"
+            nvidia.com/gpu: "0"
+
+      # Declare extra volume mounts in User Sessions.  The "type: parameter in volume section is constant.
+      # @see https://github.com/opencadc/deployments/blob/main/helm/applications/skaha/values.yaml#L166 for possible configurations.
+      extraVolumes:
+        - name: cvmfs
+          volume:
+            type: HOST_PATH     # HOST_PATH is for host path
+            hostPath: "/cvmfs/"
+            hostPathType: Directory
+          volumeMount:
+            mountPath: "/cvmfs"
+            readOnly: true
+            mountPropagation: HostToContainer
+
       userStorage:
         topLevelDirectory: "/arc"
-        serviceURI: "ivo://canfar.net/arc"
-        nodeURIPrefix: "vos://canfar.net~arc"
+        persistentVolumeClaimName: skaha-workload-cavern-pvc
+        nodeURIPrefix: "vos://cadc.nrc.ca~arc"
+        serviceURI: "ivo://cadc.nrc.ca/arc"
         admin:
           auth:
-            # Same secret as Cavern deployment.cavern.adminAPIKeys skaha entry.
-            apiKey: "REPLACE_WITH_SECRET_MATCHING_CAVERN_SKAHA_ADMIN_KEY"
 
-    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+    # Resources provided to the Skaha service.
+    resources:
+      limits:
+        cpu: "2"
+        memory: 3Gi
+      requests:
+        cpu: "20m"
+        memory: 3Gi
+
+    # Optionally mount a custom CA certificate
+    extraVolumeMounts:
+      - mountPath: /usr/share/tomcat/.ssl/
+        name: servops-cert
+        readOnly: true
+      - mountPath: "/config/RsaSignaturePub.key"
+        name: rsa-public-key-volume
+        subPath: RsaSignaturePub.key
+
+    # Create the CA certificate volume to be mounted in extraVolumeMounts
+    extraVolumes:
+      - name: servops-cert
+        secret:
+          defaultMode: 420
+          secretName: servops-clientcert
+      - name: rsa-public-key-volume
+        secret:
+          defaultMode: 420
+          secretName: access-rsa-keys
+
+experimentalFeatures:
+  enabled: false
+
+redis:
+  networkPolicy:
+    enabled: false
+  serviceAccount:
+    create: false
+  master:
+    serviceAccount:
+      create: false
+
 
     # deployment.hostname: integration.yaml, staging.yaml, prod.yaml

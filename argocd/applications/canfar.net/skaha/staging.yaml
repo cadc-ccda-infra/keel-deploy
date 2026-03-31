@@ -10,7 +10,7 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: oci://harbor.example.com/canfar/charts
+    - repoURL: images-rc.canfar.net/chartrepo/skaha-system
       chart: skaha
       targetRevision: 1.5.2
       helm:

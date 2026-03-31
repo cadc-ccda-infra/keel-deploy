@@ -1,5 +1,20 @@
+skahaWorkload:
+  namespace: canfar-workload
+
+replicaCount: 3
+
 deployment:
   hostname: staging.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: staging.canfar.net
+
+  skaha:
+    registryURL:
+      - https://staging.canfar.net/reg
+
+    sessions:
+      kueue:
+        default:
+          queueName: "skaha-local-queue"
+          priorityClass: "high"
+        headless:
+          queueName: "skaha-local-queue"
+          priorityClass: "low"
