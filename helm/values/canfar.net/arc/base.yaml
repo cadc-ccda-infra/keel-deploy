@@ -63,8 +63,6 @@ deployment:
       rootOwner: 
         adminUsername: "canfarops"
         username: "canfarops"
-        uid: 25660
-        gid: 25660
 
     # The IdentityManager class handling authentication.  From within the CADC,
     # The AC service is used for authentication, so set the appropriate
@@ -94,9 +92,6 @@ deployment:
       - mountPath: /root/.ssl/
         name: servops-cert
         readOnly: true
-      - mountPath: "/config/RsaSignaturePub.key"
-        name: rsa-public-key-volume
-        subPath: RsaSignaturePub.key
 
     # Other volumes that will be used in the deployment, that don't fit into the general
     # template scheme (i.e. not used by all installations).
@@ -107,7 +102,3 @@ deployment:
         secret:
           defaultMode: 420
           secretName: servops-clientcert
-      - name: rsa-public-key-volume
-        secret:
-          defaultMode: 420
-          secretName: access-rsa-keys
