@@ -1,4 +1,4 @@
-# 🚀 Argo CD GitOps (argo-deploy)
+# 🚀 ArgoCD GitOps for the Keel Kubernetes Cluster (keel-deploy)
 
 This repository is the **Git source of truth** for Argo CD: `Application` (and optionally `ApplicationSet`) manifests plus **Helm values** used at deploy time. Helm **charts** are built and published from a **separate repository** and served from **Harbor** (OCI or Helm index, as configured in Argo CD).
 
@@ -7,6 +7,7 @@ This repository is the **Git source of truth** for Argo CD: `Application` (and o
 - [Domains](#domains)
 - [Repository layout](#repository-layout)
 - [Configuration placeholders](#configuration-placeholders)
+- [Required secrets (values references)](#required-secrets-values-references)
 - [Bootstrap install](#bootstrap-install)
 - [Adding a new Application](#adding-a-new-application)
 - [Charts (Harbor)](#charts-harbor)
@@ -51,7 +52,7 @@ argocd-deploy.git/
         └── src.canfar.net/<service>/
 ```
 
-- **canfar.net:** `skaha`, `science-portal`, `arc`, `storage-ui`, `access`, `web-portal` — each service directory has `integration.yaml`, `staging.yaml`, and `production.yaml`.
+- **canfar.net:** `skaha`, `science-portal`, `arc`, `storage-ui`, `access`, `web-portal`, `web-root`, `reg`, and others — each service directory has `integration.yaml`, `staging.yaml`, and `production.yaml` where that service is deployed per environment.
 - **src.canfar.net:** `skaha`, `science-portal`, `cavern`, `storage-ui`, `posix-mapper` — same pattern; Argo names/namespaces use the `src-` prefix (e.g. `src-skaha-integration`).
 - **cadc-ccda** ships a single **`example-app`** template under `argocd/applications/cadc-ccda/example-app/` plus `helm/values/cadc-ccda/example-app/`. Copy and rename for real services; `metadata.name` / namespaces use the **`cadc-example-app-*`** prefix.
 
@@ -68,6 +69,26 @@ Before syncing, replace **placeholders** in `argocd/bootstrap/` and `argocd/appl
 | `harbor.example.com/...` in `helm/values/**/base.yaml` | Image registry paths your chart uses |
 
 Child Applications use Argo CD **multiple sources**: Helm chart from Harbor plus a Git source with `ref: values` so `helm.valueFiles` can reference `$values/helm/values/<domain>/<service>/...` in this repository (Argo CD 2.6+).
+
+## Required secrets (values references)
+
+Helm values under `helm/values/` **name** Kubernetes `Secret` objects that must exist in the **destination namespace** for each `Application` (unless you change the values). Create them out-of-band (kubectl, Sealed Secrets, External Secrets, etc.); do not commit secret material to this repo.
+
+The table below lists secret **names** and where they appear. Adjust if your cluster uses different naming.
+
+| Secret name | Typical contents | Referenced from |
+| ------------- | ---------------- | ---------------- |
+| `bucket-registry-auth` | `dockerconfigjson` (or registry credentials your charts expect) for pulling private images | Staging values: `web-root`, `web-portal`, `access`, `reg` (`imagePullSecrets`) |
+| `access-rsa-keys` | PEM files: at minimum `RsaSignaturePub.key`; the **access** service also expects `RsaSignaturePriv.key` when using `existingSecret` (see comments in `access/base.yaml`) | `access` (staging `existingSecret` + RSA mount paths), `skaha/base.yaml`, `arc/base.yaml`, `science-portal/staging.yaml`, `storage-ui/staging.yaml` (mounted as `RsaSignaturePub.key`) |
+| `servops-clientcert` | TLS material for the ServOps client CA/cert bundle (mounted under `/usr/share/tomcat/.ssl/` where charts configure it) | `skaha/base.yaml`, `arc/base.yaml` |
+| `cephfs-cephx-admin-key` | CephFS CephX key for the volume driver / storage stanza | `arc/staging.yaml` (`storage.service.spec.cephfs.secretRef`) |
+| `canfar-web-portal-tls` | TLS certificate and key for Ingress host `www.canfar.net` / `integration.canfar.net` | `web-portal/integration.yaml`, `web-portal/prod.yaml` (`ingress.tls`) |
+| `canfar-access-tls` | TLS certificate and key for Ingress host `www.canfar.net` / `integration.canfar.net` | `access/integration.yaml`, `access/prod.yaml` (`ingress.tls`) |
+
+**Notes**
+
+- **Staging namespace:** Several canfar.net staging apps target `canfar-system-staging`; secrets such as `bucket-registry-auth` and volume secrets must exist in that namespace for those releases.
+- **Ingress TLS:** Values for `web-portal` and `access` still declare `ingress.tls` in integration and production overlays. If TLS is terminated outside the cluster, you may remove those blocks from values and omit the corresponding TLS secrets at the ingress—keep application-level secrets (RSA keys, client certs, registry pull secrets) as required by each chart.
 
 ## Bootstrap install
 
