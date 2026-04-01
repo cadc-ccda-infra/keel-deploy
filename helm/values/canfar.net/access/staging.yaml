@@ -1,6 +1,7 @@
 ingress:
+  enabled: true
   hosts:
-    - host: staging.canfar.net
+    - host: canfar.cadc.dao.nrc.ca
       paths:
         - path: /access
           pathType: Prefix
@@ -8,8 +9,16 @@ ingress:
 registryURLs:
   - https://staging.canfar.net/reg
 
-rsaSignatureKeys:
-  existingSecret: access-rsa-keys
+rsaSignaturePublicKey:
+  existingSecret: rsa-signature-pub-key
+
+serviceAccount:
+  automount: false
+  create: false
 
 imagePullSecrets:
   - name: bucket-registry-auth
+
+logging:
+  groups:
+    - "ivo://cadc.nrc.ca/gms?CADC"

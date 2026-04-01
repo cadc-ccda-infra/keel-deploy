@@ -3,14 +3,35 @@ global:
 
 application:
   serviceEntries:
+    - id: "ivo://cadc.nrc.ca/gms"
+      url: "https://staging.canfar.net/access/capabilities"
+    - id: "ivo://cadc.nrc.ca/skaha"
+      url: "https://staging.canfar.net/skaha/capabilities"
     - id: "ivo://cadc.nrc.ca/arc"
       url: "https://staging.canfar.net/arc/capabilities"
     - id: "ivo://cadc.nrc.ca/vault"
       url: "https://ws-cadc.canfar.net/vault/capabilities"
-    - id: "ivo://cadc.nrc.ca/gms"
-      url: "https://ws-cadc.canfar.net/ac/capabilities"
-    - id: "ivo://canfar.net/skaha"
-      url: "https://staging.canfar.net/skaha/capabilities"
+    - id: "ivo://cadc.nrc.ca/cred"
+      url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/cred/capabilities"
+  userInterfaceEntries:
+    - id: "ivo://cadc.nrc.ca/passchg"
+      url: "https://staging.canfar.net/en/auth/resetPassword.html"
+    - id: "ivo://cadc.nrc.ca/passreset"
+      url: "https://staging.canfar.net/en/auth/resetPassword.html"
+    - id: "ivo://cadc.nrc.ca/acctrequest"
+      url: "https://staging.canfar.net/en/auth/request.html"
+    - id: "ivo://cadc.nrc.ca/acctupdate"
+      url: "https://staging.canfar.net/en/auth/update.html"
+    - id: "ivo://cadc.nrc.ca/groups"
+      url: "https://staging.canfar.net/en/groups/"
+    - id: "ivo://cadc.nrc.ca/login"
+      url: "https://staging.canfar.net/en/login.html"
+    - id: "ivo://cadc.nrc.ca/download"
+      url: "https://staging.canfar.net/en/download"
+    - id: "ivo://cadc.nrc.ca/search"
+      url: "https://staging.canfar.net/en/search"
+    - id: "ivo://cadc.nrc.ca/canfar-dashboard"
+      url: "https://staging.canfar.net/"
 
 ingress:
   hosts:

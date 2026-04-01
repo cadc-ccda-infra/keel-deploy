@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://images-rc.canfar.net/chartrepo/library
       chart: reg
-      targetRevision: 1.0.0
+      targetRevision: 1.1.0
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/reg/base.yaml

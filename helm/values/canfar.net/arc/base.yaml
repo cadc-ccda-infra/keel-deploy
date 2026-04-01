@@ -4,57 +4,110 @@
 #
 # Image and many nested defaults: use the chart’s values.yaml (chart version / appVersion).
 # Replace storage, filesystem ownership, and identity/registry IDs to match your cluster.
+# The keel-prod Kubernetes cluster domain
 
-replicaCount: 1
+kubernetesClusterDomain: keel-prod.local
 
+# Tell Kubernetes to spin up multiple instances.  Defaults to 1.
+replicaCount: 3
+
+# Arc web service deployment
 deployment:
   cavern:
-    applicationName: "arc"
-    endpoint: "/arc"
-    resourceID: "ivo://canfar.net/arc"
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+          - key: skaha.opencadc.org/node-type
+            operator: In
+            values:
+            - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
 
-    registryURL:
-      - "https://cadc-west-01.canfar.net/reg"
-      - "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg"
-    gmsID: "ivo://cadc.nrc.ca/gms"
+    # How this Cavern instance identifies itself.
+    resourceID: "ivo://cadc.nrc.ca/arc"
+
+    # The Resource ID of the Service that contains the POSIX Mapping information.  Those URI values that do not use an http(s) scheme
+    # will be looked up in the registry provided by the registryURL.
     posixMapperResourceID: "ivo://cadc.nrc.ca/gms"
 
-    quotaPlugin: "org.opencadc.cavern.nodes.NoQuotaPlugin"
+    # URI or URL of the OIDC server.  For CANFAR, this is just to round out the cadc-registry.properties.
+    oidcURI: "ivo://cadc.nrc.ca/gms"
 
+    # ID (URI) of the GMS Service.
+    gmsID: "ivo://cadc.nrc.ca/gms"
+
+    quotaPlugin: CephFSQuotaPlugin
+    
+    # User Allocation settings.  This is used to create new folders under the main root allocation folders, namely /home and /projects.
     allocations:
-      defaultSizeGB: 10
-      parentFolders:
-        - "/home"
-        - "/projects"
+      # Required.  The default size, in GB, of an allocation.  This is used in the absence of the Quota VOSpace property.  Can be a floating point number.
+      # Provided value is 10 (10 GiB) by default.
+      # Example:
+      #   defaultSizeGB: 25.5
+      defaultSizeGB: 200
 
     filesystem:
-      dataDir: "/data"
-      subPath: "arc"
-      rootOwner:
-        # uid/gid must be non-zero here: the chart template treats 0 as unset.
-        adminUsername: ""
-        username: ""
-        uid: 
-        gid: 
+      # persistent data directory in container
+      dataDir: "/cephfs"
 
+      # RELATIVE path to the node/file content that could be mounted in other containers
+      subPath: "cavern"
+
+      # Who owns the parent folder(s)
+      rootOwner: 
+        adminUsername: "canfarops"
+        username: "canfarops"
+        uid: 25660
+        gid: 25660
+
+    # The IdentityManager class handling authentication.  From within the CADC,
+    # The AC service is used for authentication, so set the appropriate
+    # Identity Manager class here.
     identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
-    adminAPIKeys: {}
 
-    # deployment.cavern.image / imagePullPolicy / resources / uws.db: chart defaults
+    # Rename the application from the default "cavern" to "arc".
+    applicationName: "arc"
 
-  # deployment.hostname and optional extraHosts: per environment (integration, staging, prod).
+    # The endpoint to serve this from.  Defaults to /cavern.  If the applicationName is changed, then this should match.
+    # Don't forget to update your registry entries!
+    endpoint: "/arc"
 
-livenessProbe:
-  httpGet:
-    path: /arc
-    port: 8080
-readinessProbe:
-  httpGet:
-    path: /arc/availability
-    port: 8080
+    # Resources provided to the Arc service.
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "1"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
 
-storage:
-  service:
-    spec:
-      persistentVolumeClaim:
-        claimName: canfar-arc-data
+    # Other volume mount details on mounting volumes declared in the extraVolumes section can be set here.
+    extraVolumeMounts:
+      # Still requires the servops certificate for service to service calls.  This will be
+      # used to mount the cadcproxy.pem in the servops-cert volume.
+      - mountPath: /root/.ssl/
+        name: servops-cert
+        readOnly: true
+      - mountPath: "/config/RsaSignaturePub.key"
+        name: rsa-public-key-volume
+        subPath: RsaSignaturePub.key
+
+    # Other volumes that will be used in the deployment, that don't fit into the general
+    # template scheme (i.e. not used by all installations).
+    extraVolumes:
+      # Declare the servops certificate volume to be mounted in extraVolumeMounts.  The 
+      # servops-clientcert is expected to exist.
+      - name: servops-cert
+        secret:
+          defaultMode: 420
+          secretName: servops-clientcert
+      - name: rsa-public-key-volume
+        secret:
+          defaultMode: 420
+          secretName: access-rsa-keys

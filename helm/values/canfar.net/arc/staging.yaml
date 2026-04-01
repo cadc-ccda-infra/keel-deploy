@@ -1,5 +1,32 @@
+replicaCount: 1
+
 deployment:
   hostname: staging.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: staging.canfar.net
+
+  cavern:
+    registryURL: https://staging.canfar.net/reg
+
+    uws:
+      db:
+        install: false
+        maxActive: 6
+        url: "jdbc:postgresql://quokka.canfar.net:8601/arcdb"
+        auth:
+          existingSecret: arc-uws-db-auth
+        # Postgres User default in the postgres:13 image
+        runUID: 999
+
+# Set these appropriately to match your Persistent Volume Claim labels.
+storage:
+  service:
+    spec:
+      cephfs:
+        monitors:
+        - 10.30.201.3:6789
+        - 10.30.202.3:6789
+        - 10.30.203.3:6789
+        path: /volumes/_nogroup/054e398e-a08e-425e-9f7c-fc394362e38e
+        user: keel-prod-admin
+        secretRef:
+          name: cephfs-cephx-admin-key
+        readOnly: false

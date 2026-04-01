@@ -79,11 +79,12 @@ The table below lists secret **names** and where they appear. Adjust if your clu
 | Secret name | Typical contents | Referenced from |
 | ------------- | ---------------- | ---------------- |
 | `bucket-registry-auth` | `dockerconfigjson` (or registry credentials your charts expect) for pulling private images | Staging values: `web-root`, `web-portal`, `access`, `reg` (`imagePullSecrets`) |
-| `access-rsa-keys` | PEM files: at minimum `RsaSignaturePub.key`; the **access** service also expects `RsaSignaturePriv.key` when using `existingSecret` (see comments in `access/base.yaml`) | `access` (staging `existingSecret` + RSA mount paths), `skaha/base.yaml`, `arc/base.yaml`, `science-portal/staging.yaml`, `storage-ui/staging.yaml` (mounted as `RsaSignaturePub.key`) |
+| `rsa-signature-pub-key` | Internal `RsaSignaturePub.key` when using `existingSecret` (see comments in `access/base.yaml`) | `access` (staging `existingSecret` + RSA mount paths), `skaha/base.yaml`, `arc/base.yaml`, `science-portal/staging.yaml`, `storage-ui/staging.yaml` (mounted as `RsaSignaturePub.key`) |
 | `servops-clientcert` | TLS material for the ServOps client CA/cert bundle (mounted under `/usr/share/tomcat/.ssl/` where charts configure it) | `skaha/base.yaml`, `arc/base.yaml` |
 | `cephfs-cephx-admin-key` | CephFS CephX key for the volume driver / storage stanza | `arc/staging.yaml` (`storage.service.spec.cephfs.secretRef`) |
 | `canfar-web-portal-tls` | TLS certificate and key for Ingress host `www.canfar.net` / `integration.canfar.net` | `web-portal/integration.yaml`, `web-portal/prod.yaml` (`ingress.tls`) |
 | `canfar-access-tls` | TLS certificate and key for Ingress host `www.canfar.net` / `integration.canfar.net` | `access/integration.yaml`, `access/prod.yaml` (`ingress.tls`) |
+| `arc-uws-db-auth` | UWS ARC database credentials (`username` and `password`) / `integration.canfar.net` | `cavern/integration.yaml`, `cavern/prod.yaml` |
 
 **Notes**
 
