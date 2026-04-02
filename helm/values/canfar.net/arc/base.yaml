@@ -62,7 +62,6 @@ deployment:
       # Who owns the parent folder(s)
       rootOwner: 
         adminUsername: "canfarops"
-        username: "canfarops"
 
     # The IdentityManager class handling authentication.  From within the CADC,
     # The AC service is used for authentication, so set the appropriate
