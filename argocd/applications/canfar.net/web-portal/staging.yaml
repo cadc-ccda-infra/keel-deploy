@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: canfar-web-portal-stging
+  name: canfar-web-portal-staging
   namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: canfar.net
