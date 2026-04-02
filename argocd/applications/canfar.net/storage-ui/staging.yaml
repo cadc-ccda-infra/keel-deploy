@@ -10,7 +10,7 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: images.opencadc.org/chartrepo/client
+    - repoURL: https://images.opencadc.org/chartrepo/client
       chart: storageui
       targetRevision: 0.8.0
       helm:
