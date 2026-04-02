@@ -9,3 +9,33 @@ stringData:
   type: helm
   name: harbor-science-platform
   url: https://images.opencadc.org/chartrepo/platform
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: harbor-chartrepo-science-client
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: helm
+  name: harbor-science-client
+  url: https://images.opencadc.org/chartrepo/client
+
+---
+# Temporary secret for the RC Skaha System chart repository.
+# This chart repository will be removed when relevant Charts and Images
+# are moved to the new Harbor instance.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: harbor-chartrepo-rc-skaha-system
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: helm
+  name: harbor-rc-skaha-system
+  url: https://images-rc.canfar.net/chartrepo/skaha-system
+
