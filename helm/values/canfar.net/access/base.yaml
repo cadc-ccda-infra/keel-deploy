@@ -1,7 +1,28 @@
 # Shared defaults for access (align with chart values.yaml:
 # opencadc/deployments/helm/applications/access/values.yaml).
 #
-# RSA keys: pre-create a Secret named below with keys RsaSignaturePub.key and RsaSignaturePriv.key (PEM).
+# RSA keys: pre-create a Secret named below with keys RsaSignaturePub.key (PEM).
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
 replicaCount: 1
 
 # image.repository / image.tag / image.pullPolicy: use the chart's values.yaml (released with each chart version).
