@@ -1,11 +1,13 @@
 # Parent Application (app-of-apps) for canfar.net.
 # Apply once: kubectl apply -f argocd/bootstrap/canfar.net.yaml
 # Replace spec.source.repoURL with this repository's clone URL before applying.
+# Child and parent Application CRs use namespace canfar-argocd; create it and grant Argo CD
+# permission to manage Application resources there (cluster setup dependent).
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: canfar-net-apps
-  namespace: argocd
+  namespace: canfar-argocd
 spec:
   project: default
   source:
@@ -16,7 +18,7 @@ spec:
       recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: canfar-argocd
   syncPolicy:
     automated:
       prune: true

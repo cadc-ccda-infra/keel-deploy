@@ -4,7 +4,3 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: canfar-web-portal-tls
-      hosts:
-        - www.canfar.net
