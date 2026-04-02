@@ -101,3 +101,6 @@ deployment:
         secret:
           defaultMode: 420
           secretName: servops-clientcert
+
+serviceAccount:
+  name: canfar-arc
