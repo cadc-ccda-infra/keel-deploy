@@ -104,3 +104,4 @@ deployment:
 
 serviceAccount:
   name: canfar-arc
+  create: true
