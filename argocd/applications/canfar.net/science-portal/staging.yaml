@@ -10,7 +10,7 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://image.opencadc.org/chartrepo/platform
+    - repoURL: https://images.opencadc.org/chartrepo/platform
       chart: scienceportal
       targetRevision: 1.2.0
       helm:

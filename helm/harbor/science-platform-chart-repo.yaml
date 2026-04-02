@@ -8,4 +8,4 @@ metadata:
 stringData:
   type: helm
   name: harbor-science-platform
-  url: https://image.opencadc.org/chartrepo/platform
+  url: https://images.opencadc.org/chartrepo/platform
