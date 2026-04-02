@@ -7,7 +7,7 @@ metadata:
   name: src-canfar-net-apps
   namespace: argocd
 spec:
-  project: default
+  project: canfar
   source:
     repoURL: https://git.example.com/your-org/argo-deploy.git
     targetRevision: main

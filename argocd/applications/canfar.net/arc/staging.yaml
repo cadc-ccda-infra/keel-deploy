@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: arc
 spec:
-  project: default
+  project: canfar
   sources:
     - repoURL: https://images.opencadc.org/chartrepo/platform
       chart: cavern

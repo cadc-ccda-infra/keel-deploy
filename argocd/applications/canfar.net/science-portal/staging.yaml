@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: science-portal
 spec:
-  project: default
+  project: canfar
   sources:
     - repoURL: https://image.opencadc.org/chartrepo/platform
       chart: scienceportal

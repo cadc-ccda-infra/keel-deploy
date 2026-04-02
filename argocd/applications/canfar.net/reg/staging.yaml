@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: reg
 spec:
-  project: default
+  project: canfar
   sources:
     - repoURL: https://images-rc.canfar.net/chartrepo/library
       chart: reg

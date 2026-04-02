@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: cavern
 spec:
-  project: default
+  project: canfar
   sources:
     - repoURL: oci://harbor.example.com/src/charts
       chart: cavern

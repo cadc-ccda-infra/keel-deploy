@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: skaha
 spec:
-  project: default
+  project: canfar
   sources:
     - repoURL: images-rc.canfar.net/chartrepo/skaha-system
       chart: skaha
