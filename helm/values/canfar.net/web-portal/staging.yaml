@@ -1,4 +1,5 @@
 ingress:
+  enabled: true
   hosts:
     - host: staging.canfar.net
       paths:

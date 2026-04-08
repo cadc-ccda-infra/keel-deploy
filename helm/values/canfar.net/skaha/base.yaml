@@ -6,6 +6,7 @@
 # values.yaml; do not invent it here. Fix belongs in the chart (or accept the template default).
 
 podSecurityContext:
+  allowPrivilegeEscalation: false
   runAsNonRoot: true
   runAsUser: 8675309
   runAsGroup: 8675309
@@ -28,6 +29,8 @@ securityContext:
 # Skaha web service deployment
 deployment:
   skaha:
+    imagePullSecrets:
+      - name: bucket-registry-auth
     imagePullPolicy: Always
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:

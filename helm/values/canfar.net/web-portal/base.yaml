@@ -22,8 +22,3 @@ securityContext:
       - ALL
   seccompProfile:
     type: RuntimeDefault
-
-ingress:
-  enabled: true
-  className: ""
-  annotations: {}
