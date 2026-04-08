@@ -1,3 +1,5 @@
+kubernetesClusterDomain: keel-prod.local
+
 deployment:
   hostname: staging.canfar.net
   sciencePortal:
