@@ -3,6 +3,7 @@ kubernetesClusterDomain: keel-prod.local
 deployment:
   hostname: staging.canfar.net
   sciencePortal:
+    skahaResourceID: "ivo://cadc.nrc.ca/skaha"
     registryURL: "https://staging.canfar.net/reg"
     storageHomeURL: "https://staging.canfar.net/arc/nodes/home"
 

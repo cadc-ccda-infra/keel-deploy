@@ -26,8 +26,7 @@ securityContext:
 deployment:
   sciencePortal:
     gmsID: "ivo://cadc.nrc.ca/gms"
-    skahaResourceID: "ivo://canfar.net/skaha"
-
+    
     identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
 
     theme:
