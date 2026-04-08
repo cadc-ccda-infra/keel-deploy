@@ -3,6 +3,7 @@
 # replicaCount, image, resources, redis, tabLabels, defaultProjectName, ingress path: chart defaults.
 
 podSecurityContext:
+  allowPrivilegeEscalation: false
   runAsNonRoot: true
   runAsUser: 8675309
   runAsGroup: 8675309
