@@ -62,7 +62,8 @@ deployment:
 
     headlessPriorityGroup: "ivo://cadc.nrc.ca/gms?skaha-priority-headless-users"
 
-    headlessPriorityClass: uber-user-preempt-high
+    headlessPriorityClass:
+      name: uber-user-preempt-high
 
     loggingGroups:
       - "ivo://cadc.nrc.ca/gms?CADC"
