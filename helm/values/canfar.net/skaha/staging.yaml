@@ -12,6 +12,8 @@ deployment:
 
     sessions:
       kueue:
+        rbac:
+          create: true
         default:
           queueName: "skaha-local-queue"
           priorityClass: "high"
