@@ -4,7 +4,7 @@ global:
 application:
   serviceEntries:
     - id: "ivo://cadc.nrc.ca/gms"
-      url: "https://staging.canfar.net/access/capabilities"
+      url: "https://ws-cadc.canfar.net/ac/capabilities"
     - id: "ivo://cadc.nrc.ca/skaha"
       url: "https://staging.canfar.net/skaha/capabilities"
     - id: "ivo://cadc.nrc.ca/arc"
