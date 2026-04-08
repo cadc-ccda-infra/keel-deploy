@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://images-rc.canfar.net/chartrepo/skaha-system
       chart: canfar-web-portal
-      targetRevision: 0.1.0
+      targetRevision: 0.1.1
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/web-portal/base.yaml
