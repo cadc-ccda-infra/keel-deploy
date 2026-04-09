@@ -6,7 +6,6 @@
 # values.yaml; do not invent it here. Fix belongs in the chart (or accept the template default).
 
 podSecurityContext:
-  allowPrivilegeEscalation: false
   runAsNonRoot: true
   runAsUser: 8675309
   runAsGroup: 8675309
@@ -17,9 +16,6 @@ podSecurityContext:
 securityContext:
   allowPrivilegeEscalation: false
   privileged: false
-  runAsNonRoot: true
-  runAsUser: 8675309
-  runAsGroup: 8675309
   capabilities:
     drop:
       - ALL
