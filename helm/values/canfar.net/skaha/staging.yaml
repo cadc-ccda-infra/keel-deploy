@@ -1,8 +1,5 @@
 kubernetesClusterDomain: keel-prod.local
 
-skahaWorkload:
-  namespace: canfar-workloads
-
 replicaCount: 3
 
 deployment:
@@ -13,6 +10,7 @@ deployment:
       - https://staging.canfar.net/reg
 
     sessions:
+      namespace: canfar-workloads
       kueue:
         rbac:
           create: true
