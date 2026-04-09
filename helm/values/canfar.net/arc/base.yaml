@@ -101,8 +101,6 @@ deployment:
 
 # Init container image to merge UWS credentials from the Secret into catalina.properties on the Cavern pod.
 volumeInit:
-  image: busybox:1.36
-  imagePullPolicy: IfNotPresent
   # Merged into spec.template.spec.securityContext (alongside conditional fsGroup from deployment.cavern.filesystem.rootOwner).
   podSecurityContext:
     seccompProfile:
@@ -112,7 +110,6 @@ volumeInit:
     allowPrivilegeEscalation: false
     runAsNonRoot: true
     runAsUser: 8675309
-    fsGroup: 8675309
     capabilities:
       drop:
         - ALL
