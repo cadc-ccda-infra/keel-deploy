@@ -12,6 +12,7 @@ podSecurityContext:
 
 securityContext:
   allowPrivilegeEscalation: false
+  runAsGroup: 8675309
   privileged: false
   capabilities:
     drop:
