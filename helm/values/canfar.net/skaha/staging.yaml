@@ -1,7 +1,7 @@
 kubernetesClusterDomain: keel-prod.local
 
 skahaWorkload:
-  namespace: canfar-workload
+  namespace: canfar-workloads
 
 replicaCount: 3
 
