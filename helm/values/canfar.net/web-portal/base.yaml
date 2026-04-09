@@ -3,7 +3,6 @@
 # UID/GID 101: `nginx` user in official nginx:alpine (match the portal image base).
 
 podSecurityContext:
-  allowPrivilegeEscalation: false
   runAsNonRoot: true
   runAsUser: 101
   runAsGroup: 101
@@ -14,9 +13,6 @@ podSecurityContext:
 securityContext:
   allowPrivilegeEscalation: false
   privileged: false
-  runAsNonRoot: true
-  runAsUser: 101
-  runAsGroup: 101
   capabilities:
     drop:
       - ALL
