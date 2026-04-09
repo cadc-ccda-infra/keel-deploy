@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://images-rc.canfar.net/chartrepo/skaha-system
       chart: scienceportal
-      targetRevision: 1.3.0
+      targetRevision: 1.4.0
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/science-portal/base.yaml
@@ -29,3 +29,4 @@ spec:
     automated:
       prune: true
       selfHeal: true
+`
