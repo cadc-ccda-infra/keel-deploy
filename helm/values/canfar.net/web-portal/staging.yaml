@@ -6,5 +6,8 @@ ingress:
         - path: /
           pathType: Prefix
 
+service:
+  port: 8000
+
 imagePullSecrets:
   - name: bucket-registry-auth
