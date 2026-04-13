@@ -28,12 +28,6 @@ replicaCount: 1
 # image.repository / image.tag / image.pullPolicy: use the chart's values.yaml (released with each chart version).
 # Override these values in the environment-specific values.yaml files, unless a different image is needed more globally.
 
-ingress:
-  enabled: true
-  className: ""
-  annotations: {}
-  # hosts and tls: set per environment (integration.yaml, staging.yaml, prod.yaml).
-
 resources:
   requests:
     memory: "500M"
