@@ -3,10 +3,6 @@ replicaCount: 1
 deployment:
   hostname: staging.canfar.net
 
-  extraHosts:
-    - hostname: quokka.canfar.net
-      ip: 206.12.48.218
-
   cavern:
     image: images.opencadc.org/platform/cavern:0.9.3
     imagePullPolicy: Always
