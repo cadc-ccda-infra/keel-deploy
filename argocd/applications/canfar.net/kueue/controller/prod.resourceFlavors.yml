@@ -5,5 +5,5 @@ metadata:
   name: default
 spec:
   nodeLabels:
-    skaha.opencadc.org/node-type: service-node
+    skaha.opencadc.org/node-type: worker-node
     skaha.opencadc.org/node-type: gpu-node
