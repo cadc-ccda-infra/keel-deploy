@@ -1,0 +1,77 @@
+# Kueue controller Configuration (config.kueue.x-k8s.io/v1beta2)
+# Reference: https://kueue.sigs.k8s.io/docs/reference/kueue-config.v1beta2/
+apiVersion: config.kueue.x-k8s.io/v1beta2
+kind: Configuration
+
+# Deployed namespace (webhook DNS, managed-namespace checks). Defaults to kueue-system if unset.
+namespace: kueue-system
+
+health:
+  healthProbeBindAddress: :8081
+
+metrics:
+  bindAddress: :8443
+  enableClusterQueueResources: true
+
+webhook:
+  port: 9443
+
+leaderElection:
+  leaderElect: true
+  resourceName: c1f6bfd2.kueue.x-k8s.io
+
+controller:
+  groupKindConcurrency:
+    Job.batch: 64
+    Pod: 64
+    Workload.kueue.x-k8s.io: 64
+    LocalQueue.kueue.x-k8s.io: 64
+    ClusterQueue.kueue.x-k8s.io: 64
+    ResourceFlavor.kueue.x-k8s.io: 64
+
+clientConnection:
+  qps: 64
+  burst: 128
+
+manageJobsWithoutQueueName: false
+
+managedJobsNamespaceSelector:
+  matchExpressions:
+    - key: kubernetes.io/metadata.name
+      operator: In
+      values:
+        - canfar-workloads
+
+# Fair sharing: which preemption rules to try, in order (see validation-allowed sets in Kueue).
+# - LessThanOrEqualToFinalShare: stricter share balance; may favor preempting smaller workloads.
+# - LessThanInitialShare: fallback; compares initial shares; tends to preempt lower priority / newer work.
+fairSharing:
+  preemptionStrategies:
+    - LessThanOrEqualToFinalShare
+    - LessThanInitialShare
+
+# Admission-time fair sharing (requires AdmissionFairSharing feature gate, on by default in v0.17).
+# usageHalfLifeTime: exponential decay half-life for remembered usage (older usage counts less).
+# usageSamplingInterval: how often consumedResources in FairSharing status is refreshed (default 5m).
+# resourceWeights: per-resource multipliers for that decaying usage score; omit entries to use default 1.
+# admissionFairSharing:
+#   usageHalfLifeTime: 120h
+#   usageSamplingInterval: 5m
+#   resourceWeights:
+#     cpu: 1.0
+#     memory: 0.25
+#     ephemeral-storage: 0.05
+#     nvidia.com/gpu: 35
+
+integrations:
+  frameworks:
+    - batch/job
+  externalFrameworks: []
+  labelKeysToCopy:
+    - canfar-net-sessionID
+    - canfar-net-sessionName
+    - canfar-net-sessionType
+    - canfar-net-userid
+    - opencadc.org/canfar-job-fixed
+    - opencadc.org/canfar-job-flexible
+    - batch.kubernetes.io/job-name

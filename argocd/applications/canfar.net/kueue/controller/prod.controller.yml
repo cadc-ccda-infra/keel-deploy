@@ -1,0 +1,257 @@
+# Helm Values for K8s Kueue Production Deployment
+# Expected Kueue Version: 0.17.0
+
+# Enable prometheus metrics for the kueue controller.
+enablePrometheus: true
+
+# Kueue Controller Configuration
+controllerManager:
+  # Constrain kueue controller to the service nodes.
+  nodeSelector:
+    skaha.opencadc.org/node-type: service-node
+
+  # Kueue feature gates — v0.17.0 defaults (all known gates except deprecated). Omitted: MultiKueueAllowInsecureKubeconfigs (deprecated in v0.17).
+  # Source: https://kueue.sigs.k8s.io/docs/installation/
+  featureGates:
+    # Fair sharing during admission when cohorts compete for quota.
+    - name: AdmissionFairSharing
+      enabled: true
+    # Gate workload admission using annotations (see KEP 6915).
+    - name: AdmissionGatedBy
+      enabled: false
+    # Label pods with their local queue for scheduling/observability.
+    - name: AssignQueueLabelsForPods
+      enabled: true
+    # Allow configuring extra metric label dimensions.
+    - name: CustomMetricLabels
+      enabled: false
+    # Extended resource handling for Dynamic Resource Allocation (DRA).
+    - name: DRAExtendedResources
+      enabled: false
+    # Integrate with Kubernetes Dynamic Resource Allocation.
+    - name: DynamicResourceAllocation
+      enabled: false
+    # Elastic Jobs via workload slices (scale sub-parts of a workload).
+    - name: ElasticJobsViaWorkloadSlices
+      enabled: false
+    # Elastic workload slices combined with topology-aware scheduling.
+    - name: ElasticJobsViaWorkloadSlicesWithTAS
+      enabled: false
+    # Policies to recover workloads after node or pod failures.
+    - name: FailureRecoveryPolicy
+      enabled: false
+    # Preempt within nominal quota under fair sharing rules.
+    - name: FairSharingPreemptWithinNominal
+      enabled: true
+    # Prefer non-borrowing workloads when fair sharing orders cohort members.
+    - name: FairSharingPrioritizeNonBorrowing
+      enabled: true
+    # Release quota quickly when integrated workloads finish (pod integrations).
+    - name: FastQuotaReleaseInPodIntegration
+      enabled: false
+    # Treat compatible resource flavors as interchangeable when admitting.
+    - name: FlavorFungibility
+      enabled: true
+    # Hierarchical cohorts for nested quota grouping (GA in v0.17).
+    - name: HierarchicalCohorts
+      enabled: true
+    # Lending limit between cluster queues in a cohort (GA in v0.17).
+    - name: LendingLimit
+      enabled: true
+    # Default local queue from namespace labels/defaults (GA in v0.17).
+    - name: LocalQueueDefaulting
+      enabled: true
+    # Prometheus metrics scoped to LocalQueue objects (Beta default on in v0.17).
+    - name: LocalQueueMetrics
+      enabled: true
+    # Apply managed-jobs namespace selector even when the queue annotation is missing.
+    - name: ManagedJobsNamespaceSelectorAlwaysRespected
+      enabled: true
+    # Multi-cluster Kueue worker/manager coordination.
+    - name: MultiKueue
+      enabled: true
+    # Propagate MultiKueue behavior to additional custom job integrations.
+    - name: MultiKueueAdaptersForCustomJobs
+      enabled: true
+    # Batch Job managedBy field handling in MultiKueue (GA in v0.17).
+    - name: MultiKueueBatchJobWithManagedBy
+      enabled: true
+    # Cluster profile configuration for MultiKueue topology.
+    - name: MultiKueueClusterProfile
+      enabled: false
+    # Coordinated preemption across clusters in MultiKueue.
+    - name: MultiKueueOrchestratedPreemption
+      enabled: false
+    # Re-run admission in worker after eviction-related changes.
+    - name: MultiKueueRedoAdmissionOnEvictionInWorker
+      enabled: true
+    # Worker waits until the workload is admitted before local scheduling.
+    - name: MultiKueueWaitForWorkloadAdmitted
+      enabled: true
+    # GC/retention behavior for Kueue objects (GA in v0.17).
+    - name: ObjectRetentionPolicies
+      enabled: true
+    # Admit a subset of pod sets when full admission is not possible.
+    - name: PartialAdmission
+      enabled: true
+    # Temporary priority boost semantics for workloads.
+    - name: PriorityBoost
+      enabled: false
+    # Order workloads by priority within the same cohort.
+    - name: PrioritySortingWithinCohort
+      enabled: true
+    # Copy selected Job labels onto the Workload object (GA in v0.17).
+    - name: PropagateBatchJobLabelsToWorkload
+      enabled: true
+    # Mark excess pods as reclaimable to free quota under fair sharing.
+    - name: ReclaimablePods
+      enabled: true
+    # Remove finalizers using server-side strict patching semantics.
+    - name: RemoveFinalizersWithStrictPatch
+      enabled: true
+    # Normalize/sanitize pod set definitions in workloads (GA in v0.17).
+    - name: SanitizePodSets
+      enabled: true
+    # Use a longer requeue interval in the scheduler integration.
+    - name: SchedulerLongRequeueInterval
+      enabled: false
+    # Buffer timestamps used in scheduler preemption ordering.
+    - name: SchedulerTimestampPreemptionBuffer
+      enabled: false
+    # Hash-based scheduling equivalence for similar workloads.
+    - name: SchedulingEquivalenceHashing
+      enabled: false
+    # Generate shorter Kubernetes names for Workload objects.
+    - name: ShortWorkloadNames
+      enabled: false
+    # Skip pod finalizers when a parent object already suspended the pod.
+    - name: SkipFinalizersForPodsSuspendedByParent
+      enabled: true
+    # Integrate Apache Spark Application workloads with Kueue.
+    - name: SparkApplicationIntegration
+      enabled: false
+    # Balance pod placement across topology domains (TAS).
+    - name: TASBalancedPlacement
+      enabled: false
+    # Replace failed topology nodes during TAS scheduling.
+    - name: TASFailedNodeReplacement
+      enabled: true
+    # Fail fast when node replacement cannot succeed (TAS).
+    - name: TASFailedNodeReplacementFailFast
+      enabled: true
+    # Multi-layer topology definitions for TAS.
+    - name: TASMultiLayerTopology
+      enabled: false
+    # Allow mixed TAS profiles on the same workload.
+    - name: TASProfileMixed
+      enabled: true
+    # React to node taints by replacing topology assignments.
+    - name: TASReplaceNodeOnNodeTaints
+      enabled: true
+    # Replace topology node when pods terminate (TAS).
+    - name: TASReplaceNodeOnPodTermination
+      enabled: true
+    # Advanced TLS configuration for webhooks and serving.
+    - name: TLSOptions
+      enabled: true
+    # Topology-aware scheduling based on ResourceFlavor topology.
+    - name: TopologyAwareScheduling
+      enabled: true
+    # On-demand API for listing pending workloads (visibility server).
+    - name: VisibilityOnDemand
+      enabled: true
+    # Use merge patch when updating workload resource requests.
+    - name: WorkloadRequestUseMergePatch
+      enabled: false
+  # Kueue Deployment Configuration
+  manager:
+    resources:
+      limits:
+        cpu: "6"
+        memory: 12Gi
+      requests:
+        cpu: "2"
+        memory: 4Gi
+
+# controller_manager_config.yaml. controllerManager utilizes this yaml via manager-config Configmap.
+# Keep in sync with controller/controller.yml (v1beta2).
+managerConfig:
+  controllerManagerConfigYaml: |-
+    # Always copied from controller.yml, KEEP CHANGES IN SYNC.
+    # Kueue controller Configuration (config.kueue.x-k8s.io/v1beta2)
+    # Reference: https://kueue.sigs.k8s.io/docs/reference/kueue-config.v1beta2/
+    apiVersion: config.kueue.x-k8s.io/v1beta2
+    kind: Configuration
+
+    # Deployed namespace (webhook DNS, managed-namespace checks). Defaults to kueue-system if unset.
+    namespace: kueue-system
+
+    health:
+      healthProbeBindAddress: :8081
+
+    metrics:
+      bindAddress: :8443
+      enableClusterQueueResources: true
+
+    webhook:
+      port: 9443
+
+    leaderElection:
+      leaderElect: true
+      resourceName: c1f6bfd2.kueue.x-k8s.io
+
+    controller:
+      groupKindConcurrency:
+        Job.batch: 64
+        Pod: 64
+        Workload.kueue.x-k8s.io: 64
+        LocalQueue.kueue.x-k8s.io: 64
+        ClusterQueue.kueue.x-k8s.io: 64
+        ResourceFlavor.kueue.x-k8s.io: 64
+
+    clientConnection:
+      qps: 64
+      burst: 128
+
+    manageJobsWithoutQueueName: false
+
+    managedJobsNamespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values:
+            - canfar-workloads
+
+    # Fair sharing: which preemption rules to try, in order (see validation-allowed sets in Kueue).
+    # - LessThanOrEqualToFinalShare: stricter share balance; may favor preempting smaller workloads.
+    # - LessThanInitialShare: fallback; compares initial shares; tends to preempt lower priority / newer work.
+    fairSharing:
+      preemptionStrategies:
+        - LessThanOrEqualToFinalShare
+        - LessThanInitialShare
+
+    # Admission-time fair sharing (requires AdmissionFairSharing feature gate, on by default in v0.17).
+    # usageHalfLifeTime: exponential decay half-life for remembered usage (older usage counts less).
+    # usageSamplingInterval: how often consumedResources in FairSharing status is refreshed (default 5m).
+    # resourceWeights: per-resource multipliers for that decaying usage score; omit entries to use default 1.
+    # admissionFairSharing:
+    #   usageHalfLifeTime: 120h
+    #   usageSamplingInterval: 5m
+    #   resourceWeights:
+    #     cpu: 1.0
+    #     memory: 0.25
+    #     ephemeral-storage: 0.05
+    #     nvidia.com/gpu: 35
+
+    integrations:
+      frameworks:
+        - batch/job
+      externalFrameworks: []
+      labelKeysToCopy:
+        - canfar-net-sessionID
+        - canfar-net-sessionName
+        - canfar-net-sessionType
+        - canfar-net-userid
+        - opencadc.org/canfar-job-fixed
+        - opencadc.org/canfar-job-flexible
+        - batch.kubernetes.io/job-name

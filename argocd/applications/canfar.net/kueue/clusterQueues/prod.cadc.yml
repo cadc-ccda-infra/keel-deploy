@@ -1,0 +1,49 @@
+# ClusterQueue
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: cadc
+spec:
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values: [canfar-workloads]
+  queueingStrategy: BestEffortFIFO
+  cohort: canfar
+  resourceGroups:
+    - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
+      flavors:
+        - name: "default"
+          # Cluster Hardware Configuration
+          # Does not include
+          #   - skaha.opencadc.org/node-type=service-node (p-nodes)
+          #   - skaha.opencadc.org/node-type=gpu-node (p-nodes)
+          #   - node-role.kubernetes.io/control-plane
+          # Compute Nodes: 40 x [64 cores, 241Gi memory, 2048Gi ephemeral-storage]
+          # nominalQuota = count * size - 2% overhead
+          # borrowing / lending = size * 25%
+          resources:
+            - name: "cpu"
+              nominalQuota: "2000"
+              borrowingLimit: "2000"
+              lendingLimit: "2000"
+            - name: "memory"
+              nominalQuota: "12000Gi"
+              borrowingLimit: "12000Gi"
+              lendingLimit: "12000Gi"
+            - name: "ephemeral-storage"
+              nominalQuota: "40000Gi"
+              borrowingLimit: "40000Gi"
+              lendingLimit: "40000Gi"
+            - name: "nvidia.com/gpu"
+              nominalQuota: "70"
+              borrowingLimit: "70"
+              lendingLimit: "70"
+  preemption:
+    reclaimWithinCohort: LowerPriority
+    borrowWithinCohort:
+      policy: LowerPriority
+      maxPriorityThreshold: 10000
+    withinClusterQueue: LowerPriority
+  stopPolicy: None

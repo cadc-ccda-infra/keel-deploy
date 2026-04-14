@@ -1,0 +1,9 @@
+# Resource Flavors
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ResourceFlavor
+metadata:
+  name: default
+spec:
+  nodeLabels:
+    skaha.opencadc.org/node-type: service-node
+    skaha.opencadc.org/node-type: gpu-node

@@ -1,0 +1,8 @@
+# LocalQueues
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: LocalQueue
+metadata:
+  namespace: canfar-workloads
+  name: cadc-default
+spec:
+  clusterQueue: cadc

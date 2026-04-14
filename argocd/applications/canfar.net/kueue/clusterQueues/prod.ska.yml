@@ -1,0 +1,41 @@
+# ClusterQueue
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: ska
+spec:
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values: [canfar-workloads]
+  queueingStrategy: BestEffortFIFO
+  cohort: canfar
+  resourceGroups:
+    - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
+      flavors:
+        - name: "default"
+          resources:
+            - name: "cpu"
+              nominalQuota: "200"
+              borrowingLimit: "200"
+              lendingLimit: "200"
+            - name: "memory"
+              nominalQuota: "1200Gi"
+              borrowingLimit: "1200Gi"
+              lendingLimit: "1200Gi"
+            - name: "ephemeral-storage"
+              nominalQuota: "4000Gi"
+              borrowingLimit: "4000Gi"
+              lendingLimit: "4000Gi"
+            - name: "nvidia.com/gpu"
+              nominalQuota: "7"
+              borrowingLimit: "7"
+              lendingLimit: "7"
+  preemption:
+    reclaimWithinCohort: LowerPriority
+    borrowWithinCohort:
+      policy: LowerPriority
+      maxPriorityThreshold: 10000
+    withinClusterQueue: LowerPriority
+  stopPolicy: None
