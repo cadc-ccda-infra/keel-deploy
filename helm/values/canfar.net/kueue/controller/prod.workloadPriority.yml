@@ -1,6 +1,6 @@
 ---
 # WorkloadPriorityClass
-apiVersion: kueue.x-k8s.io/v1beta1
+apiVersion: kueue.x-k8s.io/v1beta2
 kind: WorkloadPriorityClass
 metadata:
   name: low
@@ -8,7 +8,7 @@ value: 10000
 description: "Low Priority"
 ---
 # WorkloadPriorityClass
-apiVersion: kueue.x-k8s.io/v1beta1
+apiVersion: kueue.x-k8s.io/v1beta2
 kind: WorkloadPriorityClass
 metadata:
   name: medium
@@ -16,7 +16,7 @@ value: 100000
 description: "Medium Priority"
 ---
 # WorkloadPriorityClass
-apiVersion: kueue.x-k8s.io/v1beta1
+apiVersion: kueue.x-k8s.io/v1beta2
 kind: WorkloadPriorityClass
 metadata:
   name: high
