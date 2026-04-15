@@ -139,7 +139,7 @@ deployment:
 
       userStorage:
         topLevelDirectory: "/arc"
-        persistentVolumeClaimName: skaha-workload-cavern-pvc
+        
         nodeURIPrefix: "vos://cadc.nrc.ca~arc"
         serviceURI: "ivo://cadc.nrc.ca/arc"
         admin:
