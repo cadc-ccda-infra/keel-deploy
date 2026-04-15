@@ -59,18 +59,18 @@ fairSharing:
 # - 1GiB of Memory has the same weight as a CPU core
 # - 1GiB of Ephemeral storage is 1/35th of a CPU core
 # - 1GPU has 35x the weight of a CPU core
-# admissionFairSharing:
-#   usageHalfLifeTime: 120h
-#   usageSamplingInterval: 5m
-#   resourceWeights:
-#     cpu: 1.0
-#     # Memory counted in bytes, so convert to convert 1x per GiB to 1x per byte
-#     # 1 / 2^30 = 0.000000000931323
-#     memory: 0.000000000931323
-#     # Ephemeral storage counted in bytes, so convert to convert 1x per GiB to 1/35th of a CPU core
-#     # (1/35) / 2^30 = 0.000000000106437
-#     ephemeral-storage: 0.000000000106437
-#     nvidia.com/gpu: 35
+admissionFairSharing:
+  usageHalfLifeTime: 120h
+  usageSamplingInterval: 5m
+  resourceWeights:
+    cpu: 1.0
+    # Memory counted in bytes, 1GiB = 2^30 bytes
+    # 1 / 2^30 = 9.313225746154785e-10
+    memory: 0.000000000931323
+    # Ephemeral storage counted in bytes, 1GiB = 2^30 bytes
+    # (1/35) / 2^30 = 2.66092164175851e-11
+    ephemeral-storage: 0.000000000026609
+    nvidia.com/gpu: 35
 
 integrations:
   frameworks:
