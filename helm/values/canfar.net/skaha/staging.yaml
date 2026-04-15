@@ -15,8 +15,8 @@ deployment:
         rbac:
           create: true
         default:
-          queueName: "skaha-local-queue"
+          queueName: "cadc-default"
           priorityClass: "high"
         headless:
-          queueName: "skaha-local-queue"
+          queueName: "cadc-default"
           priorityClass: "low"
