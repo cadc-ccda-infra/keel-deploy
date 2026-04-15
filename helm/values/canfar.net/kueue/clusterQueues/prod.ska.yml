@@ -11,33 +11,22 @@ spec:
         values: [canfar-workloads]
   queueingStrategy: BestEffortFIFO
   cohortName: canfar
+  # admissionScope:
+  #   admissionMode: UsageBasedAdmissionFairSharing
   resourceGroups:
-    - coveredResources: ["cpu", "memory", "ephemeral-storage"]
-      flavors:
-        - name: "default-worker"
-          resources:
-            - name: "cpu"
-              nominalQuota: "192"
-              lendingLimit: "192"
-            - name: "memory"
-              nominalQuota: "768Gi"
-              lendingLimit: "768Gi"
-            - name: "ephemeral-storage"
-              nominalQuota: "1500Gi"
-              lendingLimit: "1500Gi"
     - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
       flavors:
-        - name: "gpu-worker"
+        - name: "default"
           resources:
             - name: "cpu"
-              nominalQuota: "96"
-              lendingLimit: "96"
+              nominalQuota: "288"
+              lendingLimit: "288"
             - name: "memory"
-              nominalQuota: "1000Gi"
-              lendingLimit: "1000Gi"
+              nominalQuota: "1768Gi"
+              lendingLimit: "1768Gi"
             - name: "ephemeral-storage"
-              nominalQuota: "3000Gi"
-              lendingLimit: "3000Gi"
+              nominalQuota: "4500Gi"
+              lendingLimit: "4500Gi"
             - name: "nvidia.com/gpu"
               nominalQuota: "28"
               lendingLimit: "28"

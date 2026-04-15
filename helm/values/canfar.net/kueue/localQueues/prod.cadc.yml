@@ -19,6 +19,6 @@ apiVersion: kueue.x-k8s.io/v1beta2
 kind: LocalQueue
 metadata:
   namespace: canfar-workloads
-  name: cadc-canuncs
+  name: cadc-canucs
 spec:
   clusterQueue: cadc
