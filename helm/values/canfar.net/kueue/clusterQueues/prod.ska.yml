@@ -16,7 +16,7 @@ spec:
   resourceGroups:
     - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
       flavors:
-        - name: "default-worker"
+        - name: "default"
           resources:
             - name: "cpu"
               nominalQuota: "288"
