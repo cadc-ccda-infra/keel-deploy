@@ -14,7 +14,7 @@ spec:
   resourceGroups:
     - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
       flavors:
-        - name: "default"
+        - name: "default-worker"
           resources:
             - name: "cpu"
               nominalQuota: "200"
@@ -28,10 +28,20 @@ spec:
               nominalQuota: "4000Gi"
               borrowingLimit: "4000Gi"
               lendingLimit: "4000Gi"
+        - name: "gpu-worker"
+          resources:
+            - name: "cpu"
+              nominalQuota: "96"
+              lendingLimit: "96"
+            - name: "memory"
+              nominalQuota: "1000Gi"
+              lendingLimit: "1000Gi"
+            - name: "ephemeral-storage"
+              nominalQuota: "2000Gi"
+              lendingLimit: "2000Gi"
             - name: "nvidia.com/gpu"
-              nominalQuota: "7"
-              borrowingLimit: "7"
-              lendingLimit: "7"
+              nominalQuota: "28"
+              lendingLimit: "28"
   preemption:
     reclaimWithinCohort: LowerPriority
     borrowWithinCohort:
