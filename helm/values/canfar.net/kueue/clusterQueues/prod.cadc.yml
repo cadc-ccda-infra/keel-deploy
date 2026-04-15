@@ -1,5 +1,5 @@
 # ClusterQueue
-apiVersion: kueue.x-k8s.io/v1beta1
+apiVersion: kueue.x-k8s.io/v1beta2
 kind: ClusterQueue
 metadata:
   name: cadc
@@ -17,9 +17,9 @@ spec:
         - name: "default-worker"
           resources:
             - name: "default-worker"
-              nominalQuota: "2000"
-              borrowingLimit: "2000"
-              lendingLimit: "2000"
+              nominalQuota: "3264"
+              borrowingLimit: "3264"
+              lendingLimit: "3264"
             - name: "memory"
               nominalQuota: "12000Gi"
               borrowingLimit: "12000Gi"

@@ -54,13 +54,22 @@ fairSharing:
 # usageHalfLifeTime: exponential decay half-life for remembered usage (older usage counts less).
 # usageSamplingInterval: how often consumedResources in FairSharing status is refreshed (default 5m).
 # resourceWeights: per-resource multipliers for that decaying usage score; omit entries to use default 1.
+# Currently, the relative weights are:
+# - 1 CPU core is 1x
+# - 1GiB of Memory has the same weight as a CPU core
+# - 1GiB of Ephemeral storage is 1/35th of a CPU core
+# - 1GPU has 35x the weight of a CPU core
 # admissionFairSharing:
 #   usageHalfLifeTime: 120h
 #   usageSamplingInterval: 5m
 #   resourceWeights:
 #     cpu: 1.0
-#     memory: 0.25
-#     ephemeral-storage: 0.05
+#     # Memory counted in bytes, so convert to convert 1x per GiB to 1x per byte
+#     # 1 / 2^30 = 0.000000000931323
+#     memory: 0.000000000931323
+#     # Ephemeral storage counted in bytes, so convert to convert 1x per GiB to 1/35th of a CPU core
+#     # (1/35) / 2^30 = 0.000000000106437
+#     ephemeral-storage: 0.000000000106437
 #     nvidia.com/gpu: 35
 
 integrations:
