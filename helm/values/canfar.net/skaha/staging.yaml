@@ -12,7 +12,7 @@ deployment:
     sessions:
       namespace: canfar-workloads
       userStorage:
-        storageSpec:
+        spec:
           cephfs:
             monitors:
             - 10.30.201.3:6789
