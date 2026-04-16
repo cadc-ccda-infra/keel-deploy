@@ -91,7 +91,6 @@ deployment:
 
     # Settings for User Sessions.
     sessions:
-      hostname: workloads.canfar.net
       gpuEnabled: true
       expirySeconds: "345600"
       maxCount: "3"
