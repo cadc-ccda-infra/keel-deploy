@@ -10,7 +10,7 @@ deployment:
       - https://staging.canfar.net/reg
 
     sessions:
-      hostname: staging.canfar.net
+      hostname: workloads.canfar.net
       namespace: canfar-workloads
       userStorage:
         spec:
