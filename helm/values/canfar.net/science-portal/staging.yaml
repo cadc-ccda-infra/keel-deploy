@@ -1,3 +1,6 @@
+imagePullSecrets:
+  - name: ghcr-at88mph-science-portal
+
 ingress:
   hosts:
     - host: staging.canfar.net
