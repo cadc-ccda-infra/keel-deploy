@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://images.opencadc.org/chartrepo/platform
       chart: science-portal
-      targetRevision: 2.0.0
+      targetRevision: 2.1.0
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/science-portal/base.yaml
