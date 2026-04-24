@@ -1,2 +1,15 @@
-deployment:
-  hostname: www.canfar.net
+ingress:
+  hosts:
+    - host: www.canfar.net
+      paths:
+        - path: /science-portal
+          pathType: Prefix
+
+app:
+  api:
+    storage: "https://www.canfar.net/arc/nodes/home/"
+    skaha: "https://www.canfar.net/skaha"
+  publicApi:
+    skaha: "https://www.canfar.net/skaha"
+  auth:
+    nextauthUrl: "https://www.canfar.net/science-portal"

@@ -1,32 +1,47 @@
-# Shared defaults for science-portal — keys from
-# opencadc/deployments/helm/applications/science-portal/values.yaml only.
-# replicaCount, image, resources, redis, tabLabels, defaultProjectName, ingress path: chart defaults.
+# Shared defaults for science-portal — keys align with
+# opencadc/deployments/helm/applications/science-portal/values.yaml
 
 podSecurityContext:
   runAsNonRoot: true
-  runAsUser: 8675309
-  runAsGroup: 8675309
-  fsGroup: 8675309
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
   seccompProfile:
     type: RuntimeDefault
 
 securityContext:
   allowPrivilegeEscalation: false
-  runAsGroup: 8675309
-  privileged: false
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  readOnlyRootFilesystem: false
   capabilities:
     drop:
       - ALL
   seccompProfile:
     type: RuntimeDefault
 
-deployment:
-  sciencePortal:
-    gmsID: "ivo://cadc.nrc.ca/gms"
-    
-    identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+# Next.js image build defaults to base path /science-portal (see upstream .env.example).
+app:
+  basePath: "/science-portal"
+  useCanfar: true
+  api:
+    login: "https://ws-cadc.canfar.net/ac"
+    timeoutMs: "30000"
+  publicApi:
+    login: "https://ws-cadc.canfar.net/ac"
+    timeoutMs: "30000"
+  auth:
+    trustHost: true
 
-    theme:
-      name: canfar
-      logoURL: "https://www.canfar.net/css/images/logo.png"
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
 
+# Explicitly off unless you add full networkPolicy rules (chart templates require these keys).
+networkPolicy:
+  enabled: false
+
+podDisruptionBudget:
+  enabled: false

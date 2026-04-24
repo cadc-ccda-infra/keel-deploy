@@ -1,14 +1,15 @@
-kubernetesClusterDomain: keel-prod.local
+ingress:
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /science-portal
+          pathType: Prefix
 
-deployment:
-  hostname: staging.canfar.net
-  sciencePortal:
-    skahaResourceID: "ivo://cadc.nrc.ca/skaha"
-    registryURL: "https://staging.canfar.net/reg"
-    storageHomeURL: "https://staging.canfar.net/arc/nodes/home"
-
-    # Other data to be included in the main ConfigMap of this deployment.
-    # Of note, files that end in .key are special and base64 decoded.
-    extraConfigData:
-      # .key files are special and are base64 decoded.
-      RsaSignaturePub.key: LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF2aXR3Z2g5OVVsTFROVWdaV0t5M2JEQit1NysrUVgvaQpHcGIzSC9wMG8wZENRdXJPSEg5TlNXa1VIOXBvMENEbkRHVE4wWkZvTFVlR0JERGwvcENOMkxrK0FZbXg3c2p4VVk3WWlQQTZpWEsxCnpMUXRQcUtaQy9vWjdDcUYycHlVWm9TWTZZL3hqN1FiekZUaEZSK21DN2RYdFAwR2l1Mmw4N3dZc3pOVUF6U2JBQXV5Zm1taXBFalQKUWZmUFRBWitRWFk1SmlsZFM3OC80T2lCTU8zcm9PeUl5dUFhczlrTjRJaSt2WllPd3FYTWpRQWhNQk1Wem03V3dRK2E2cDFYNDNtWQpSa0trbUxZL0h0U3pOOENZL1k2QkY1Q3FIZ0lJZWN3OWVEVlZTTjNyNzFaWldSNnZ4V3laeWQ1TmlPeG5lU3FQMHJBVEczdThURStQCklTUUM3d0lEQVFBQgotLS0tLUVORCBQVUJMSUMgS0VZLS0tLS0K
+app:
+  api:
+    storage: "https://staging.canfar.net/arc/nodes/home/"
+    skaha: "https://staging.canfar.net/skaha"
+  publicApi:
+    skaha: "https://staging.canfar.net/skaha"
+  auth:
+    nextauthUrl: "https://staging.canfar.net/science-portal"
