@@ -28,9 +28,10 @@ app:
   api:
     login: "https://ws-cadc.canfar.net/ac"
     timeoutMs: "30000"
-  publicApi:
-    login: "https://ws-cadc.canfar.net/ac"
-    timeoutMs: "30000"
+  public:
+    api:
+      login: "https://ws-cadc.canfar.net/ac"
+      timeoutMs: "30000"
   auth:
     trustHost: true
 

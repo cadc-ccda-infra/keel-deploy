@@ -12,7 +12,11 @@ app:
   api:
     storage: "https://staging.canfar.net/arc/nodes/home/"
     skaha: "https://staging.canfar.net/skaha"
-  publicApi:
-    skaha: "https://staging.canfar.net/skaha"
+  public:
+    api:
+      skaha: "https://staging.canfar.net/skaha"
+    services:
+      storageManagement: "https://staging.canfar.net/storage/list"
+      sciencePortal: "https://staging.canfar.net/science-portal"
   auth:
     nextauthUrl: "https://staging.canfar.net/science-portal"
