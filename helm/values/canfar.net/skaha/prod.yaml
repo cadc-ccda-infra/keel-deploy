@@ -1,3 +1,7 @@
+metrics-backend:
+  env:
+    METRICS_ENVIRONMENT: "production"
+
 deployment:
   hostname: www.canfar.net
   extraHosts:
