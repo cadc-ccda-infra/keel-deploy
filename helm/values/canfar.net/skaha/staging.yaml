@@ -52,3 +52,6 @@ deployment:
             memory: "4Gi"
             cpu: "1"
             nvidia.com/gpu: "0"
+
+serviceAccount:
+  create: true

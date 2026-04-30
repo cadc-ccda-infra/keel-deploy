@@ -47,7 +47,7 @@ deployment:
     defaultQuotaGB: "200"
 
     # Space delimited list of allowed Image Registry hosts.  These hosts should match the hosts in the User Session images.
-    registryHosts: "images.canfar.net images-rc.canfar.net"
+    registryHosts: "images.canfar.net"
 
     # The group name to verify users against for permission to use the Science Platform.
     usersGroup: "ivo://cadc.nrc.ca/gms?skaha-users"
