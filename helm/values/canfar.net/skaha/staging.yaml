@@ -2,6 +2,10 @@ kubernetesClusterDomain: keel-prod.local
 
 replicaCount: 3
 
+metrics-backend:
+  env:
+    METRICS_ENVIRONMENT: "staging"
+
 deployment:
   hostname: staging.canfar.net
 
@@ -17,9 +21,9 @@ deployment:
         spec:
           cephfs:
             monitors:
-            - 10.30.201.3:6789
-            - 10.30.202.3:6789
-            - 10.30.203.3:6789
+              - 10.30.201.3:6789
+              - 10.30.202.3:6789
+              - 10.30.203.3:6789
             path: /volumes/_nogroup/054e398e-a08e-425e-9f7c-fc394362e38e
             user: keel-prod-admin
             secretRef:
@@ -40,15 +44,15 @@ deployment:
         rbac:
           create: false
         spec:
-          max:  # maximum allowed requested
+          max: # maximum allowed requested
             memory: "192Gi"
             cpu: "16"
             nvidia.com/gpu: "8"
-          default:  # actually refers to default limits
+          default: # actually refers to default limits
             memory: "24Gi"
             cpu: "4"
             nvidia.com/gpu: "0"
-          defaultRequest:  # default requests
+          defaultRequest: # default requests
             memory: "4Gi"
             cpu: "1"
             nvidia.com/gpu: "0"
