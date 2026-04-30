@@ -10,7 +10,7 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
-    image: images.opencadc.org/platform/skaha@sha256:7401d0339a7efd69cd0d4f47bf3d472850b67de4313cf03f3f053b6b0ca9a3a5
+    image: at88mph/skaha:20260430T153112
     registryURL:
       - https://staging.canfar.net/reg
 
@@ -56,3 +56,6 @@ deployment:
             memory: "4Gi"
             cpu: "1"
             nvidia.com/gpu: "0"
+
+serviceAccount:
+  create: true
