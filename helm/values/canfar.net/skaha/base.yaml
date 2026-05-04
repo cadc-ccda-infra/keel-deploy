@@ -30,18 +30,18 @@ deployment:
     imagePullPolicy: Always
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 50
-        preference: 
-          matchExpressions:
-          - key: skaha.opencadc.org/node-type
-            operator: In
-            values:
-            - service-node
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: skaha.opencadc.org/node-type
+                operator: In
+                values:
+                  - service-node
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
-        - matchExpressions:
-          - key: nvidia.com/gpu.count
-            operator: DoesNotExist
+          - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
 
     # Used when allocating first-time users into the system.
     defaultQuotaGB: "200"
@@ -99,18 +99,18 @@ deployment:
         # Only allow executions of User Sessions on specific Nodes.
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
-          - matchExpressions:
-            - key: skaha.opencadc.org/node-type
-              operator: NotIn
-              values:
-              - service-node
+            - matchExpressions:
+                - key: skaha.opencadc.org/node-type
+                  operator: NotIn
+                  values:
+                    - service-node
 
       # Declare extra volume mounts in User Sessions.  The "type: parameter in volume section is constant.
       # @see https://github.com/opencadc/deployments/blob/main/helm/applications/skaha/values.yaml#L166 for possible configurations.
       extraVolumes:
         - name: cvmfs
           volume:
-            type: HOST_PATH     # HOST_PATH is for host path
+            type: HOST_PATH # HOST_PATH is for host path
             hostPath: "/cvmfs/"
             hostPathType: Directory
           volumeMount:
@@ -120,7 +120,7 @@ deployment:
 
       userStorage:
         topLevelDirectory: "/arc"
-        
+
         nodeURIPrefix: "vos://cadc.nrc.ca~arc"
         serviceURI: "ivo://cadc.nrc.ca/arc"
         admin:
@@ -160,6 +160,33 @@ deployment:
 experimentalFeatures:
   enabled: false
 
+# Optional science-platform Metrics API (same Helm release as Skaha).
+# Kueue alignment: ClusterQueues `cadc` and `ska`, cohort `canfar` — see
+# keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.cadc.yml,
+# keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.ska.yml, and
+# keel-deploy/helm/values/canfar.net/kueue/controller/controller.config.yml
+# (METRICS_* names follow science-platform/metrics docs/environment-contracts.md).
+# METRICS_REDIS_URL is injected by the Skaha chart from this release's Bitnami Redis when metrics-backend.redis.enabled is true.
+# METRICS_ENVIRONMENT is set per Argo overlay (staging.yaml, integration.yaml, prod.yaml) to match the deployment hostname tier.
+"metrics-backend":
+  enabled: true
+  image:
+    tag: v0.1.4
+  env:
+    METRICS_ENVIRONMENT: "staging"
+    METRICS_CLUSTER_NAME: "canfar"
+    METRICS_SOURCES__PLATFORM: "kueue"
+    METRICS_CACHE__BACKEND: "redis"
+    METRICS_CACHE__TTL_SECONDS: "300"
+    METRICS_CACHE__SCOPE_TTL_SECONDS: '{"platform":300}'
+    METRICS_OTEL_METRICS_ENABLED: "false"
+    METRICS_PROVIDERS__KUEUE__KUBE_API_URL: "https://kubernetes.default.svc"
+    METRICS_PROVIDERS__KUEUE__KUBE_VERIFY_TLS: "true"
+    METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","ska"]'
+    METRICS_PROVIDERS__KUEUE__COHORT: "canfar"
+    METRICS_PROVIDERS__KUEUE__TOKEN_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+    METRICS_PROVIDERS__KUEUE__CA_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+
 redis:
   networkPolicy:
     enabled: false
@@ -169,5 +196,4 @@ redis:
     serviceAccount:
       create: false
 
-
-    # deployment.hostname: integration.yaml, staging.yaml, prod.yaml
+# deployment.hostname: integration.yaml, staging.yaml, prod.yaml
