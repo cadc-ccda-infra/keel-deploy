@@ -69,13 +69,13 @@ controllerManager:
       enabled: true
     # Multi-cluster Kueue worker/manager coordination.
     - name: MultiKueue
-      enabled: true
+      enabled: false
     # Propagate MultiKueue behavior to additional custom job integrations.
     - name: MultiKueueAdaptersForCustomJobs
-      enabled: true
+      enabled: false
     # Batch Job managedBy field handling in MultiKueue (GA in v0.17).
     - name: MultiKueueBatchJobWithManagedBy
-      enabled: true
+      enabled: false
     # Cluster profile configuration for MultiKueue topology.
     - name: MultiKueueClusterProfile
       enabled: false
@@ -84,10 +84,10 @@ controllerManager:
       enabled: false
     # Re-run admission in worker after eviction-related changes.
     - name: MultiKueueRedoAdmissionOnEvictionInWorker
-      enabled: true
+      enabled: false
     # Worker waits until the workload is admitted before local scheduling.
     - name: MultiKueueWaitForWorkloadAdmitted
-      enabled: true
+      enabled: false
     # GC/retention behavior for Kueue objects (GA in v0.17).
     - name: ObjectRetentionPolicies
       enabled: true
@@ -135,28 +135,28 @@ controllerManager:
       enabled: false
     # Replace failed topology nodes during TAS scheduling.
     - name: TASFailedNodeReplacement
-      enabled: true
+      enabled: false
     # Fail fast when node replacement cannot succeed (TAS).
     - name: TASFailedNodeReplacementFailFast
-      enabled: true
+      enabled: false
     # Multi-layer topology definitions for TAS.
     - name: TASMultiLayerTopology
       enabled: false
     # Allow mixed TAS profiles on the same workload.
     - name: TASProfileMixed
-      enabled: true
+      enabled: false
     # React to node taints by replacing topology assignments.
     - name: TASReplaceNodeOnNodeTaints
-      enabled: true
+      enabled: false
     # Replace topology node when pods terminate (TAS).
     - name: TASReplaceNodeOnPodTermination
-      enabled: true
+      enabled: false
     # Advanced TLS configuration for webhooks and serving.
     - name: TLSOptions
       enabled: true
     # Topology-aware scheduling based on ResourceFlavor topology.
     - name: TopologyAwareScheduling
-      enabled: true
+      enabled: false
     # On-demand API for listing pending workloads (visibility server).
     - name: VisibilityOnDemand
       enabled: true
@@ -235,7 +235,7 @@ managerConfig:
     # usageSamplingInterval: how often consumedResources in FairSharing status is refreshed (default 5m).
     # resourceWeights: per-resource multipliers for that decaying usage score; omit entries to use default 1.
     admissionFairSharing:
-      usageHalfLifeTime: 120h
+      usageHalfLifeTime: 336h
       usageSamplingInterval: 5m
       resourceWeights:
         cpu: 1.0

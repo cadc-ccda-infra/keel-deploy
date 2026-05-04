@@ -6,6 +6,8 @@ metadata:
   name: cadc-default
 spec:
   clusterQueue: cadc
+  fairSharing:
+    weight: "1"
 ---
 apiVersion: kueue.x-k8s.io/v1beta2
 kind: LocalQueue
@@ -14,6 +16,8 @@ metadata:
   name: cadc-unions
 spec:
   clusterQueue: cadc
+  fairSharing:
+    weight: "1"
 ---
 apiVersion: kueue.x-k8s.io/v1beta2
 kind: LocalQueue
@@ -22,3 +26,5 @@ metadata:
   name: cadc-canucs
 spec:
   clusterQueue: cadc
+  fairSharing:
+    weight: "1"

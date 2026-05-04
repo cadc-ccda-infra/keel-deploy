@@ -5,3 +5,5 @@ metadata:
   name: ska-default
 spec:
   clusterQueue: ska
+  fairSharing:
+    weight: "1"
