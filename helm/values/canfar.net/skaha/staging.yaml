@@ -10,7 +10,7 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
-    image: at88mph/skaha:20260430T153112
+    image: at88mph/skaha:20260504T205708
     registryURL:
       - https://staging.canfar.net/reg
 
