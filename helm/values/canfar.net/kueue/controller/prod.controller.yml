@@ -234,14 +234,18 @@ managerConfig:
     # usageHalfLifeTime: exponential decay half-life for remembered usage (older usage counts less).
     # usageSamplingInterval: how often consumedResources in FairSharing status is refreshed (default 5m).
     # resourceWeights: per-resource multipliers for that decaying usage score; omit entries to use default 1.
-    # admissionFairSharing:
-    #   usageHalfLifeTime: 120h
-    #   usageSamplingInterval: 5m
-    #   resourceWeights:
-    #     cpu: 1.0
-    #     memory: 0.25
-    #     ephemeral-storage: 0.05
-    #     nvidia.com/gpu: 35
+    admissionFairSharing:
+      usageHalfLifeTime: 120h
+      usageSamplingInterval: 5m
+      resourceWeights:
+        cpu: 1.0
+        # Memory counted in bytes, 1GiB = 2^30 bytes
+        # 1 / 2^30 = 9.313225746154785e-10
+        memory: 0.000000000931323
+        # Ephemeral storage counted in bytes, 1GiB = 2^30 bytes
+        # (1/35) / 2^30 = 2.66092164175851e-11
+        ephemeral-storage: 0.000000000026609
+        nvidia.com/gpu: 35
 
     integrations:
       frameworks:
