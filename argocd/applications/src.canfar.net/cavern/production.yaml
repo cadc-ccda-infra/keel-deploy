@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: src-cavern
-  namespace: argocd
+  namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: src.canfar.net
     argocd.argoproj.io/environment: production
@@ -10,19 +10,19 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: oci://harbor.example.com/src/charts
+    - repoURL: https://images.opencadc.org/chartrepo/platform
       chart: cavern
-      targetRevision: 0.1.0
+      targetRevision: 0.9.0
       helm:
         valueFiles:
           - $values/helm/values/src.canfar.net/cavern/base.yaml
           - $values/helm/values/src.canfar.net/cavern/prod.yaml
-    - repoURL: https://git.example.com/your-org/argo-deploy.git
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: src-cavern
+    namespace: canfar-src-production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

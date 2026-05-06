@@ -1,20 +1,20 @@
-# Parent Application (app-of-apps) for src.canfar.net.
-# Apply once: kubectl apply -f argocd/bootstrap/src.canfar.net.yaml
+# Parent Application (app-of-apps) for canfar.net.
+# Apply once: kubectl apply -f argocd/bootstrap/canfar.net.yaml
 # Replace spec.source.repoURL with this repository's clone URL before applying.
 # Child and parent Application CRs use namespace canfar-argocd; create it and grant Argo CD
 # permission to manage Application resources there (cluster setup dependent).
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: src-canfar-net-apps
+  name: cadc-west-net-apps
   namespace: canfar-argocd
 spec:
-  project: canfar
+  project: cadc
   source:
     repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
     targetRevision: main
     ref: values
-    path: argocd/applications/src.canfar.net
+    path: argocd/applications/cadc-west.canfar.net
     directory:
       recurse: true
   destination:
