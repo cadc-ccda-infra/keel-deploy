@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: src-skaha-staging
-  namespace: argocd
+  namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: src.canfar.net
     argocd.argoproj.io/environment: staging
