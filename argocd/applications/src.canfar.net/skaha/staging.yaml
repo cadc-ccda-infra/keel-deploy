@@ -22,7 +22,7 @@ spec:
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: src-skaha-staging
+    namespace: canfar-src-staging
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

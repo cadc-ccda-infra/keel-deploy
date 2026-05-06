@@ -1,3 +1,6 @@
-env:
-  - name: APP_ENV
-    value: production
+deployment:
+  hostname: src.canfar.net
+  storageUI:
+    oidc:
+      redirectURI: https://src.canfar.net/storage/oidc-callback
+      callbackURI: https://src.canfar.net/storage/list

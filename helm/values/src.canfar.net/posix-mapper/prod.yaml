@@ -1,3 +1,4 @@
-env:
-  - name: APP_ENV
-    value: production
+deployment:
+  hostname: src.canfar.net
+  posixMapper:
+    resourceID: https://src.canfar.net/posix-mapper

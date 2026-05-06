@@ -1,6 +1,71 @@
-# Shared defaults for cavern (align keys with the Harbor chart).
+# Shared defaults for Cavern (opencadc platform chart).  Hostname and POSIX mapper URL: prod.yaml / staging.yaml.
+# See https://github.com/opencadc/vos/tree/master/cavern
+
+kubernetesClusterDomain: keel-prod.local
+
 replicaCount: 1
 
-image:
-  repository: harbor.example.com/src/cavern
-  tag: "0.1.0"
+deployment:
+  cavern:
+    image: images.opencadc.org/platform/cavern:0.9.3
+    imagePullPolicy: Always
+
+    resourceID: "ivo://canfar.net/src/cavern"
+
+    registryURL:
+      - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
+
+    oidcURI: https://ska-iam.stfc.ac.uk/
+
+    gmsID: ivo://skao.int/gms
+
+    adminAPIKeys:
+      skaha: "iF78T4NF8QrTNQmQJ6/1rBuMVSllWVuuz190HJpFb5Q="
+
+    allocations:
+      defaultSizeGB: 200
+
+    filesystem:
+      dataDir: "/data"
+      subPath: "cavern"
+      rootOwner:
+        adminUsername: "canfarops"
+        username: "canfarops"
+        uid: 25660
+        gid: 25660
+
+    uws:
+      db:
+        install: true
+        schema: uws
+        maxActive: 2
+
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "750m"
+      limits:
+        memory: "2Gi"
+        cpu: "1"
+
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: skaha.opencadc.org/node-type
+                operator: In
+                values:
+                  - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
+
+storage:
+  service:
+    spec:
+      persistentVolumeClaim:
+        claimName: canfar-b-system-cavern-pvc

@@ -4,7 +4,7 @@ metadata:
   name: src-storage-ui-staging
   namespace: argocd
   labels:
-    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/domain: staging-src.canfar.net
     argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: storage-ui
 spec:
@@ -22,7 +22,7 @@ spec:
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: src-storage-ui-staging
+    namespace: canfar-src-staging
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

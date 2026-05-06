@@ -1,6 +1,152 @@
-# Shared defaults for skaha (align keys with the Harbor chart).
+# Shared defaults for Skaha (opencadc platform chart).  API hostname, POSIX mapper URL,
+# and sessions hostname: prod.yaml / staging.yaml.
+
+kubernetesClusterDomain: keel-prod.local
+
 replicaCount: 1
 
-image:
-  repository: harbor.example.com/src/skaha
-  tag: "0.1.0"
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  allowPrivilegeEscalation: false
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+deployment:
+  skaha:
+    imagePullPolicy: Always
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: skaha.opencadc.org/node-type
+                operator: In
+                values:
+                  - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
+
+    defaultQuotaGB: "200"
+
+    registryHosts: "images.canfar.net"
+
+    usersGroup: "ivo://skao.int/gms?roles/prod/user"
+    adminsGroup: "ivo://skao.int/gms?roles/prod/user"
+    headlessGroup: "ivo://skao.int/gms?roles/prod/user"
+    headlessPriorityGroup: "ivo://skao.int/gms?roles/prod/user"
+    headlessPriorityClass: "uber-user-preempt-high"
+
+    loggingGroups:
+      - "ivo://skao.int/gms?roles/prod/user"
+
+    oidcURI: https://ska-iam.stfc.ac.uk/
+
+    gmsID: ivo://skao.int/gms
+
+    registryURL:
+      - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
+
+    imageCache:
+      refreshSchedule: "*/15 * * * *"
+
+    posixMapperCacheTTLSeconds: "600"
+
+    sessions:
+      expirySeconds: "345600"
+      maxCount: "3"
+      minEphemeralStorage: "20Gi"
+      maxEphemeralStorage: "200Gi"
+      nodeLabelSelector: "skaha.opencadc.org/node-type=worker-node"
+
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: skaha.opencadc.org/node-type
+                  operator: NotIn
+                  values:
+                    - service-node
+
+      limitRange:
+        enabled: true
+        rbac:
+          create: false
+        spec:
+          max:
+            memory: "192Gi"
+            cpu: "16"
+            nvidia.com/gpu: "2"
+          default:
+            memory: "24Gi"
+            cpu: "4"
+            nvidia.com/gpu: "0"
+          defaultRequest:
+            memory: "4Gi"
+            cpu: "1"
+            nvidia.com/gpu: "0"
+
+      gpuEnabled: true
+
+      kueue:
+        default:
+          queueName: "canfar-b-local-queue"
+          priorityClass: "medium"
+        headless:
+          queueName: "canfar-b-local-queue"
+          priorityClass: "low"
+
+      userStorage:
+        topLevelDirectory: "/cavern"
+        persistentVolumeClaimName: canfar-b-workload-cavern-pvc
+        nodeURIPrefix: "vos://canfar.net~src~cavern"
+        serviceURI: "ivo://canfar.net/src/cavern"
+        admin:
+          auth:
+            apiKey: "iF78T4NF8QrTNQmQJ6/1rBuMVSllWVuuz190HJpFb5Q="
+
+      extraVolumes:
+        - name: cvmfs
+          volume:
+            type: HOST_PATH
+            hostPath: "/cvmfs/"
+            hostPathType: Directory
+          volumeMount:
+            mountPath: "/cvmfs"
+            readOnly: true
+            mountPropagation: HostToContainer
+
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: "20m"
+        memory: 300Mi
+
+    priorityClassName: uber-user-preempt-high
+    serviceAccountName: skaha
+
+experimentalFeatures:
+  enabled: false
+
+secrets: {}
+
+redis:
+  networkPolicy:
+    enabled: false
+  serviceAccount:
+    create: false
+  master:
+    serviceAccount:
+      create: false

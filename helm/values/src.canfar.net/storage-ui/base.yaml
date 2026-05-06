@@ -1,6 +1,77 @@
-# Shared defaults for storage-ui (align keys with the Harbor chart).
+# Shared defaults for Storage UI (opencadc client chart).  Hostname and OIDC redirect/callback URIs: prod.yaml / staging.yaml.
+
+kubernetesClusterDomain: keel-prod.local
+
 replicaCount: 1
 
-image:
-  repository: harbor.example.com/src/storage-ui
-  tag: "0.1.0"
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
+
+deployment:
+  storageUI:
+    registryURL:
+      - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
+
+    themeName: src
+
+    oidc:
+      uri: https://ska-iam.stfc.ac.uk/
+      clientID: 504c106a-fc2c-4a6b-b64e-c8b1b6bd8fa9
+      clientSecret: Zqe1sMMZE6bnOjZdZVRrw9cJIJxarzEgYfVETuBUWrgJwUO-EEI6e2aAU5c0-9DZWVovmBL9AeaEZwrXybeRLg
+      scope: "openid profile offline_access"
+
+    gmsID: ivo://skao.int/gms
+
+    backend:
+      defaultService: cavern
+      services:
+        cavern:
+          resourceID: "ivo://canfar.net/src/cavern"
+          nodeURIPrefix: "vos://canfar.net~src~cavern"
+          userHomeDir: "/home"
+          features:
+            batchDownload: true
+            batchUpload: false
+            externalLinks: false
+            paging: false
+
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "1500Mi"
+        cpu: "750m"
+
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: skaha.opencadc.org/node-type
+                operator: In
+                values:
+                  - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
+
+secrets: {}
+
+redis:
+  networkPolicy:
+    enabled: false
+  serviceAccount:
+    create: false
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    serviceAccount:
+      create: false
+    persistence:
+      enabled: false
