@@ -1,6 +1,9 @@
 imagePullSecrets:
   - name: ghcr-at88mph-science-portal
 
+image:
+  tag: 2bdf7f5498298168784e8000a75d261d3ce58e6a
+
 ingress:
   hosts:
     - host: staging.canfar.net
