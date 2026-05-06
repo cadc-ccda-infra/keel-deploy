@@ -25,6 +25,24 @@ securityContext:
 
 replicaCount: 1
 
+livenessProbe:
+  httpGet:
+    path: /access/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /access/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
 # image.repository / image.tag / image.pullPolicy: use the chart's values.yaml (released with each chart version).
 # Override these values in the environment-specific values.yaml files, unless a different image is needed more globally.
 
