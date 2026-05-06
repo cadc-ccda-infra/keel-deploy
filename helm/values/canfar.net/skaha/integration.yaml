@@ -1,4 +1,4 @@
-metrics-backend:
+metricsBackend:
   env:
     METRICS_ENVIRONMENT: "integration"
 

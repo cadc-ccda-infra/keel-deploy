@@ -2,7 +2,7 @@ kubernetesClusterDomain: keel-prod.local
 
 replicaCount: 3
 
-metrics-backend:
+metricsBackend:
   env:
     METRICS_ENVIRONMENT: "staging"
 
