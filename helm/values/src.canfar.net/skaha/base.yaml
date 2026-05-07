@@ -22,6 +22,10 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 2
+
 deployment:
   skaha:
     imagePullPolicy: Always
