@@ -1,6 +1,7 @@
 deployment:
   hostname: staging-src.canfar.net
   skaha:
+    image: at88mph/skaha:20260505T165438
     registryHosts: "images-rc.canfar.net"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     sessions:
