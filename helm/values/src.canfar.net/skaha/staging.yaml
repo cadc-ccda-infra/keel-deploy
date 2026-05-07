@@ -14,7 +14,7 @@ deployment:
 
       kueue:
         rbac:
-          create: true
+          create: false
         default:
           queueName: "cadc-default"
           priorityClass: "high"
