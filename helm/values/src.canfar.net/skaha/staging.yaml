@@ -6,3 +6,6 @@ deployment:
     sessions:
       hostname: workloads.canfar.net
       namespace: canfar-workloads
+
+serviceAccount:
+  create: true
