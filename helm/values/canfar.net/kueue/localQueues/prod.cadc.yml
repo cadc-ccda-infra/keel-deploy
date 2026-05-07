@@ -4,21 +4,33 @@ kind: LocalQueue
 metadata:
   namespace: canfar-workloads
   name: cadc-default
+  labels:
+    app.kubernetes.io/name: kueue
 spec:
   clusterQueue: cadc
+  fairSharing:
+    weight: "1"
 ---
 apiVersion: kueue.x-k8s.io/v1beta2
 kind: LocalQueue
 metadata:
   namespace: canfar-workloads
   name: cadc-unions
+  labels:
+    app.kubernetes.io/name: kueue
 spec:
   clusterQueue: cadc
+  fairSharing:
+    weight: "1"
 ---
 apiVersion: kueue.x-k8s.io/v1beta2
 kind: LocalQueue
 metadata:
   namespace: canfar-workloads
   name: cadc-canucs
+  labels:
+    app.kubernetes.io/name: kueue
 spec:
   clusterQueue: cadc
+  fairSharing:
+    weight: "1"

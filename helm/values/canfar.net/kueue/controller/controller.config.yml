@@ -2,6 +2,9 @@
 # Reference: https://kueue.sigs.k8s.io/docs/reference/kueue-config.v1beta2/
 apiVersion: config.kueue.x-k8s.io/v1beta2
 kind: Configuration
+metadata:
+  labels:
+    app.kubernetes.io/name: kueue
 
 # Deployed namespace (webhook DNS, managed-namespace checks). Defaults to kueue-system if unset.
 namespace: kueue-system
