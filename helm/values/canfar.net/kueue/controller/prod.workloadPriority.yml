@@ -4,6 +4,8 @@ apiVersion: kueue.x-k8s.io/v1beta2
 kind: WorkloadPriorityClass
 metadata:
   name: low
+  labels:
+    app.kubernetes.io/name: kueue
 value: 10000
 description: "Low Priority"
 ---
@@ -12,6 +14,8 @@ apiVersion: kueue.x-k8s.io/v1beta2
 kind: WorkloadPriorityClass
 metadata:
   name: medium
+  labels:
+    app.kubernetes.io/name: kueue
 value: 100000
 description: "Medium Priority"
 ---
@@ -20,5 +24,7 @@ apiVersion: kueue.x-k8s.io/v1beta2
 kind: WorkloadPriorityClass
 metadata:
   name: high
+  labels:
+    app.kubernetes.io/name: kueue
 value: 1000000
 description: "High Priority"

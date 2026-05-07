@@ -3,6 +3,8 @@ apiVersion: kueue.x-k8s.io/v1beta2
 kind: ClusterQueue
 metadata:
   name: ska
+  labels:
+    app.kubernetes.io/name: kueue
 spec:
   namespaceSelector:
     matchExpressions:
@@ -11,25 +13,25 @@ spec:
         values: [canfar-workloads]
   queueingStrategy: BestEffortFIFO
   cohortName: canfar
-  # admissionScope:
-  #   admissionMode: UsageBasedAdmissionFairSharing
+  admissionScope:
+    admissionMode: UsageBasedAdmissionFairSharing
   resourceGroups:
     - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
       flavors:
         - name: "default"
           resources:
             - name: "cpu"
-              nominalQuota: "288"
-              lendingLimit: "288"
+              nominalQuota: "200"
+              lendingLimit: "200"
             - name: "memory"
-              nominalQuota: "1768Gi"
-              lendingLimit: "1768Gi"
+              nominalQuota: "1600Gi"
+              lendingLimit: "1600Gi"
             - name: "ephemeral-storage"
-              nominalQuota: "4500Gi"
-              lendingLimit: "4500Gi"
+              nominalQuota: "4800Gi"
+              lendingLimit: "4800Gi"
             - name: "nvidia.com/gpu"
-              nominalQuota: "28"
-              lendingLimit: "28"
+              nominalQuota: "0"
+              lendingLimit: "0"
   preemption:
     reclaimWithinCohort: LowerPriority
     borrowWithinCohort:

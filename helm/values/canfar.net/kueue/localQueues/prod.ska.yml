@@ -3,5 +3,9 @@ kind: LocalQueue
 metadata:
   namespace: canfar-workloads
   name: ska-default
+  labels:
+    app.kubernetes.io/name: kueue
 spec:
   clusterQueue: ska
+  fairSharing:
+    weight: "1"
