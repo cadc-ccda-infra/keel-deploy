@@ -4,7 +4,20 @@ kubernetesClusterDomain: keel-prod.local
 
 replicaCount: 1
 
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
 securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
   seccompProfile:
     type: RuntimeDefault
 
@@ -14,7 +27,9 @@ deployment:
       - "https://spsrc27.iaa.csic.es/reg"
       - "https://reg.swesrc.chalmers.se"
 
-    themeName: src
+    theme:
+      name: src
+      logoURL: https://staging-src.canfar.net/science-portal/images/canSRCLogo.png
 
     gmsID: ivo://skao.int/gms
 
