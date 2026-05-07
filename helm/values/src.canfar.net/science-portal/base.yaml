@@ -1,41 +1,67 @@
-# Next.js image build defaults to base path /science-portal (see upstream .env.example).
-app:
-  basePath: "/science-portal"
-  useCanfar: true
-  api:
-    login: "https://ws-cadc.canfar.net/ac"
-    timeoutMs: "30000"
-  public:
-    api:
-      login: "https://ws-cadc.canfar.net/ac"
-      timeoutMs: "30000"
-  auth:
-    trustHost: true
+# Shared defaults for science-portal Helm chart 2.x (Next.js app).
+# Chart: https://github.com/canfar/science-portal — values schema matches chart 2.0.0+.
 
-ingress:
-  enabled: true
-  className: ""
-  annotations: {}
+imagePullSecrets:
+  - name: ghcr-at88mph-science-portal
 
-# Explicitly off unless you add full networkPolicy rules (chart templates require these keys).
-networkPolicy:
-  enabled: false
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
 
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+
+livenessProbe:
+  httpGet:
+    port: 3000
+    path: /science-portal
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    port: 3000
+    path: /science-portal/api/health
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    port: 3000
+    path: /science-portal
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 30
+
+resources:
+  requests:
+    memory: 500Mi
+    cpu: 500m
+  limits:
+    memory: 1Gi
+    cpu: 750m
+
+# Chart 2.0.0 templates reference these keys though defaults omit them.
 podDisruptionBudget:
   enabled: false
 
-affinity:
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 50
-      preference: 
-        matchExpressions:
-        - key: skaha.opencadc.org/node-type
-          operator: In
-          values:
-          - service-node
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: nvidia.com/gpu.count
-          operator: DoesNotExist
+networkPolicy:
+  enabled: false
+
+ingress:
+  enabled: true
+  className: traefik
+  # annotations:
+  #   argocd.argoproj.io/ignore-healthcheck: "true"
