@@ -1,9 +1,8 @@
-skahaWorkload:
-  namespace: canfar-workloads
-
 deployment:
   hostname: staging-src.canfar.net
   skaha:
+    registryHosts: "images-rc.canfar.net"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     sessions:
-      hostname: workload-uv.staging-src.canfar.net
+      hostname: workloads.canfar.net
+      namespace: canfar-workloads

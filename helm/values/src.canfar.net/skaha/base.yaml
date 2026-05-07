@@ -38,8 +38,6 @@ deployment:
 
     defaultQuotaGB: "200"
 
-    registryHosts: "images.canfar.net"
-
     usersGroup: "ivo://skao.int/gms?roles/prod/user"
     adminsGroup: "ivo://skao.int/gms?roles/prod/user"
     headlessGroup: "ivo://skao.int/gms?roles/prod/user"
@@ -100,15 +98,17 @@ deployment:
 
       kueue:
         default:
-          queueName: "canfar-b-local-queue"
+          queueName: "cadc-default"
           priorityClass: "medium"
         headless:
-          queueName: "canfar-b-local-queue"
+          queueName: "cadc-default"
           priorityClass: "low"
 
       userStorage:
         topLevelDirectory: "/cavern"
-        persistentVolumeClaimName: canfar-b-workload-cavern-pvc
+        spec:
+          persistentVolumeClaim:
+            claimName: canfar-workloads-cavern-pvc
         nodeURIPrefix: "vos://canfar.net~src~cavern"
         serviceURI: "ivo://canfar.net/src/cavern"
         admin:
