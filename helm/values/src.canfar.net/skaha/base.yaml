@@ -132,8 +132,9 @@ deployment:
         cpu: "20m"
         memory: 300Mi
 
-    priorityClassName: uber-user-preempt-high
-    serviceAccountName: skaha
+    priorityClass:
+      name: uber-user-preempt-high
+      create: false
 
 experimentalFeatures:
   enabled: false
