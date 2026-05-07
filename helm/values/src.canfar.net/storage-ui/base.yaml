@@ -29,7 +29,6 @@ deployment:
 
     theme:
       name: src
-      logoURL: https://staging-src.canfar.net/science-portal/images/canSRCLogo.png
 
     gmsID: ivo://skao.int/gms
 

@@ -1,6 +1,9 @@
 deployment:
   hostname: staging-src.canfar.net
   storageUI:
+    theme:
+      logoURL: https://staging-src.canfar.net/science-portal/images/canSRCLogo.png
+
     oidc:
       redirectURI: https://staging-src.canfar.net/storage/oidc-callback
       callbackURI: https://staging-src.canfar.net/storage/list
