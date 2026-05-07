@@ -166,9 +166,9 @@ experimentalFeatures:
 # keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.ska.yml, and
 # keel-deploy/helm/values/canfar.net/kueue/controller/controller.config.yml
 # (METRICS_* names follow science-platform/metrics docs/environment-contracts.md).
-# METRICS_REDIS_URL is injected by the Skaha chart from this release's Bitnami Redis when metrics-backend.redis.enabled is true.
+# METRICS_REDIS_URL is injected by the Skaha chart from this release's Bitnami Redis when metricsBackend.redis.enabled is true.
 # METRICS_ENVIRONMENT is set per Argo overlay (staging.yaml, integration.yaml, prod.yaml) to match the deployment hostname tier.
-"metrics-backend":
+metricsBackend:
   enabled: true
   image:
     tag: v0.1.4
