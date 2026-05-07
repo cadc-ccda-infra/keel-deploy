@@ -6,6 +6,10 @@ metricsBackend:
   env:
     METRICS_ENVIRONMENT: "staging"
 
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 3
+
 deployment:
   hostname: staging.canfar.net
 
