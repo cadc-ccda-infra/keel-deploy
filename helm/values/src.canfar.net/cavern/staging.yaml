@@ -2,3 +2,4 @@ deployment:
   hostname: staging-src.canfar.net
   cavern:
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
+    resourceID: "ivo://canfar.net/staging-src/cavern"

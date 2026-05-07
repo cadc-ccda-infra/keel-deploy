@@ -16,20 +16,14 @@ deployment:
 
     themeName: src
 
-    oidc:
-      uri: https://ska-iam.stfc.ac.uk/
-      clientID: 504c106a-fc2c-4a6b-b64e-c8b1b6bd8fa9
-      clientSecret: Zqe1sMMZE6bnOjZdZVRrw9cJIJxarzEgYfVETuBUWrgJwUO-EEI6e2aAU5c0-9DZWVovmBL9AeaEZwrXybeRLg
-      scope: "openid profile offline_access"
-
     gmsID: ivo://skao.int/gms
 
     backend:
       defaultService: cavern
       services:
         cavern:
-          resourceID: "ivo://canfar.net/src/cavern"
-          nodeURIPrefix: "vos://canfar.net~src~cavern"
+          resourceID: "ivo://canfar.net/staging-src/cavern"
+          nodeURIPrefix: "vos://canfar.net~staging-src~cavern"
           userHomeDir: "/home"
           features:
             batchDownload: true
