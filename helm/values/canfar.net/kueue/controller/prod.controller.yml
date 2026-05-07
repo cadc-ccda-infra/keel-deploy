@@ -174,18 +174,13 @@ controllerManager:
         memory: 4Gi
 
 # controller_manager_config.yaml. controllerManager utilizes this yaml via manager-config Configmap.
-# Keep in sync with controller/controller.yml (v1beta2).
+# Must match controller.config.yml (same bytes aside from each line’s leading indent below).
 managerConfig:
   controllerManagerConfigYaml: |-
-    # Always copied from controller.yml, KEEP CHANGES IN SYNC.
     # Kueue controller Configuration (config.kueue.x-k8s.io/v1beta2)
     # Reference: https://kueue.sigs.k8s.io/docs/reference/kueue-config.v1beta2/
     apiVersion: config.kueue.x-k8s.io/v1beta2
     kind: Configuration
-
-    metadata:
-      labels:
-        app.kubernetes.io/name: kueue
 
     # Deployed namespace (webhook DNS, managed-namespace checks). Defaults to kueue-system if unset.
     namespace: kueue-system
@@ -238,6 +233,11 @@ managerConfig:
     # usageHalfLifeTime: exponential decay half-life for remembered usage (older usage counts less).
     # usageSamplingInterval: how often consumedResources in FairSharing status is refreshed (default 5m).
     # resourceWeights: per-resource multipliers for that decaying usage score; omit entries to use default 1.
+    # Currently, the relative weights are:
+    # - 1 CPU core is 1x
+    # - 1GiB of Memory has the same weight as a CPU core
+    # - 1GiB of Ephemeral storage is 1/35th of a CPU core
+    # - 1GPU has 35x the weight of a CPU core
     admissionFairSharing:
       usageHalfLifeTime: 336h
       usageSamplingInterval: 5m

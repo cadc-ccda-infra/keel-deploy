@@ -2,9 +2,6 @@
 # Reference: https://kueue.sigs.k8s.io/docs/reference/kueue-config.v1beta2/
 apiVersion: config.kueue.x-k8s.io/v1beta2
 kind: Configuration
-metadata:
-  labels:
-    app.kubernetes.io/name: kueue
 
 # Deployed namespace (webhook DNS, managed-namespace checks). Defaults to kueue-system if unset.
 namespace: kueue-system
@@ -63,7 +60,7 @@ fairSharing:
 # - 1GiB of Ephemeral storage is 1/35th of a CPU core
 # - 1GPU has 35x the weight of a CPU core
 admissionFairSharing:
-  usageHalfLifeTime: 120h
+  usageHalfLifeTime: 336h
   usageSamplingInterval: 5m
   resourceWeights:
     cpu: 1.0
