@@ -39,7 +39,7 @@ app:
   oidc:
     enabled: true
     uri: https://ska-iam.stfc.ac.uk/
-    clientId: 504c106a-fc2c-4a6b-b64e-c8b1b6bd8fa9
+    clientId: 551f1415-60d7-42a5-a977-11fd69700fe0
     callbackUri: https://staging-src.canfar.net/science-portal
     redirectUri: https://staging-src.canfar.net/science-portal/api/auth/callback/oidc
     scope: openid profile offline_access
