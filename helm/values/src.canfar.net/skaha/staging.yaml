@@ -9,5 +9,17 @@ deployment:
         create: false
         name: canfar-workloads
 
+      gpuEnabled: true
+
+      kueue:
+        rbac:
+          create: true
+        default:
+          queueName: "cadc-default"
+          priorityClass: "high"
+        headless:
+          queueName: "cadc-default"
+          priorityClass: "low"
+
 serviceAccount:
   create: true

@@ -98,16 +98,6 @@ deployment:
             cpu: "1"
             nvidia.com/gpu: "0"
 
-      gpuEnabled: true
-
-      kueue:
-        default:
-          queueName: "cadc-default"
-          priorityClass: "medium"
-        headless:
-          queueName: "cadc-default"
-          priorityClass: "low"
-
       userStorage:
         topLevelDirectory: "/cavern"
         spec:
