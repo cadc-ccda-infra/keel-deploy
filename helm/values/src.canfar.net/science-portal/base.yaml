@@ -1,6 +1,41 @@
-# Shared defaults for science-portal (align keys with the Harbor chart).
-replicaCount: 1
+# Next.js image build defaults to base path /science-portal (see upstream .env.example).
+app:
+  basePath: "/science-portal"
+  useCanfar: true
+  api:
+    login: "https://ws-cadc.canfar.net/ac"
+    timeoutMs: "30000"
+  public:
+    api:
+      login: "https://ws-cadc.canfar.net/ac"
+      timeoutMs: "30000"
+  auth:
+    trustHost: true
 
-image:
-  repository: harbor.example.com/src/science-portal
-  tag: "0.1.0"
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+
+# Explicitly off unless you add full networkPolicy rules (chart templates require these keys).
+networkPolicy:
+  enabled: false
+
+podDisruptionBudget:
+  enabled: false
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference: 
+        matchExpressions:
+        - key: skaha.opencadc.org/node-type
+          operator: In
+          values:
+          - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nvidia.com/gpu.count
+          operator: DoesNotExist

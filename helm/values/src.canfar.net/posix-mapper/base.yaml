@@ -5,7 +5,20 @@ kubernetesClusterDomain: keel-prod.local
 
 replicaCount: 1
 
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
 securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
   seccompProfile:
     type: RuntimeDefault
 
