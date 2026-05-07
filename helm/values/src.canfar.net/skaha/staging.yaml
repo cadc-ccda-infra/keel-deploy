@@ -5,7 +5,9 @@ deployment:
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     sessions:
       hostname: workloads.canfar.net
-      namespace: canfar-workloads
+      namespace: 
+        create: false
+        name: canfar-workloads
 
 serviceAccount:
   create: true
