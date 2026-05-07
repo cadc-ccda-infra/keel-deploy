@@ -9,12 +9,16 @@ podSecurityContext:
   runAsNonRoot: true
   runAsUser: 8675309
   runAsGroup: 8675309
-  allowPrivilegeEscalation: false
+  fsGroup: 8675309
   seccompProfile:
     type: RuntimeDefault
 
 securityContext:
-  runAsNonRoot: true
+  allowPrivilegeEscalation: false
+  privileged: false
+  capabilities:
+    drop:
+      - ALL
   seccompProfile:
     type: RuntimeDefault
 
