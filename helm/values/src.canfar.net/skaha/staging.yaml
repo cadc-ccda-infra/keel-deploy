@@ -10,9 +10,9 @@ deployment:
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     sessions:
       hostname: workloads.canfar.net
-      namespace: 
-        create: false
-        name: canfar-workloads
+      namespace:
+        create: true
+        name: canfar-src-workloads-staging
 
       gpuEnabled: true
 
@@ -25,6 +25,24 @@ deployment:
         headless:
           queueName: "cadc-default"
           priorityClass: "low"
+
+      limitRange:
+        enabled: true
+        rbac:
+          create: true
+        spec:
+          max:
+            memory: "64Gi"
+            cpu: "8"
+            nvidia.com/gpu: "2"
+          default:
+            memory: "8Gi"
+            cpu: "2"
+            nvidia.com/gpu: "0"
+          defaultRequest:
+            memory: "4Gi"
+            cpu: "1"
+            nvidia.com/gpu: "0"
 
 serviceAccount:
   create: true

@@ -44,7 +44,7 @@ deployment:
               - key: nvidia.com/gpu.count
                 operator: DoesNotExist
 
-    defaultQuotaGB: "200"
+    defaultQuotaGB: "100"
 
     usersGroup: "ivo://skao.int/gms?roles/prod/user"
     adminsGroup: "ivo://skao.int/gms?roles/prod/user"
@@ -75,7 +75,7 @@ deployment:
       expirySeconds: "345600"
       maxCount: "3"
       minEphemeralStorage: "20Gi"
-      maxEphemeralStorage: "200Gi"
+      maxEphemeralStorage: "100Gi"
       nodeLabelSelector: "skaha.opencadc.org/node-type=worker-node"
 
       nodeAffinity:
@@ -86,24 +86,6 @@ deployment:
                   operator: NotIn
                   values:
                     - service-node
-
-      limitRange:
-        enabled: true
-        rbac:
-          create: false
-        spec:
-          max:
-            memory: "192Gi"
-            cpu: "16"
-            nvidia.com/gpu: "2"
-          default:
-            memory: "24Gi"
-            cpu: "4"
-            nvidia.com/gpu: "0"
-          defaultRequest:
-            memory: "4Gi"
-            cpu: "1"
-            nvidia.com/gpu: "0"
 
       userStorage:
         topLevelDirectory: "/cavern"

@@ -46,7 +46,7 @@ deployment:
       limitRange:
         enabled: true
         rbac:
-          create: false
+          create: true
         spec:
           max: # maximum allowed requested
             memory: "192Gi"
