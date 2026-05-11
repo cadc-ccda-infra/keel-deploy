@@ -1,4 +1,5 @@
-metrics-backend:
+metricsBackend:
+  enabled: false
   env:
     METRICS_ENVIRONMENT: "staging"
 

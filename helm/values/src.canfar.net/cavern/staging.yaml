@@ -3,3 +3,9 @@ deployment:
   cavern:
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/staging-src/cavern"
+
+storage:
+  service:
+    spec:
+      persistentVolumeClaim:
+        claimName: canfar-src-workloads-cavern-pvc
