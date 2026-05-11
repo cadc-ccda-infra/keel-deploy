@@ -2,7 +2,8 @@ imagePullSecrets:
   - name: ghcr-at88mph-science-portal
 
 image:
-  tag: c889adac959f3b0692b86110d35d58b76c08893a
+  repository: at88mph/science-portal
+  tag: 20260511T202355
 
 ingress:
   hosts:
