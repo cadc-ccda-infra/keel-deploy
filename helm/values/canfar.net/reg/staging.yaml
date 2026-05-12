@@ -3,6 +3,8 @@ global:
 
 application:
   serviceEntries:
+    - id: "ivo://canfar.net/staging-src/cavern"
+      url: "https://staging-src.canfar.net/cavern/capabilities"
     - id: "ivo://cadc.nrc.ca/gms"
       url: "https://ws-cadc.canfar.net/ac/capabilities"
     - id: "ivo://cadc.nrc.ca/skaha"
