@@ -12,8 +12,8 @@ deployment:
     sessions:
       hostname: workloads.canfar.net
       namespace:
-        create: true
-        name: canfar-src-workloads-staging
+        create: false
+        name: canfar-workloads
 
       gpuEnabled: true
 
@@ -29,21 +29,9 @@ deployment:
 
       limitRange:
         enabled: true
+        create: false
         rbac:
           create: true
-        spec:
-          max:
-            memory: "64Gi"
-            cpu: "8"
-            nvidia.com/gpu: "2"
-          default:
-            memory: "8Gi"
-            cpu: "2"
-            nvidia.com/gpu: "0"
-          defaultRequest:
-            memory: "4Gi"
-            cpu: "1"
-            nvidia.com/gpu: "0"
 
 serviceAccount:
   create: true
