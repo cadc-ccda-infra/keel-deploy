@@ -4,6 +4,16 @@ deployment:
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/staging-src/cavern"
 
+    uws:
+      db:
+        install: false
+        maxActive: 6
+        url: "jdbc:postgresql://quokka.canfar.net:8601/arcdb"
+        auth:
+          existingSecret: cavern-uws-db-auth
+        # Postgres User default in the postgres:13 image
+        runUID: 999
+
 storage:
   service:
     spec:

@@ -35,12 +35,6 @@ deployment:
         uid: 25660
         gid: 25660
 
-    uws:
-      db:
-        install: true
-        schema: uws
-        maxActive: 2
-
     resources:
       requests:
         memory: "1Gi"
