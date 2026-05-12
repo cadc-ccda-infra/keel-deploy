@@ -9,6 +9,10 @@ deployment:
     image: images-rc.canfar.net/skaha-system/skaha:1.3.0-20260512T144159
     registryHosts: "images-rc.canfar.net"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
+
+    registryURL:
+      - "https://staging.canfar.net/reg"
+
     sessions:
       hostname: workloads.canfar.net
       namespace:
