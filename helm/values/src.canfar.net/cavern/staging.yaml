@@ -18,4 +18,4 @@ storage:
   service:
     spec:
       persistentVolumeClaim:
-        claimName: canfar-src-workloads-cavern-pvc
+        claimName: canfar-src-staging-cavern-pvc

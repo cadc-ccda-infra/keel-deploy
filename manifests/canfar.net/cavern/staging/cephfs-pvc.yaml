@@ -11,4 +11,4 @@ spec:
       storage: 1000Gi
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: cephfs-static-pv
+  volumeName: cephfs-legacy-canfar-pv
