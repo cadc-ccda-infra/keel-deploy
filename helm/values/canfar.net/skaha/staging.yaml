@@ -54,8 +54,8 @@ deployment:
             cpu: "16"
             nvidia.com/gpu: "8"
           default: # actually refers to default limits
-            memory: "24Gi"
-            cpu: "4"
+            memory: "32Gi"
+            cpu: "16"
             nvidia.com/gpu: "0"
           defaultRequest: # default requests
             memory: "4Gi"
