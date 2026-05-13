@@ -161,7 +161,7 @@ experimentalFeatures:
   enabled: false
 
 # Optional science-platform Metrics API (same Helm release as Skaha).
-# Kueue alignment: ClusterQueues `cadc` and `ska`, cohort `canfar` — see
+# Kueue alignment: ClusterQueues `cadc` and `ska` — see
 # keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.cadc.yml,
 # keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.ska.yml, and
 # keel-deploy/helm/values/canfar.net/kueue/controller/controller.config.yml
@@ -171,7 +171,7 @@ experimentalFeatures:
 metricsBackend:
   enabled: true
   image:
-    tag: v0.1.4
+    tag: v0.1.5
   env:
     METRICS_ENVIRONMENT: "staging"
     METRICS_CLUSTER_NAME: "canfar"
@@ -183,7 +183,6 @@ metricsBackend:
     METRICS_PROVIDERS__KUEUE__KUBE_API_URL: "https://kubernetes.default.svc"
     METRICS_PROVIDERS__KUEUE__KUBE_VERIFY_TLS: "true"
     METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","ska"]'
-    METRICS_PROVIDERS__KUEUE__COHORT: "canfar"
     METRICS_PROVIDERS__KUEUE__TOKEN_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/token"
     METRICS_PROVIDERS__KUEUE__CA_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
