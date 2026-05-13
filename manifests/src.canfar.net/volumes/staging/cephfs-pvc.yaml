@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: canfar-src-cavern-pvc
+  namespace: canfar-src-staging
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: cephfs-legacy-src-staging-cavern-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: canfar-workloads-src-pvc
+  namespace: canfar-workloads
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: cephfs-legacy-workloads-src-pv
