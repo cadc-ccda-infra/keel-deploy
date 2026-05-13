@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  tag: c889adac959f3b0692b86110d35d58b76c08893a
+  tag: 58b6015a808146aecc21521230da1dbc1e893b5b
   pullPolicy: Always
 
 ingress:
