@@ -32,8 +32,8 @@ deployment:
       rootOwner:
         adminUsername: "canfarops"
         username: "canfarops"
-        uid: 25660
-        gid: 25660
+        uid: 10023
+        gid: 25560
 
     resources:
       requests:
