@@ -170,6 +170,8 @@ experimentalFeatures:
 # METRICS_ENVIRONMENT is set per Argo overlay (staging.yaml, integration.yaml, prod.yaml) to match the deployment hostname tier.
 metricsBackend:
   enabled: true
+  rbac:
+    enabled: false
   image:
     tag: v0.1.5
   env:
