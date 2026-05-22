@@ -1,9 +1,17 @@
 deployment:
   hostname: staging-src.canfar.net
   cavern:
+    image: images-rc.canfar.net/skaha-system/cavern:0.9.4-20260522T203716
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/staging-src/cavern"
 
+    allocations:
+      authorization:
+        # permissionsAPI:
+          # -- Required when enabled is true (Helm validates).
+          # baseURL: "https://permissions.srcnet.skao.int/api"
+          # authAPIBaseURL: "https://authn.srcnet.skao.int/api"
+  
     uws:
       db:
         install: false

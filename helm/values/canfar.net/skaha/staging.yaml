@@ -15,7 +15,7 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
-    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-20260514T204833
+    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-20260522T201541
     registryURL:
       - https://staging.canfar.net/reg
 
@@ -23,6 +23,11 @@ deployment:
       hostname: workloads.canfar.net
       namespace: canfar-workloads
       userStorage:
+        admin:
+          auth:
+            certificateSecret:
+              name: cavern-admin-certificate
+              key: cadcproxy.pem
         spec:
           cephfs:
             monitors:

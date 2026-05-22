@@ -6,7 +6,7 @@ metricsBackend:
 deployment:
   hostname: staging-src.canfar.net
   skaha:
-    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-20260514T204833
+    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-20260522T201541
     registryHosts: "images-rc.canfar.net"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
 
@@ -36,6 +36,20 @@ deployment:
         create: false
         rbac:
           create: true
+
+      authorization:
+        permissionsAPI:
+          # @see https://permissions.srcnet.skao.int/api/openapi.json for the API specification.
+          # -- When true, SKAHA_PERMISSIONS_API_*_ENABLED is set from baseURL, type, route, name, version, and method. Required baseURL when enabled (Helm validates). The Skaha service enforces mutually exclusive authorization modes at runtime.
+          enabled: true
+          # -- Required when enabled is true (Helm validates).
+          baseURL: "https://permissions.srcnet.skao.int/api"
+          authAPIBaseURL: "https://authn.srcnet.skao.int/api"
+          type: "route"
+          route: "/data/list"
+          name: "data-management-api"
+          version: "1"
+          method: "GET"
 
 serviceAccount:
   create: true
