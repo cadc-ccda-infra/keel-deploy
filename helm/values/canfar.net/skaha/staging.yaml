@@ -21,7 +21,9 @@ deployment:
 
     sessions:
       hostname: workloads.canfar.net
-      namespace: canfar-workloads
+      namespace: 
+        name: canfar-workloads
+        create: true
       userStorage:
         admin:
           auth:
