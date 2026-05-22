@@ -28,7 +28,7 @@ deployment:
         admin:
           auth:
             certificateSecret:
-              name: cavern-admin-certificate
+              name: canfarops-clientcert
               key: cadcproxy.pem
         spec:
           cephfs:
