@@ -1,11 +1,6 @@
 imagePullSecrets:
   - name: ghcr-at88mph-science-portal
 
-image:
-  repository: images.opencadc.org/platform/science-portal
-  tag: v2.0.0-rc-002
-  pullPolicy: Always
-
 ingress:
   hosts:
     - host: staging.canfar.net

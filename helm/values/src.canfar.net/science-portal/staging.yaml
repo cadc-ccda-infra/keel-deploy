@@ -4,10 +4,6 @@
 
 replicaCount: 1
 
-image:
-  tag: dfa45c517fa297b88aaff3149a258252da8c2e29
-  pullPolicy: Always
-
 ingress:
   enabled: true
   hosts:
