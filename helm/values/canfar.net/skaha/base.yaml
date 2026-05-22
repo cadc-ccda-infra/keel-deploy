@@ -123,11 +123,6 @@ deployment:
 
         nodeURIPrefix: "vos://cadc.nrc.ca~arc"
         serviceURI: "ivo://cadc.nrc.ca/arc"
-        admin:
-          auth:
-            apiKeySecret:
-              name: skaha-api-key
-              key: api-key
 
     # Resources provided to the Skaha service.
     resources:
