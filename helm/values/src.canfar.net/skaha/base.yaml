@@ -90,9 +90,6 @@ deployment:
             claimName: canfar-workloads-cavern-pvc
         nodeURIPrefix: "vos://canfar.net~staging-src~cavern"
         serviceURI: "ivo://canfar.net/staging-src/cavern"
-        admin:
-          auth:
-            apiKey: "iF78T4NF8QrTNQmQJ6/1rBuMVSllWVuuz190HJpFb5Q="
 
       extraVolumes:
         - name: cvmfs
