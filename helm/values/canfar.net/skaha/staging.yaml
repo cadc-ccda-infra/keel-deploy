@@ -4,6 +4,8 @@ replicaCount: 3
 
 metricsBackend:
   enabled: true
+  rbac:
+    enabled: false
   env:
     METRICS_ENVIRONMENT: "staging"
 

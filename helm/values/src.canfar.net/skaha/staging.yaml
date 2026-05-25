@@ -1,5 +1,7 @@
 metricsBackend:
   enabled: false
+  rbac:
+    enabled: false
   env:
     METRICS_ENVIRONMENT: "staging"
 
