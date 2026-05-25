@@ -4,7 +4,7 @@ deployment:
   hostname: staging.canfar.net
 
   cavern:
-    image: images-rc.canfar.net/skaha-system/cavern:0.9.4-20260522T203716
+    image: images-rc.canfar.net/skaha-system/cavern:0.9.4-20260523T030950
     imagePullPolicy: Always
     registryURL: https://staging.canfar.net/reg
 
