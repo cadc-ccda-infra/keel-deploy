@@ -10,7 +10,7 @@ deployment:
           # -- Required when enabled is true (Helm validates).
           # baseURL: "https://permissions.srcnet.skao.int/api"
           # authAPIBaseURL: "https://authn.srcnet.skao.int/api"
-  
+
     uws:
       db:
         install: false
