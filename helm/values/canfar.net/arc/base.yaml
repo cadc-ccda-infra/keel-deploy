@@ -48,6 +48,9 @@ deployment:
       # Example:
       #   defaultSizeGB: 25.5
       defaultSizeGB: 200
+      authorization:
+        groupURIs:
+          - "ivo://cadc.nrc.ca/gms?skaha-users"
 
     filesystem:
       # persistent data directory in container

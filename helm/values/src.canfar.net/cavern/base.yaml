@@ -7,7 +7,6 @@ replicaCount: 1
 
 deployment:
   cavern:
-    image: images.opencadc.org/platform/cavern:0.9.3
     imagePullPolicy: Always
 
     resourceID: "ivo://canfar.net/src/cavern"
@@ -20,11 +19,12 @@ deployment:
 
     gmsID: ivo://skao.int/gms
 
-    adminAPIKeys:
-      skaha: "iF78T4NF8QrTNQmQJ6/1rBuMVSllWVuuz190HJpFb5Q="
-
     allocations:
       defaultSizeGB: 200
+      authorization:
+        permissionsAPI:
+          baseURL: "https://permissions.srcnet.skao.int/api"
+          authAPIBaseURL: "https://authn.srcnet.skao.int/api"
 
     filesystem:
       dataDir: "/data"
