@@ -43,9 +43,6 @@ deployment:
               - key: nvidia.com/gpu.count
                 operator: DoesNotExist
 
-    # Used when allocating first-time users into the system.
-    defaultQuotaGB: "200"
-
     # Space delimited list of allowed Image Registry hosts.  These hosts should match the hosts in the User Session images.
     registryHosts: "images.canfar.net"
 
