@@ -38,7 +38,7 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
-    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-rc.9
+    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-rc.13
     registryURL:
       - https://staging.canfar.net/reg
 
@@ -70,20 +70,24 @@ deployment:
           queueName: "cadc-default"
           priorityClass: "low"
 
+      # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
       limitRange:
         enabled: true
         rbac:
           create: true
         spec:
-          max: # maximum allowed requested
+          # -- max is the maximum allowed requested for 'fixed' User Sessions.
+          max:
             memory: "192Gi"
             cpu: "16"
             nvidia.com/gpu: "8"
-          default: # actually refers to default limits
+          # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
+          default:
             memory: "32Gi"
             cpu: "16"
             nvidia.com/gpu: "0"
-          defaultRequest: # default requests
+          # -- defaultRequest is the default requests for 'flex' User Sessions.  All flex sessions will start with this request.
+          defaultRequest:
             memory: "4Gi"
             cpu: "1"
             nvidia.com/gpu: "0"
