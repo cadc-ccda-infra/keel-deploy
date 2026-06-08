@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: images.opencadc.org/platform/science-portal
-  tag: 2.0.0-rc.12
+  tag: 2.0.0-rc.13
 
 ingress:
   enabled: true

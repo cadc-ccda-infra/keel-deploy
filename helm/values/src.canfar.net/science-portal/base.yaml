@@ -60,6 +60,10 @@ podDisruptionBudget:
 networkPolicy:
   enabled: false
 
+app:
+  basePath: "/science-portal"
+  useCanfar: false
+
 ingress:
   enabled: true
   className: traefik
