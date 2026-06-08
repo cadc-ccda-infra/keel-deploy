@@ -46,8 +46,6 @@ deployment:
 
     defaultQuotaGB: "100"
 
-    usersGroup: "ivo://skao.int/gms?roles/prod/user"
-    adminsGroup: "ivo://skao.int/gms?roles/prod/user"
     headlessGroup: "ivo://skao.int/gms?roles/prod/user"
     headlessPriorityGroup: "ivo://skao.int/gms?roles/prod/user"
     headlessPriorityClass: "uber-user-preempt-high"
