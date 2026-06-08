@@ -8,7 +8,7 @@ metricsBackend:
 deployment:
   hostname: staging-src.canfar.net
   skaha:
-    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-rc.13
+    image: images-rc.canfar.net/skaha-system/skaha:1.3.0-rc.14
     registryHosts: "images.canfar.net"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
 
@@ -47,11 +47,8 @@ deployment:
           # -- Required when enabled is true (Helm validates).
           baseURL: "https://permissions.srcnet.skao.int/api"
           authAPIBaseURL: "https://authn.srcnet.skao.int/api"
-          type: "route"
-          route: "/data/list"
-          name: "data-management-api"
+          name: "canfar-api"
           version: "1"
-          method: "GET"
 
 serviceAccount:
   create: true
