@@ -11,6 +11,13 @@ kubernetesClusterDomain: keel-prod.local
 # Arc web service deployment
 deployment:
   cavern:
+    cookieSignaturePublicKey:
+      existingSecret:
+        # Secret name (release namespace).
+        name: canfar-skaha-staging-cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
+
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 50
