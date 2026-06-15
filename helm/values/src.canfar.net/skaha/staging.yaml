@@ -15,7 +15,7 @@ deployment:
       - "https://staging.canfar.net/reg"
 
     sessions:
-      hostname: workloads-src.canfar.net
+      hostname: workloads.canfar.net
       namespace:
         create: true
         name: canfar-src-workloads
