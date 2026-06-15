@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-kueue-staging-src
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: kueue
+spec:
+  project: canfar
+  source:
+    # NOTE: Full Kueue controller/ClusterQueue reconciliation is managed by a
+    # ClusterOperator-controlled Argo CD application outside this repo-visible
+    # control plane. This app intentionally syncs only CADC LocalQueues here.
+    repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+    targetRevision: main
+    path: helm/values/src.canfar.net/kueue
+    directory:
+      recurse: true
+      include: '{localQueues/prod.ska.yml}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-src-workloads
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

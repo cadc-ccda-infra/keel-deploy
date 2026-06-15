@@ -10,7 +10,7 @@ spec:
     matchExpressions:
       - key: kubernetes.io/metadata.name
         operator: In
-        values: [canfar-workloads]
+        values: [canfar-src-workloads]
   queueingStrategy: BestEffortFIFO
   cohortName: canfar
   admissionScope:
