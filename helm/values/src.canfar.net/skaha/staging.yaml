@@ -15,10 +15,10 @@ deployment:
       - "https://staging.canfar.net/reg"
 
     sessions:
-      hostname: workloads.canfar.net
+      hostname: workloads-src.canfar.net
       namespace:
-        create: false
-        name: canfar-workloads
+        create: true
+        name: canfar-src-workloads
 
       gpuEnabled: true
 
@@ -32,11 +32,27 @@ deployment:
           queueName: "cadc-default"
           priorityClass: "low"
 
+      # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
       limitRange:
         enabled: true
-        create: false
         rbac:
           create: true
+        spec:
+          # -- max is the maximum allowed requested for 'fixed' User Sessions.
+          max:
+            memory: "384Gi"
+            cpu: "16"
+            nvidia.com/gpu: "8"
+          # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
+          default:
+            memory: "32Gi"
+            cpu: "16"
+            nvidia.com/gpu: "0"
+          # -- defaultRequest is the default requests for 'flex' User Sessions.  All flex sessions will start with this request.
+          defaultRequest:
+            memory: "4Gi"
+            cpu: "1"
+            nvidia.com/gpu: "0"
 
       authorization:
         permissionsAPI:
