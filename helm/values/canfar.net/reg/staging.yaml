@@ -14,7 +14,7 @@ application:
     - id: "ivo://cadc.nrc.ca/arc"
       url: "https://staging.canfar.net/arc/capabilities"
     - id: "ivo://cadc.nrc.ca/vault"
-      url: "https://ws-cadc.canfar.net/vault/capabilities"
+      url: "https://cadc-west-01.canfar.net/vault/capabilities"
     - id: "ivo://cadc.nrc.ca/cred"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/cred/capabilities"
   userInterfaceEntries:
