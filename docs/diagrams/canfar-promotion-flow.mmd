@@ -1,0 +1,8 @@
+flowchart LR
+  RCBuild[RC build] --> Harbor[Harbor -rc.N]
+  Harbor --> StagingNS[canfar-system-staging]
+  StagingNS --> Validation[Staging validation]
+  Validation --> ProdReview[Manual promotion]
+  ProdReview --> ProdNS[canfar-system]
+  GARelease[GA release] --> HarborGA[Harbor semver]
+  HarborGA --> ProdNS

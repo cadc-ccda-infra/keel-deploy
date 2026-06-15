@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant Dev as Developer
+  participant SvcRepo as CANFAR service repo CI
+  participant Harbor as Harbor
+  participant Auto as RC deploy automation
+  participant KeelDeploy as keel-deploy
+  participant Argo as Argo CD
+  participant Staging as canfar-system-staging
+
+  Dev->>SvcRepo: Merge RC branch / tag
+  SvcRepo->>Harbor: Publish chart/image with -rc.N tag
+  Harbor->>Auto: Webhook or poll on new RC artifact
+  Auto->>KeelDeploy: PR or bot commit bumps staging targetRevision/image.tag
+  KeelDeploy->>Argo: Merge to main
+  Argo->>Staging: Sync canfar.net staging Applications
