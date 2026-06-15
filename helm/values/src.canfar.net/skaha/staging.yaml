@@ -26,10 +26,10 @@ deployment:
         rbac:
           create: true
         default:
-          queueName: "cadc-default"
+          queueName: "ska-default"
           priorityClass: "high"
         headless:
-          queueName: "cadc-default"
+          queueName: "ska-default"
           priorityClass: "low"
 
       # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
