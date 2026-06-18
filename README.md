@@ -173,4 +173,7 @@ If you added a **new** domain folder under `argocd/applications/`, you must also
 
 ## Further detail
 
+- **Helm values layout:** [`helm/values/README.md`](helm/values/README.md)
+- **canSRC (SRCNet) deployment:** [`argocd/applications/src.canfar.net/README.md`](argocd/applications/src.canfar.net/README.md) and [`helm/values/src.canfar.net/README.md`](helm/values/src.canfar.net/README.md)
+
 Design decisions and alternatives (ApplicationSet, branch-per-env, etc.) are captured in the project planning notes used when this layout was introduced; extend this README when your team settles conventions (naming, projects, sync policies).
