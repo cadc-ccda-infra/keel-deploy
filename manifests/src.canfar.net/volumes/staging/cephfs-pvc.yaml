@@ -16,8 +16,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: canfar-workloads-src-pvc
-  namespace: canfar-workloads
+  name: canfar-src-workloads-pvc
+  namespace: canfar-src-workloads
 spec:
   accessModes:
   - ReadWriteMany
