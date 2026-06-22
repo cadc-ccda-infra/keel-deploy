@@ -1,0 +1,53 @@
+global:
+  gmsID: "ivo://cadc.nrc.ca/gms"
+  cdpID: "ivo://cadc.nrc.ca/cred"
+  posixMapperID: "ivo://cadc.nrc.ca/gms"
+  hostname: "sandbox.kawfee.ca"
+  registryURL: "https://sandbox.kawfee.ca/reg"
+  cookieSignaturePublicKey:
+    existingSecret:
+      # Secret name (release namespace).
+      name: cadc-sandbox-cookie-signature-public-key
+      # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+      path: RsaSignaturePub.key
+
+application:
+  uws:
+    maxActive: 2
+    url: jdbc:postgresql://kawfee-kubernetes-persistence:45432/caom2
+    username: caom2
+    password: caom2pw
+  query:
+    maxActive: 3
+    url: jdbc:postgresql://kawfee-kubernetes-persistence:45432/caom2
+    username: caom2
+    password: caom2pw
+  tapadm:
+    maxActive: 3
+    url: jdbc:postgresql://kawfee-kubernetes-persistence:45432/caom2
+    username: caom2
+    password: caom2pw
+  materializedViews:
+    enabled: false
+
+podLabels:
+  app.kubernetes.io/part-of: kawfee-sandbox
+
+httpRoute:
+  # HTTPRoute enabled.
+  enabled: true
+  # Which Gateways this Route is attached to.
+  parentRefs:
+  - name: kawfee-gateway
+    sectionName: websecure
+    kind: Gateway
+    namespace: traefik
+  # Hostnames matching HTTP header.
+  hostnames:
+  - "sandbox.kawfee.ca"
+  # List of rules and filters applied.
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /argus

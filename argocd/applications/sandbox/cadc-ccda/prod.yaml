@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sandbox-cadc-ccda
+  namespace: cadc-sandbox
+  labels:
+    argocd.argoproj.io/domain: sc2.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: cadc-ccda
+spec:
+  project: cadc
+  sources:
+    - repoURL: https://images-rc.canfar.net/chartrepo/library
+      chart: cadc-ccda
+      targetRevision: 1.0.0-rc.1
+      helm:
+        valueFiles:
+          - $values/helm/values/sandbox/cadc-ccda/base.yaml
+          - $values/helm/values/sandbox/cadc-ccda/prod.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cadc-sandbox
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

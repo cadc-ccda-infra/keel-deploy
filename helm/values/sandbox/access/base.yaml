@@ -1,0 +1,71 @@
+# Shared defaults for access (align with chart values.yaml:
+# opencadc/deployments/helm/applications/access/values.yaml).
+#
+# RSA keys: pre-create a Secret named below with keys RsaSignaturePub.key (PEM).
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+replicaCount: 1
+
+livenessProbe:
+  httpGet:
+    path: /access/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /access/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+# image.repository / image.tag / image.pullPolicy: use the chart's values.yaml (released with each chart version).
+# Override these values in the environment-specific values.yaml files, unless a different image is needed more globally.
+
+resources:
+  requests:
+    memory: "500M"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "750m"
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference: 
+        matchExpressions:
+        - key: skaha.opencadc.org/node-type
+          operator: In
+          values:
+          - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nvidia.com/gpu.count
+          operator: DoesNotExist

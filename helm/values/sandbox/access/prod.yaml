@@ -1,0 +1,7 @@
+ingress:
+  hosts:
+    - host: sc2.canfar.net
+      paths:
+        - path: /access
+          pathType: Prefix
+
