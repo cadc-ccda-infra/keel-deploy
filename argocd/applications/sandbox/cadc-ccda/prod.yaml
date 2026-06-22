@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://images-rc.canfar.net/chartrepo/library
       chart: cadc-ccda
-      targetRevision: 1.0.0-rc.1
+      targetRevision: 1.0.0-rc.2
       helm:
         valueFiles:
           - $values/helm/values/sandbox/cadc-ccda/base.yaml
