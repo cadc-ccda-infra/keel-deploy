@@ -1,0 +1,44 @@
+global:
+  gmsID: "ivo://cadc.nrc.ca/gms"
+  cdpID: "ivo://cadc.nrc.ca/cred"
+  posixMapperID: "ivo://cadc.nrc.ca/gms"
+  hostname: "sandbox.kawfee.ca"
+  registryURL: "https://sandbox.kawfee.ca/reg"
+  cookieSignaturePublicKey:
+    existingSecret:
+      # Secret name (release namespace).
+      name: cadc-sandbox-cookie-signature-public-key
+      # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+      path: RsaSignaturePub.key
+
+application:
+  uws:
+    maxActive: 2
+    url: jdbc:postgresql://quokka.canfar.net:5432/caom2
+    username: caom2
+    password: caom2pw
+  query:
+    maxActive: 3
+    url: jdbc:postgresql://quokka.canfar.net:5432/caom2
+    username: caom2
+    password: caom2pw
+  tapadm:
+    maxActive: 3
+    url: jdbc:postgresql://quokka.canfar.net:5432/caom2
+    username: caom2
+    password: caom2pw
+  materializedViews:
+    enabled: false
+
+podLabels:
+  app.kubernetes.io/part-of: sandbox
+
+ingress:
+  enabled: true
+  className: "traefik"
+  hosts:
+    - host: sc2.canfar.net
+      paths:
+        - path: /argus
+          pathType: Prefix
+  tls: []
