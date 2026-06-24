@@ -31,7 +31,7 @@ metricsBackend:
     METRICS_PROVIDERS__KUEUE__CA_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
 autoscaling:
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 3
 
 deployment:
