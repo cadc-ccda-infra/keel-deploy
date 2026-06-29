@@ -315,7 +315,7 @@ application:
     - id: "ivo://cadc.nrc.ca/meetings"
       url: "https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/meetings/capabilities"
 
-  # Derived from IVOA Registry (reg) user interface entries in the reg-application.properties file.
+  # Derived from IVOA Registry (reg) user interface entries in the reg-applications.properties file.
   applicationEntries:
     - id: "ivo://cadc.nrc.ca/passchg"
       url: "https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/auth/resetPassword.html"
