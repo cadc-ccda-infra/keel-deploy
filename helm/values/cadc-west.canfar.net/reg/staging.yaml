@@ -5,7 +5,7 @@ application:
   # Derived from IVOA Registry (reg) service entries in the reg-resource-caps.properties file.
   serviceEntries:
     - id: "ivo://cadc.nrc.ca/reg"
-      url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/capabilities"
+      url: "https://staging-cadc-west-01.canfar.net/reg/capabilities"
     - id: "ivo://cadc.nrc.ca/cadc/minoc"
       url: "https://ws-cadc.canfar.net/minoc/capabilities"
     - id: "ivo://cadc.nrc.ca/cadc/luskan"
