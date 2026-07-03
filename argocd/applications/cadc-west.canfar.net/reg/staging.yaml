@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cadc-reg
+  name: cadc-reg-staging
   namespace: cadc-argocd
   labels:
-    argocd.argoproj.io/domain: cadc-west-01.canfar.net
-    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/domain: staging-cadc-west-01.canfar.net
+    argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: reg
 spec:
   project: cadc
@@ -16,13 +16,13 @@ spec:
       helm:
         valueFiles:
           - $values/helm/values/cadc-west.canfar.net/reg/base.yaml
-          - $values/helm/values/cadc-west.canfar.net/reg/prod.yaml
+          - $values/helm/values/cadc-west.canfar.net/reg/staging.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: cadc-system
+    namespace: cadc-system-staging
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

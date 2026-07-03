@@ -338,7 +338,7 @@ application:
 
 ingress:
   hosts:
-    - host: cadc-west-1.canfar.net
+    - host: cadc-west-01.canfar.net
       paths:
         - path: /reg
           pathType: Prefix
