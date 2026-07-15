@@ -3,6 +3,9 @@ kubernetesClusterDomain: keel-prod.local
 replicaCount: 3
 
 # Optional science-platform Metrics API (same Helm release as Skaha).
+# When enabled, the chart injects SKAHA_METRICS_BACKEND_URL on Tomcat so
+# GET /v1/session?view=stats (platform stats) reads capacity/allocated from
+# Metrics GET /api/v1/metrics/platform — not from node listing.
 # Kueue alignment: ClusterQueues `cadc` and `ska` — see
 # keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.cadc.yml,
 # keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.ska.yml, and
@@ -10,6 +13,11 @@ replicaCount: 3
 # (METRICS_* names follow science-platform/metrics docs/environment-contracts.md).
 # METRICS_REDIS_URL is injected by the Skaha chart from this release's Bitnami Redis when metricsBackend.redis.enabled is true.
 # METRICS_ENVIRONMENT is set per Argo overlay (staging.yaml, integration.yaml, prod.yaml) to match the deployment hostname tier.
+#
+# Capsule on keel-prod forbids chart-managed ClusterRole/ClusterRoleBinding
+# (create dry-run → Forbidden via capsule-proxy). Keep rbac.enabled false; do
+# not flip it. ClusterQueue get/list for SA canfar-skaha-staging is ambient /
+# pre-provisioned outside this release (track under Jira "Managed K8s Issues").
 metricsBackend:
   enabled: true
   rbac:
@@ -23,7 +31,13 @@ metricsBackend:
     METRICS_CACHE__BACKEND: "redis"
     METRICS_CACHE__TTL_SECONDS: "300"
     METRICS_CACHE__SCOPE_TTL_SECONDS: '{"platform":300}'
-    METRICS_OTEL_METRICS_ENABLED: "false"
+    # Chart telemetry.metrics must stay false; wire Metrics OTEL via env.
+    # Prometheus 3.x OTLP receiver (verified from canfar-system-staging):
+    # classic :4318 is not open; use :9090/api/v1/otlp/v1/metrics.
+    METRICS_OTEL_METRICS_ENABLED: "true"
+    METRICS_OTEL_SERVICE_NAME: "skaha-metrics"
+    METRICS_OTEL_EXPORTER_OTLP_ENDPOINT: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp/v1/metrics"
+    METRICS_OTEL_EXPORT_INTERVAL_MILLIS: "60000"
     METRICS_PROVIDERS__KUEUE__KUBE_API_URL: "https://kubernetes.default.svc"
     METRICS_PROVIDERS__KUEUE__KUBE_VERIFY_TLS: "true"
     METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","ska"]'
@@ -101,9 +115,9 @@ rbac:
   # Whether to create RBAC roles and bindings for Skaha.  Defaults to true.
   create: true
 
-  # Whether to create a ClusterRole with read-only permissions for Skaha to query Nodes for their capacity.
-  # This is used to provide information to the Science Portal UI about available resources in the cluster.
-  # A simple node: list permission is granted, but this does require elevated privileges, so it is optional and defaults to false.
+  # Node-capacity ClusterRole is unused for platform stats (Metrics backend owns
+  # cluster totals). Capsule also cannot create cluster-scoped roles here.
+  # Keep false; do not re-enable for stats.
   clusterRole:
     create: false
 
