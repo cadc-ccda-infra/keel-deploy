@@ -17,8 +17,7 @@ replicaCount: 3
 # Capsule on keel-prod forbids chart-managed ClusterRole/ClusterRoleBinding
 # (create dry-run → Forbidden via capsule-proxy). Keep rbac.enabled false; do
 # not flip it. ClusterQueue get/list for SA canfar-skaha-staging is ambient /
-# pre-provisioned outside this release — see
-# docs/issues/staging-skaha-metrics-otel-rbac.md.
+# pre-provisioned outside this release (track under Jira "Managed K8s Issues").
 metricsBackend:
   enabled: true
   rbac:
