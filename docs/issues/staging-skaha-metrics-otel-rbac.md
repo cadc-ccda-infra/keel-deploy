@@ -15,7 +15,7 @@ Enable Metrics OpenTelemetry export on `staging.canfar.net`, keep Skaha platform
 | Prometheus | `3.12.0`, Ready on `:9090` |
 | Flag | `web.enable-otlp-receiver=true` |
 | Classic OTLP ports `:4317`/`:4318` on `prometheus-operated` / `alloy` | Not usable (connection refused / timeout) |
-| Working OTLP HTTP metrics URL | `http://prometheus-operated.monitoring.svc.keel-prod.local:9090/api/v1/otlp/v1/metrics` |
+| Working OTLP HTTP metrics URL | `http://prometheus-operated.monitoring.svc:9090/api/v1/otlp/v1/metrics` (`prometheus.monitoring…` does not resolve; FQDN with `.keel-prod.local` also works) |
 | Chart `telemetry.metrics` | Must stay `false` (chart fails if true); use `metricsBackend.env` `METRICS_OTEL_*` |
 
 Probe: invalid protobuf → HTTP 400 from that path; valid `OTLPMetricExporter` `force_flush` → success.

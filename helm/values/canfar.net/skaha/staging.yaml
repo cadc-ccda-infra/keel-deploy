@@ -37,7 +37,7 @@ metricsBackend:
     # classic :4318 is not open; use :9090/api/v1/otlp/v1/metrics.
     METRICS_OTEL_METRICS_ENABLED: "true"
     METRICS_OTEL_SERVICE_NAME: "skaha-metrics"
-    METRICS_OTEL_EXPORTER_OTLP_ENDPOINT: "http://prometheus-operated.monitoring.svc.keel-prod.local:9090/api/v1/otlp/v1/metrics"
+    METRICS_OTEL_EXPORTER_OTLP_ENDPOINT: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp/v1/metrics"
     METRICS_OTEL_EXPORT_INTERVAL_MILLIS: "60000"
     METRICS_PROVIDERS__KUEUE__KUBE_API_URL: "https://kubernetes.default.svc"
     METRICS_PROVIDERS__KUEUE__KUBE_VERIFY_TLS: "true"
