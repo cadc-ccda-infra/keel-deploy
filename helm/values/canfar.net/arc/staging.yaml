@@ -4,6 +4,7 @@ deployment:
   hostname: staging.canfar.net
 
   cavern:
+    image: images.opencadc.org/platform/cavern:0.10.2
     imagePullPolicy: Always
     registryURL: https://staging.canfar.net/reg
 
