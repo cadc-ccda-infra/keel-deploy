@@ -1,0 +1,14 @@
+# Production overlays for SKA SODA on src.canfar.net (namespace canfar-cansrc).
+
+image:
+  repository: registry.gitlab.com/ska-telescope/src/src-ia/ska-src-ia-vo-soda-deployment/visivo-vlkb-soda
+  tag: 1.6.2
+  pullPolicy: IfNotPresent
+
+persistence:
+  relativeSubPath: datasets
+  existingClaim: xrootd-pvc
+  existingClaimMountOptions:
+    readOnly: false
+    subPath: data/dev/deterministic
+  accessMode: ReadOnlyMany

@@ -1,0 +1,110 @@
+# Shared defaults for SKA Prepare Data (dpapi) vendored chart 0.2.1.
+# Production overlays: prod.yaml. No staging environment for SKA bundle services.
+
+global:
+  minikube: false
+  retry:
+    - "--tries=10"
+    - "--sleep=5"
+
+labels:
+  app: dpapi
+
+annotations:
+  app.gitlab.com/app: CI_PROJECT_PATH_SLUG
+  app.gitlab.com/env: CI_ENVIRONMENT_SLUG
+
+celeryWorker:
+  serviceAccount:
+    create: false
+    name: "skaha"
+
+  podSecurityContext:
+    runAsUser: 92145
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    runAsUser: 92145
+    runAsGroup: 92145
+    runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+  nodeSelector: {}
+
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values: ["core", "celery-worker"]
+          topologyKey: kubernetes.io/hostname
+
+service:
+  type: NodePort
+  port: 8000
+
+rabbitmqService:
+  port: 5672
+  managementPort: 15672
+  domain: keel-prod.local
+  type: NodePort
+
+  serviceAccount:
+    create: false
+    name: "skaha"
+
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+  nodeSelector: {}
+  affinity: {}
+
+serviceAccount:
+  create: false
+  automount: false
+  annotations: {}
+  name: "skaha"
+
+podSecurityContext:
+  fsGroup: 92145
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 92145
+  runAsGroup: 92145
+  privileged: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+nodeSelector: {}
+
+affinity:
+  podAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app
+              operator: In
+              values: ["core", "celery-worker"]
+        topologyKey: kubernetes.io/hostname

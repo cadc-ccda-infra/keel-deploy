@@ -1,0 +1,52 @@
+# Shared defaults for SKA SRCNet Gatekeeper (vendored chart 0.3.2).
+# Production overlays: prod.yaml. No staging environment for SKA bundle services.
+
+echo:
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+  serviceAccount:
+    create: false
+    name: "skaha"
+
+  namespace:
+    create: false
+
+gatekeeper:
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 10010
+    fsGroup: 10010
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+  ingress:
+    enabled: false
+
+  permissions:
+    pluginAuthzEndpoint: https://permissions.srcnet.skao.int/api/v1/authorise/plugin/
+
+  config:
+    iam_token_endpoint: https://ska-iam.stfc.ac.uk/token
+    permissions_api_plugin_authz_endpoint: https://permissions.srcnet.skao.int/api/v1/authorise/plugin/
+    site_capabilities_api_get_service_by_id_endpoint: https://site-capabilities.srcnet.skao.int/api/v1/services/
+    site_capabilities_gatekeeper_client_scopes: site-capabilities-api-service
+    site_capabilities_gatekeeper_client_audience: site-capabilities-api

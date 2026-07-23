@@ -17,7 +17,10 @@ src-canfar-net-apps  (parent Application)
         ├── src-skaha-staging
         ├── src-storage-ui-staging
         ├── src-posix-mapper-staging
-        └── canfar-kueue-staging-src
+        ├── canfar-kueue-staging-src
+        ├── src-gatekeeper-prod
+        ├── src-prepare-data-prod
+        └── src-soda-prod
                 │
                 ▼
         Helm releases + raw manifests in cluster namespaces
@@ -27,6 +30,7 @@ src-canfar-net-apps  (parent Application)
 | ----- | --------- | ------- |
 | Argo CD `Application` CRs | `canfar-argocd` | Parent and child app definitions |
 | Platform services (staging) | `canfar-src-staging` | Cavern, Skaha API, science portal, storage UI, POSIX mapper |
+| SKA bundle (production) | `canfar-cansrc` | Gatekeeper, prepare-data, SODA |
 | Interactive sessions & queues | `canfar-src-workloads` | Skaha user sessions, Kueue `LocalQueue`, session PVC |
 
 Skaha **sessions** are scheduled in `canfar-src-workloads` on host `workloads.canfar.net`, while the Skaha **service** and other web-facing components run in `canfar-src-staging` behind `staging-src.canfar.net`.
@@ -94,6 +98,88 @@ Skaha staging enables the SRCNet permissions API for session authorization (`can
 | POSIX mapper | `staging-src.canfar.net` | `/posix-mapper` |
 
 Production values target `src.canfar.net` with the same path layout.
+
+## SKA bundle (production only)
+
+SKA services (Gatekeeper, prepare-data, and SODA) are **production only** — no staging Application or values overlay. They deploy to namespace **`canfar-cansrc`**, distinct from the platform staging stack in `canfar-src-staging`.
+
+| Application | Chart source | Destination namespace |
+| ----------- | ------------ | --------------------- |
+| `src-gatekeeper-prod` | Vendored Git chart + Traefik Ingress manifests | `canfar-cansrc` |
+| `src-prepare-data-prod` | Vendored Git chart + PVC manifests | `canfar-cansrc` |
+| `src-soda-prod` | Vendored Git chart | `canfar-cansrc` |
+
+### Gatekeeper paths on `src.canfar.net`
+
+| Path | Backend (via Gatekeeper) |
+| ---- | ------------------------ |
+| `/echo` | Echo test service |
+| `/soda` | SODA service |
+| `/preparedata` | Prepare Data (dpapi) service |
+| `/ping` | Gatekeeper health |
+
+### Gatekeeper prerequisites (`canfar-cansrc`)
+
+| Prerequisite | Notes |
+| ------------ | ----- |
+| `site-capabilities-client-credentials` secret | Site capabilities API credentials |
+| `skaha` ServiceAccount | Used by Gatekeeper echo and prepare-data workloads; SODA |
+| SODA service (`ska-src-soda`) | Deployed by `src-soda-prod`; backend for Gatekeeper `/soda`; mounts `xrootd-pvc` |
+| Prepare Data service (`core`) | Deployed by `src-prepare-data-prod`; backend for Gatekeeper `/preparedata` |
+
+### Gatekeeper cutover
+
+1. Ensure secrets, ServiceAccount, and backend services exist in **`canfar-cansrc`** before first sync.
+2. Render and compare manifests locally:
+
+   ```bash
+   helm template gatekeeper helm/charts/src.canfar.net/ska-src-dm-da-service-gatekeeper \
+     -f helm/values/src.canfar.net/gatekeeper/base.yaml \
+     -f helm/values/src.canfar.net/gatekeeper/prod.yaml
+   ```
+
+3. Decommission any manual Helm release in legacy namespace `canfar-b-src` once Argo-managed resources are healthy in `canfar-cansrc`.
+4. Smoke tests:
+   - Echo: `curl -H "authorization: Bearer $TOKEN" "https://src.canfar.net/echo?ID=some-test-value"`
+   - SODA: `curl -H "authorization: Bearer $TOKEN" --get --data-urlencode "ID=ivo://test.skao/datasets/fits?testing/test-file.fits" --data-urlencode "CIRCLE=246.52 -24.33 0.01" --data-urlencode "RESPONSE_FORMAT=application/fits" -o output/soda-cutout.fits https://src.canfar.net/soda/ska/datasets/soda`
+
+### Prepare Data cutover
+
+1. Ensure PVCs bind in **`canfar-cansrc`** before the Helm release syncs (PV label selectors must match). `celery-cache-pvc` is ReadWriteOnce — decommission the legacy claim in `canfar-b-src` before cutover.
+2. Render and compare manifests locally:
+
+   ```bash
+   helm template dpapi helm/charts/src.canfar.net/ska-src-dm-local-data-preparer \
+     -f helm/values/src.canfar.net/prepare-data/base.yaml \
+     -f helm/values/src.canfar.net/prepare-data/prod.yaml
+   ```
+
+   Expect Deployments `core`, `celery-worker`, `rabbitmq` and Services `core` (port 8000), `rabbitmq`.
+3. Decommission manual `dpapi` Helm release in `canfar-b-src` once Argo-managed pods are healthy.
+4. Smoke test via Gatekeeper: `https://src.canfar.net/preparedata/...`
+
+### SODA cutover
+
+1. Ensure `xrootd-pvc` exists in **`canfar-cansrc`** (synced by `src-prepare-data-prod`) before SODA pods start.
+2. Render and compare manifests locally:
+
+   ```bash
+   helm template ska-src-soda helm/charts/src.canfar.net/ska-src-soda \
+     -f helm/values/src.canfar.net/soda/base.yaml \
+     -f helm/values/src.canfar.net/soda/prod.yaml
+   ```
+
+   Expect Deployment and Service `ska-src-soda` on port 8080.
+3. Decommission manual `ska-src-soda` Helm release in `canfar-b-src` once Argo-managed pods are healthy.
+4. Smoke test via Gatekeeper:
+
+   ```bash
+   curl -H "authorization: Bearer $TOKEN" --get \
+     --data-urlencode "ID=ivo://test.skao/datasets/fits?testing/test-file.fits" \
+     --data-urlencode "CIRCLE=246.52 -24.33 0.01" \
+     --data-urlencode "RESPONSE_FORMAT=application/fits" \
+     -o output/soda-cutout.fits https://src.canfar.net/soda/ska/datasets/soda
+   ```
 
 ## Prerequisites outside Argo CD
 

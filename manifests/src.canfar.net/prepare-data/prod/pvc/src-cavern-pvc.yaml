@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: src-cavern-pvc
+  namespace: canfar-cansrc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  selector:
+    matchLabels:
+      storage: canfar-b-src-user-session-storage
+  storageClassName: ""
+  volumeMode: Filesystem

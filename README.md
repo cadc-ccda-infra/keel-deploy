@@ -156,7 +156,7 @@ If you added a **new** domain folder under `argocd/applications/`, you must also
 
 ## Charts (Harbor)
 
-- Chart packages are **not** stored in this repo.
+- Chart packages are **not** stored in this repo, except vendored SKA charts under `helm/charts/src.canfar.net/` (Gatekeeper, prepare-data, and SODA; temporary — see each directory’s README).
 - Each `Application` references Harbor (`repoURL`, `chart`, `targetRevision` for OCI, or your registered Helm repo) and, when using values from Git, a second source or multiple sources for this repo’s `helm/values/` paths. Adjust fields to match your Argo CD version and Harbor setup.
 
 ## Git as source of truth

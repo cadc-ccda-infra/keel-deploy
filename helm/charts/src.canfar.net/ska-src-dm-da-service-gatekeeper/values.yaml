@@ -1,0 +1,63 @@
+echo:
+  # Optionally create the Namespace if it does not exist.  This is useful if the deployer is not permitted
+  # to query Namespaces, and therefore cannot automatically determine if the Namespace exists.
+  # Alternatively, the Namespace could be provided by the Kubernetes Cluster administrator.
+  namespace:
+    create: true
+    name: service-gatekeeper-echo
+  image:
+    registry: artefact.skao.int
+    name: gatekeeper-echo
+    tag: 0.3.2
+  # Allow the deployer to NOT specify a spec.type value of the Echo service, and leave it up to the Kubernetes Cluster to determine type.
+  # The default NodePort is set here to maintain the existing value.
+  #
+  # Examples:
+  ### Specify ClusterIP type:
+  #  service:
+  #    type: ClusterIP
+  #
+  ### Omit type:
+  #  service:
+  #    type:
+  service:
+    type: NodePort
+    port: 8080
+gatekeeper:
+  namespace: ska-src-gatekeeper
+  # Optional pod-level security context for the gatekeeper Deployment.
+  # podSecurityContext: {}
+  # Optional container-level security context for the gatekeeper container.
+  # securityContext: {}
+  image:
+    repository: artefact.skao.int/gatekeeper
+    tag: 0.3.2
+    pullPolicy: IfNotPresent
+  # the DNS server to use for lookups, default for kube-dns is 10.96.0.10
+  # check via e.g. $ kubectl get svc -n kube-system kube-dns
+  resolver: 10.96.0.10
+  ingress:
+    enabled: true
+    host: gatekeeper.srcnet.skao.int
+    className: nginx
+    proxyBodySize: 5000m
+    proxyBuffering: "off"
+    proxyRequestBuffering: "off"
+    annotations: {} # adding cert manager annotation
+  siteCapabilities:
+    existingSecret: false
+    secretName: site-capabilities-client-credentials
+    # If existingSecret=false, a Secret will be created from the following values:
+    clientId: 
+    clientSecret:
+  config:
+    iam_token_endpoint: https://ska-iam.stfc.ac.uk/token
+    permissions_api_plugin_authz_endpoint: https://permissions.srcnet.skao.int/api/v1/authorise/plugin/
+    site_capabilities_api_get_service_by_id_endpoint: https://site-capabilities.srcnet.skao.int/api/v1/services/
+    site_capabilities_gatekeeper_client_scopes: site-capabilities-api-service
+    site_capabilities_gatekeeper_client_audience: site-capabilities-api
+    services_cache_ttl: 3600
+    services:
+      - route: "/echo"
+        address: "http://ska-src-dm-da-service-gatekeeper-echo.service-gatekeeper-echo.svc.cluster.local:8080/"
+        uuid: "37ff3e9e-ed8e-4432-8a10-51bc345c3eb8"

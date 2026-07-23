@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ska-src-dm-da-service-gatekeeper
+  namespace: {{ .Values.gatekeeper.namespace }}
+  labels:
+    app: ska-src-dm-da-service-gatekeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ska-src-dm-da-service-gatekeeper
+  template:
+    metadata:
+      labels:
+        app: ska-src-dm-da-service-gatekeeper
+    spec:
+      {{- with .Values.gatekeeper.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: service-gatekeeper
+          image: "{{ .Values.gatekeeper.image.repository }}:{{ .Values.gatekeeper.image.tag }}"
+          imagePullPolicy: {{ .Values.gatekeeper.image.pullPolicy }}
+          {{- with .Values.gatekeeper.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          command:
+            - /bin/bash
+            - -c
+            - for template in /usr/local/openresty/site/lualib/conf/templates/*.template; do gomplate --datasource config=/etc/gatekeeper-config.yml -f "$template" -o /usr/local/openresty/site/lualib/conf/$(basename "$template" .template); done && nginx -g 'daemon off;'
+          
+          env:
+            - name: NGINX_PORT
+              value: "8080"
+            - name: NGINX_SERVER_NAME
+              value: ""
+            - name: NGINX_ENVSUBST_TEMPLATE_DIR
+              value: "etc/nginx/templates"
+            - name: NGINX_ENVSUBST_TEMPLATE_SUFFIX
+              value: ".template"
+            - name: SITE_CAPABILITIES_GATEKEEPER_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ required "gatekeeper.siteCapabilities.secretName is required"
+                    .Values.gatekeeper.siteCapabilities.secretName }}
+                  key: client_id
+            - name: SITE_CAPABILITIES_GATEKEEPER_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ required "gatekeeper.siteCapabilities.secretName is required"
+                    .Values.gatekeeper.siteCapabilities.secretName }}
+                  key: client_secret
+
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+
+          # For now, assume config is either baked into the image
+          # or this will be wired up later
+          volumeMounts:
+            - name: gatekeeper-config
+              mountPath: /etc/gatekeeper-config.yml
+              subPath: gatekeeper-config.yml
+            - name: gatekeeper-nginx-resolver
+              mountPath: /etc/nginx/conf.d/resolver.conf
+              subPath: resolver.conf
+
+      volumes:
+        - name: gatekeeper-config
+          configMap:
+            name: gatekeeper-config
+        - name: gatekeeper-nginx-resolver
+          configMap:
+            name: gatekeeper-nginx-resolver

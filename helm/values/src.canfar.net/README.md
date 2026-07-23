@@ -12,6 +12,19 @@ Helm **values** for deploying **canSRC**, the Canadian SRCNet node, on Keel. Cha
 | `storage-ui/` | `storageui` | Web file browser (`theme: src`, canSRC logo) |
 | `posix-mapper/` | `posixmapper` | UID/GID mapping for POSIX-backed VOS |
 | `kueue/` | *(raw manifest)* | `LocalQueue` for SKA cluster queue in session namespace |
+| `gatekeeper/` | `ska-src-dm-da-service-gatekeeper` *(vendored)* | SRCNet auth/authz reverse proxy for SODA, prepare-data, echo |
+| `prepare-data/` | `ska-src-dm-local-data-preparer` *(vendored)* | Prepare Data API (dpapi); core, celery-worker, rabbitmq |
+| `soda/` | `ska-src-soda` *(vendored)* | IVOA SODA cutout service; mounts shared `xrootd-pvc` |
+
+## SKA bundle (production only)
+
+Gatekeeper, prepare-data, and SODA deploy **production only** to namespace **`canfar-cansrc`** on `src.canfar.net`. These use `base.yaml` + `prod.yaml` only — no staging overlay.
+
+| Prerequisite | Notes |
+| ------------ | ----- |
+| `site-capabilities-client-credentials` secret | Site capabilities API credentials for Gatekeeper |
+| `skaha` ServiceAccount | Gatekeeper echo sub-service; prepare-data core, celery-worker, rabbitmq |
+| PVCs `xrootd-pvc`, `src-cavern-pvc`, `celery-cache-pvc` | Synced by `src-prepare-data-prod`; must bind to cluster PVs before pods start |
 
 ## File layout
 

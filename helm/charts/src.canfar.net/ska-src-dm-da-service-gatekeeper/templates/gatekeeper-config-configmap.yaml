@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatekeeper-config
+  namespace: {{ .Values.gatekeeper.namespace }}
+  labels:
+    app: ska-src-dm-da-service-gatekeeper
+data:
+  gatekeeper-config.yml: |
+{{ toYaml .Values.gatekeeper.config | indent 4 }}

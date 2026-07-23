@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prepare-data-traefik-ingress
+  namespace: canfar-cansrc
+  annotations:
+    traefik.ingress.kubernetes.io/router.tls: "false"
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+spec:
+  rules:
+  - host: src.canfar.net
+    http:
+      paths:
+      - path: /preparedata
+        pathType: Prefix
+        backend:
+          service:
+            name: ska-src-dm-da-service-gatekeeper
+            port:
+              number: 80

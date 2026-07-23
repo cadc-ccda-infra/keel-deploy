@@ -1,0 +1,14 @@
+apiVersion: v2
+appVersion: 1.6.2
+description: A chart for the deployment of the SODA service.
+home: https://gitlab.com/ska-telescope/src/src-ia/ska-src-ia-vo-soda-deployment
+keywords:
+- etc/helm
+- ska
+- ivoa
+- soda
+name: ska-src-soda
+sources:
+- https://gitlab.com/ska-telescope/src/src-ia/ska-src-ia-vo-soda-deployment
+type: application
+version: 0.0.5
