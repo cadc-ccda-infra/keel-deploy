@@ -54,11 +54,9 @@ rabbitmqService:
   port: 5672
   managementPort: 15672
   domain: keel-prod.local
-  type: NodePort
+  type: ClusterIP
 
-  serviceAccount:
-    create: false
-    name: "skaha"
+  serviceAccount: {}
 
   podSecurityContext:
     seccompProfile:
