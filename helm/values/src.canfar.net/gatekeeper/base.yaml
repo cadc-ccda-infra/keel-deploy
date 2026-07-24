@@ -16,9 +16,7 @@ echo:
       drop:
         - ALL
 
-  serviceAccount:
-    create: false
-    name: "skaha"
+  serviceAccount: {}
 
   namespace:
     create: false

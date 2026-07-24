@@ -47,7 +47,7 @@ The `src.canfar.net` tree configures **canSRC**: Canada's participation in **SRC
 - Values detail: [src.canfar.net/README.md](src.canfar.net/README.md)
 - Argo CD apps: [argocd/applications/src.canfar.net/README.md](../../argocd/applications/src.canfar.net/README.md)
 
-canSRC is **independent** from main `canfar.net` values—different hostnames, namespaces (`canfar-src-staging`, `canfar-src-workloads`), and SRCNet service endpoints—even though some integrations (for example Skaha registry cache on `staging.canfar.net/reg`) point at shared CANFAR infrastructure.
+canSRC is **independent** from main `canfar.net` values—different hostnames, namespaces (`canfar-src-staging`, `canfar-src-workloads`, and **`canfar-cansrc`** for SKA services), and SRCNet service endpoints—even though some integrations (for example Skaha registry cache on `staging.canfar.net/reg`) point at shared CANFAR infrastructure.
 
 ## Conventions
 

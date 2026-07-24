@@ -30,10 +30,12 @@ src-canfar-net-apps  (parent Application)
 | ----- | --------- | ------- |
 | Argo CD `Application` CRs | `canfar-argocd` | Parent and child app definitions |
 | Platform services (staging) | `canfar-src-staging` | Cavern, Skaha API, science portal, storage UI, POSIX mapper |
-| SKA bundle (production) | `canfar-cansrc` | Gatekeeper, prepare-data, SODA |
+| **SKA services (production)** | **`canfar-cansrc`** | **Gatekeeper, prepare-data, SODA — dedicated namespace, production only** |
 | Interactive sessions & queues | `canfar-src-workloads` | Skaha user sessions, Kueue `LocalQueue`, session PVC |
 
 Skaha **sessions** are scheduled in `canfar-src-workloads` on host `workloads.canfar.net`, while the Skaha **service** and other web-facing components run in `canfar-src-staging` behind `staging-src.canfar.net`.
+
+**SKA services do not share the platform namespace.** Gatekeeper, prepare-data, and SODA Argo Applications all set `destination.namespace: canfar-cansrc`. Prerequisites (secrets, ServiceAccount, PVCs) must be created or synced **in that namespace** before workloads become healthy. Values layout and `existingSecret` / `existingClaim` conventions: [`helm/values/src.canfar.net/README.md#ska-services--gatekeeper-prepare-data-and-soda`](../../../helm/values/src.canfar.net/README.md#ska-services--gatekeeper-prepare-data-and-soda).
 
 ## Bootstrap
 
@@ -54,7 +56,7 @@ The parent uses `directory.recurse: true` so new child YAML under this path is p
 
 ## Child applications (staging)
 
-All current child manifests are **staging** overlays. Production Helm values exist under `helm/values/src.canfar.net/` for several services; add matching `production.yaml` (or `prod.yaml`) Application manifests here when production is ready to sync from Git.
+Staging platform services deploy from OpenCADC chart repositories. Production SKA Applications (`src-gatekeeper-prod`, `src-prepare-data-prod`, `src-soda-prod`) are documented in [SKA bundle (production only)](#ska-bundle-production-only).
 
 | Application | Chart repo | Chart | Version | Destination namespace |
 | ----------- | ---------- | ----- | ------- | --------------------- |
@@ -101,13 +103,27 @@ Production values target `src.canfar.net` with the same path layout.
 
 ## SKA bundle (production only)
 
-SKA services (Gatekeeper, prepare-data, and SODA) are **production only** — no staging Application or values overlay. They deploy to namespace **`canfar-cansrc`**, distinct from the platform staging stack in `canfar-src-staging`.
+Gatekeeper, prepare-data, and SODA are **canSRC SKA data-management services**. They are **production only** — no staging Application or `staging.yaml` values overlay — and run exclusively in namespace **`canfar-cansrc`**, separate from the platform stack in `canfar-src-staging` and from Skaha sessions in `canfar-src-workloads`.
 
-| Application | Chart source | Destination namespace |
-| ----------- | ------------ | --------------------- |
-| `src-gatekeeper-prod` | Vendored Git chart + Traefik Ingress manifests | `canfar-cansrc` |
-| `src-prepare-data-prod` | Vendored Git chart + PVC manifests | `canfar-cansrc` |
-| `src-soda-prod` | Vendored Git chart | `canfar-cansrc` |
+| Application | Chart source | Extra Git sources | Destination namespace |
+| ----------- | ------------ | ----------------- | --------------------- |
+| `src-gatekeeper-prod` | `helm/charts/src.canfar.net/ska-src-dm-da-service-gatekeeper` | `manifests/src.canfar.net/gatekeeper/prod/` (Traefik Ingress) | `canfar-cansrc` |
+| `src-prepare-data-prod` | `helm/charts/src.canfar.net/ska-src-dm-local-data-preparer` | `manifests/src.canfar.net/prepare-data/prod/pvc/` | `canfar-cansrc` |
+| `src-soda-prod` | `helm/charts/src.canfar.net/ska-src-soda` | — | `canfar-cansrc` |
+
+Helm values: `helm/values/src.canfar.net/<service>/base.yaml` + `prod.yaml`. See [SKA services layout and conventions](../../../helm/values/src.canfar.net/README.md#ska-services--gatekeeper-prepare-data-and-soda) for directory structure, sync order, and pre-created resources (`existingSecret`, `existingClaim`, ServiceAccount `skaha`, PVC names).
+
+### Prerequisites in `canfar-cansrc`
+
+Create or sync these **before** SKA workloads can run. None of the secret material belongs in Git.
+
+| Resource | Created by | Used by |
+| -------- | ---------- | ------- |
+| Secret `site-capabilities-client-credentials` | Cluster admin (out-of-band) | Gatekeeper — values set `gatekeeper.siteCapabilities.existingSecret: true` so the chart does not render the Secret |
+| ServiceAccount `skaha` | Cluster admin (out-of-band) | Gatekeeper echo, prepare-data (`core`, `celery-worker`, `rabbitmq`), SODA — all use `serviceAccount.create: false` |
+| PVCs `xrootd-pvc`, `src-cavern-pvc`, `celery-cache-pvc` | `src-prepare-data-prod` (Git manifests) | Prepare-data mounts; SODA mounts `xrootd-pvc` via `persistence.existingClaim` |
+
+Recommended sync order: prerequisites → `src-prepare-data-prod` → `src-soda-prod` → `src-gatekeeper-prod`.
 
 ### Gatekeeper paths on `src.canfar.net`
 
@@ -117,15 +133,6 @@ SKA services (Gatekeeper, prepare-data, and SODA) are **production only** — no
 | `/soda` | SODA service |
 | `/preparedata` | Prepare Data (dpapi) service |
 | `/ping` | Gatekeeper health |
-
-### Gatekeeper prerequisites (`canfar-cansrc`)
-
-| Prerequisite | Notes |
-| ------------ | ----- |
-| `site-capabilities-client-credentials` secret | Site capabilities API credentials |
-| `skaha` ServiceAccount | Used by Gatekeeper echo and prepare-data workloads; SODA |
-| SODA service (`ska-src-soda`) | Deployed by `src-soda-prod`; backend for Gatekeeper `/soda`; mounts `xrootd-pvc` |
-| Prepare Data service (`core`) | Deployed by `src-prepare-data-prod`; backend for Gatekeeper `/preparedata` |
 
 ### Gatekeeper cutover
 
@@ -187,10 +194,13 @@ Create these **before** or alongside the first sync. Do not commit secret materi
 
 | Secret | Namespace | Used by |
 | ------ | ----------- | ------- |
+| `site-capabilities-client-credentials` | `canfar-cansrc` | Gatekeeper (`existingSecret: true` in values) |
 | `science-portal-secrets` (`auth-secret`) | `canfar-src-staging` | Science portal NextAuth |
 | `science-portal-oidc-secret-staging-src` (`oidc-client-secret`) | `canfar-src-staging` | Science portal OIDC, storage UI OIDC |
 | `ghcr-at88mph-science-portal` | `canfar-src-staging` | Science portal image pull |
 | `cavern-uws-db-auth` | `canfar-src-staging` | Cavern UWS database (staging) |
+
+ServiceAccount **`skaha`** must also exist in **`canfar-cansrc`** for SKA services (see [Prerequisites in `canfar-cansrc`](#prerequisites-in-canfar-cansrc)).
 
 **Persistent volumes:** CephFS PVCs for cavern and session storage are defined in `manifests/src.canfar.net/volumes/staging/cephfs-pvc.yaml` and must exist (or be applied separately) before Cavern and Skaha sessions can mount storage.
 
