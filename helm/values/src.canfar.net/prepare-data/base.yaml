@@ -47,7 +47,7 @@ celeryWorker:
           topologyKey: kubernetes.io/hostname
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8000
 
 rabbitmqService:
