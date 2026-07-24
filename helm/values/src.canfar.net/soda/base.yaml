@@ -34,9 +34,7 @@ affinity:
 service:
   type: ClusterIP
 
-serviceAccount:
-  create: false
-  name: "skaha"
+serviceAccount: {}
 
 ingress:
   enabled: false

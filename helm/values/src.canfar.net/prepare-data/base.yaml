@@ -15,9 +15,7 @@ annotations:
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
 
 celeryWorker:
-  serviceAccount:
-    create: false
-    name: "skaha"
+  serviceAccount: {}
 
   podSecurityContext:
     runAsUser: 92145
@@ -74,11 +72,7 @@ rabbitmqService:
   nodeSelector: {}
   affinity: {}
 
-serviceAccount:
-  create: false
-  automount: false
-  annotations: {}
-  name: "skaha"
+serviceAccount: {}
 
 podSecurityContext:
   fsGroup: 92145
