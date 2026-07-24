@@ -16,6 +16,10 @@ echo:
       drop:
         - ALL
 
+  service:
+    port: 8080
+    type: ClusterIP
+
   serviceAccount: {}
 
   namespace:
