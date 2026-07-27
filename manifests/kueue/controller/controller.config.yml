@@ -86,7 +86,15 @@ integrations:
     - opencadc.org/canfar-job-flexible
     - batch.kubernetes.io/job-name
     - canfar.net/id
+    - canfar.net/username
     - canfar.net/name
     - canfar.net/kind
-    - canfar.net/username
+    - canfar.net/job
     - canfar.net/flavor
+    - canfar.net/accelerator
+    - canfar.net/community
+    - canfar.net/project
+    - canfar.net/app-id
+    - app.kubernetes.io/managed-by
+    - app.kubernetes.io/part-of
+    - app.kubernetes.io/version
