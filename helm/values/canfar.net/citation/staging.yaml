@@ -7,3 +7,5 @@ ingress:
 
 imagePullSecrets:
   - name: bucket-registry-auth
+
+canfarWebRoot: "https://staging.canfar.net"
