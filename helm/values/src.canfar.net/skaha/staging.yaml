@@ -42,9 +42,9 @@ deployment:
         spec:
           # -- max is the maximum allowed requested for 'fixed' User Sessions.
           max:
-            memory: "384Gi"
-            cpu: "16"
-            nvidia.com/gpu: "8"
+            memory: "512Gi"
+            cpu: "32"
+            nvidia.com/gpu: "7"
           # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
           default:
             memory: "32Gi"

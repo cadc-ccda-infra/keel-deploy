@@ -95,7 +95,7 @@ deployment:
           max:
             memory: "192Gi"
             cpu: "16"
-            nvidia.com/gpu: "8"
+            nvidia.com/gpu: "7"
           # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
           default:
             memory: "32Gi"
