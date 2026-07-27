@@ -17,6 +17,8 @@ application:
       url: "https://cadc-west-01.canfar.net/vault/capabilities"
     - id: "ivo://cadc.nrc.ca/cred"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/cred/capabilities"
+    - id: "ivo://cadc.nrc.ca/doi"
+      url: "https://staging.canfar.net/doi/capabilities"
   userInterfaceEntries:
     - id: "ivo://cadc.nrc.ca/passchg"
       url: "https://staging.canfar.net/en/auth/resetPassword.html"
