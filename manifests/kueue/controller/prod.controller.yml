@@ -111,3 +111,8 @@ managerConfig:
         - opencadc.org/canfar-job-fixed
         - opencadc.org/canfar-job-flexible
         - batch.kubernetes.io/job-name
+        - canfar.net/id
+        - canfar.net/name
+        - canfar.net/kind
+        - canfar.net/username
+        - canfar.net/flavor
