@@ -1,0 +1,29 @@
+# Staging overlay — DataCite test MDS and vault DOItest parent, aligned with
+# bucket/deployments/canfar-rc/doi/rc/config/doi.properties (RC), adapted for
+# staging.canfar.net (landing via the staging citation UI).
+
+ingress:
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /doi
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+application:
+  registryURL: https://staging.canfar.net/reg
+
+  config:
+    vospaceParentUri: vos://cadc.nrc.ca~vault/DOItest/doi
+    groupPrefix: TEST.DOI-
+    landingUrl: https://staging.canfar.net/citation/landing
+    mdsUrl: https://mds.test.datacite.org
+    accountPrefix: "10.80791"
+    randomTestID: true
+
+  cookieSignaturePublicKey:
+    existingSecret:
+      name: canfar-skaha-staging-cookie-signature-public-key
+      path: RsaSignaturePub.key
