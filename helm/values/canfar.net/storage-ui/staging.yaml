@@ -13,3 +13,7 @@ deployment:
         name: canfar-skaha-staging-cookie-signature-public-key
         # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
         path: RsaSignaturePub.key
+
+    extraEnv:
+      - name: CANFAR_WEB_ROOT
+        value: "https://staging.canfar.net"

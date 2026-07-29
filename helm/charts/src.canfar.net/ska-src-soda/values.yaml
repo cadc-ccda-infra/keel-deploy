@@ -1,0 +1,88 @@
+image:
+  repository: harbor.srcdev.skao.int/soda/visivo-vlkb-soda
+  tag: 1.6.2
+  pullPolicy: Always
+
+extraEnv:
+  - name: SECURITY
+    value:
+  - name: ACCESS_CONTEXT_ROOT
+    value: ska#datasets
+
+config:
+  datasets: |-
+    fits_path_surveys=/srv/soda/datasets
+    fits_path_cutouts=/srv/soda/cutouts
+    ivoid_authority=test.skao
+    ivoid_resource_key=datasets/fits
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: NodePort
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 8080
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# Security context for the pod.
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+podSecurityContext: {}
+  # fsGroup: 2000
+
+# Container security context.
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# Node labels for pod assignment
+# ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+nodeSelector: {}
+
+# Affinity settings
+# ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+affinity: {}
+
+# Toleration settings
+# ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+tolerations: {}
+
+ingress:
+  enabled: false
+  host:
+  proxyBodySize: 5000m
+  proxyBuffering: "off"
+  proxyRequestBuffering: "off"
+
+# If existingClaim is defined, existingClaimMountOptions will contain additional volumeMount options.
+# If existingClaim is undefined/null, a soda-pvc will be created with the
+# corresponding storageClass, size, and accessMode.
+# For instance:
+# persistence:
+#   relativeSubPath: datasets # The subPath to mount the volume at (datasets or surveys)
+#   existingClaim: soda-rse-pvc
+#   existingClaimMountOptions:
+#     subPath: "deterministic"
+#     readOnly: true
+persistence:
+  relativeSubPath: "surveys"  # The subPath to mount the volume at (datasets or surveys)
+  existingClaim: null
+  existingClaimMountOptions: null
+  size: "10Gi"
+  storageClass: ""
+  accessMode: ReadWriteOnce

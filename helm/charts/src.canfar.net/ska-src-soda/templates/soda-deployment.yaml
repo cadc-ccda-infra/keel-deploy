@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: ska-src-soda
+  name: ska-src-soda
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ska-src-soda
+  template:
+    metadata:
+      labels:
+        io.kompose.service: ska-src-soda
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "api.serviceAccountName" . }}
+      containers:
+        - name: ska-src-soda
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          resources: {}
+
+          volumeMounts:
+            - name: soda-pvc
+              mountPath: "{{- printf "%s/%s" "/srv" .Values.persistence.relativeSubPath }}"
+              {{- with .Values.persistence.existingClaimMountOptions }}
+              {{- toYaml . | nindent 14 }}
+              {{- end }}
+            - mountPath: "/config/datasets.conf"
+              name: datasets-conf
+              subPath: datasets.conf
+
+          env:
+          {{- range $env_key, $env_val := $.Values.extraEnv }}
+            - name: {{ $env_val.name }}
+              value: {{ $env_val.value }}
+          {{- end }}
+
+      restartPolicy: Always
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      volumes:
+        - name: soda-pvc
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default "soda-pvc" }}
+        - name: datasets-conf
+          configMap:
+            name: datasets.conf
+
+status: {}

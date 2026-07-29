@@ -1,0 +1,39 @@
+# Production overlays for SKA Prepare Data (dpapi) on src.canfar.net (namespace canfar-cansrc).
+
+localPreparerCore:
+  image:
+    registry: images.opencadc.org
+    image: test/core
+    tag: latest
+    pullPolicy: Always
+
+celeryWorker:
+  image:
+    registry: images.opencadc.org
+    image: test/celery
+    tag: latest
+    pullPolicy: Always
+
+env:
+  ABS_PATH_USER_AREA_ROOT: /user-storage/cavern/home
+  ABS_PATH_RSE_ROOT: /rse/data/dev/deterministic
+  ABS_PATH_CELERY_RESULTS: /celery/cache
+  CAVERN_API_URL: https://src.canfar.net/cavern
+  POSIX_MAPPER_URL: https://src.canfar.net/posix-mapper
+  IVO_AUTHORITY_PATH: "canfar.net~src~cavern"
+  CAVERN_API_SSL_VERIFY: "false"
+  CAVERN_ROOT_USER: canfarops
+  IAM_GMS: ivo://skao.int/gms
+  GROUP: roles/int/oper
+  QUOTA: 524288000
+  SUPPORTED_APPROACHES: cavern
+  DEFAULT_APPROACH: cavern
+  API_ROOT_PATH:
+
+pvc:
+  rse: xrootd-pvc
+  rsePath: /rse
+  cavern: src-cavern-pvc
+  cavernPath: /user-storage/
+  celeryCache: celery-cache-pvc
+  celeryCachePath: /celery/cache

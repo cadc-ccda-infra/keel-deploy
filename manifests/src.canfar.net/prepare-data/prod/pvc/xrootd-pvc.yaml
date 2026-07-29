@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: xrootd-pvc
+  namespace: canfar-cansrc
+spec:
+  accessModes:
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Ti
+  selector:
+    matchLabels:
+      storage: xrootd-cephfs-storage-element
+  storageClassName: ""
+  volumeMode: Filesystem

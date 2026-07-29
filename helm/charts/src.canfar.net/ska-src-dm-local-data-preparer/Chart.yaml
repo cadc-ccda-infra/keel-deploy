@@ -1,0 +1,16 @@
+apiVersion: v2
+appVersion: 0.2.1
+description: A Helm chart for kubernetes ska-src-dm-local-data-preparer deployment.
+keywords:
+- prepareData
+- ska
+maintainers:
+- email: Rob.Barnsley@skao.int
+  name: Rob Barnsley
+- email: James.Collinson@skao.int
+  name: James Collinson
+- email: Shraddha.Bajare@skao.int
+  name: Shraddha Bajare
+name: ska-src-dm-local-data-preparer
+type: application
+version: 0.2.1

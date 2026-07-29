@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: datasets.conf
+  namespace: {{ .Release.Namespace }}
+data:
+  datasets.conf: |
+    {{ .Values.config.datasets | nindent 4 }}

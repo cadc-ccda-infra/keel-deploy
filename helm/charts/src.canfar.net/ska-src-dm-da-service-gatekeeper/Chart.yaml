@@ -1,0 +1,10 @@
+apiVersion: v2
+appVersion: 0.3.2
+description: 'Standalone SRCNet Service Gatekeeper providing route-based authorization
+  and reverse proxying to internal cluster services using the Permissions API. '
+home: https://gitlab.com/ska-telescope/src/src-dm/ska-src-dm-da-service-gatekeeper
+name: ska-src-dm-da-service-gatekeeper
+sources:
+- https://gitlab.com/ska-telescope/src/src-dm/ska-src-dm-da-service-gatekeeper
+type: application
+version: 0.3.2

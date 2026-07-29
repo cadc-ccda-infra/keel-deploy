@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: https://images.opencadc.org/chartrepo/client
       chart: storageui
-      targetRevision: 1.4.4
+      targetRevision: 1.4.5
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/storage-ui/base.yaml
