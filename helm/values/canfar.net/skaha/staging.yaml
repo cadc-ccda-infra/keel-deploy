@@ -44,6 +44,17 @@ metricsBackend:
     METRICS_PROVIDERS__KUEUE__TOKEN_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/token"
     METRICS_PROVIDERS__KUEUE__CA_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 
+# Skaha Tomcat OTEL metrics (chart skaha >= 1.6.1). Same Prometheus OTLP
+# receiver as Metrics above: Java agent uses the OTLP base URL and appends
+# /v1/metrics; Metrics Python exporter is given the full metrics path.
+# telemetry.metrics stays false in this chart version (reserved).
+telemetry:
+  controller: true
+  metrics: false
+  otlp:
+    destination: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp"
+    interval: 60
+
 autoscaling:
   minReplicas: 3
   maxReplicas: 3
