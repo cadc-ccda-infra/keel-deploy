@@ -27,3 +27,26 @@ application:
     existingSecret:
       name: canfar-skaha-staging-cookie-signature-public-key
       path: RsaSignaturePub.key
+
+livenessProbe:
+  httpGet:
+    path: /doi/availability
+    port: http
+  periodSeconds: 40
+  timeoutSeconds: 40
+
+readinessProbe:
+  httpGet:
+    path: /doi/availability
+    port: http
+  periodSeconds: 40
+  timeoutSeconds: 40
+
+startupProbe:
+  httpGet:
+    path: /doi/availability
+    port: http
+  initialDelaySeconds: 10
+  timeoutSeconds: 40
+  periodSeconds: 40
+  failureThreshold: 30
