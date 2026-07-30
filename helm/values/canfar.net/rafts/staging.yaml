@@ -32,7 +32,7 @@ application:
   # These services run in the Docker Swarm deployment at UVic.
 
   # Maps to NEXT_VAULT_BASE_ENDPOINT
-  vaultBaseEndpoint: "https://ws-cadc.canfar.net/vault/files"
+  vaultBaseEndpoint: "https://cadc-west-01.canfar.net/vault/files"
 
   # CADC Access Control endpoints
   canfarAcLoginUrl: "https://ws-cadc.canfar.net/ac/login"
