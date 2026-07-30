@@ -68,6 +68,11 @@ deployment:
     registryURL:
       - http://cadc-reg.cadc-system:8080/reg
 
+    cookieSignaturePublicKey:
+      existingSecret:
+        name: cookie-signature-public-key
+        path: RsaSignaturePub.key
+
     sessions:
       hostname: workloads.canfar.net
       namespace: 

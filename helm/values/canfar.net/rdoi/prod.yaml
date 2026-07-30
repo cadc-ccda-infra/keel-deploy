@@ -27,7 +27,7 @@ application:
 
   cookieSignaturePublicKey:
     existingSecret:
-      name: canfar-skaha-prod-cookie-signature-public-key
+      name: cookie-signature-public-key
       path: RsaSignaturePub.key
 
 livenessProbe:
