@@ -1,3 +1,8 @@
+# Gatekeeper
+
+Disabled service for now.  Recreate from YAML below when ready.
+
+```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -32,3 +37,4 @@ spec:
     automated:
       prune: true
       selfHeal: true
+```
