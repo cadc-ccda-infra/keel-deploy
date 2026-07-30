@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-rdoi-staging
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: rdoi
+spec:
+  project: canfar
+  sources:
+    - repoURL: https://images-rc.canfar.net/chartrepo/skaha-system
+      chart: doi
+      targetRevision: 0.1.0
+      helm:
+        valueFiles:
+          - $values/helm/values/canfar.net/rdoi/base.yaml
+          - $values/helm/values/canfar.net/rdoi/staging.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-system-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
