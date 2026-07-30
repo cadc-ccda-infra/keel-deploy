@@ -1,0 +1,58 @@
+# Staging overlay — application env from
+# bucket/deployments/canfar-rc/rafts/configs.sh (env_vars), exposed on
+# staging.canfar.net (basePath /rafts).
+
+ingress:
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /rafts
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+application:
+  # Maps to NEXTAUTH_URL
+  nextauthUrl: "https://staging.canfar.net"
+
+  # Maps to NEXTAUTH_SECRET — create Secret rafts-nextauth in canfar-system-staging
+  nextauthSecret:
+    existingSecret: rafts-nextauth
+    secretKey: NEXTAUTH_SECRET
+
+  # Maps to NEXT_DOI_BASE_URL
+  doiBaseUrl: "https://staging.canfar.net/rdoi/instances"
+
+  # BEGIN Services that still run at the old Web Service host.
+  # These services run in the Docker Swarm deployment at UVic.
+
+  # Maps to NEXT_VAULT_BASE_ENDPOINT
+  vaultBaseEndpoint: "https://rc-ws-cadc.canfar.net/vault/files"
+
+  # CADC Access Control endpoints
+  canfarAcLoginUrl: "https://rc-ws-cadc.canfar.net/ac/login"
+  canfarAcSearchUrl: "https://rc-ws-cadc.canfar.net/ac/search"
+  canfarAcWhoamiUrl: "https://rc-ws-cadc.canfar.net/ac/whoami"
+  canfarAcGroupsUrl: "https://rc-ws-cadc.canfar.net/ac/groups"
+  
+  # END Services that still run at the old Web Service host.
+
+  # Maps to NEXT_CANFAR_RAFT_GROUP_NAME
+  canfarRaftGroupName: "RAFTS-test-reviewers"
+
+  # SSO cookie configuration
+  cookieSsoKey: "CADC_SSO"
+  canfarCookieDomain: "canfar.net"
+  canfarCookieUrl: "https://staging.canfar.net/access/sso?cookieValue="
+
+  # Maps to NEXT_CITE_URL
+  citeUrl: "DOItest/rafts"
+
+  # Maps to NEXT_CANFAR_STORAGE_BASE_URL
+  canfarStorageBaseUrl: "https://staging.canfar.net/storage/vault/list"
+
+  # ADES validator endpoints
+  validatorUrlXml: "https://staging.canfar.net/ades/validate-xml"
+  validatorUrlPsv: "https://staging.canfar.net/ades/validate-psv"
+  validatorUrlMpc: "https://staging.canfar.net/ades/validate-mpc"
