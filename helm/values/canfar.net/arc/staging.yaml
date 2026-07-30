@@ -8,6 +8,13 @@ deployment:
     imagePullPolicy: Always
     registryURL: https://staging.canfar.net/reg
 
+    cookieSignaturePublicKey:
+      existingSecret:
+        # Secret name (release namespace).
+        name: canfar-skaha-staging-cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
+
     uws:
       db:
         install: false

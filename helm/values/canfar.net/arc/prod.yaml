@@ -10,7 +10,10 @@ deployment:
 
     cookieSignaturePublicKey:
       existingSecret:
+        # Secret name (release namespace).
         name: cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
 
     uws:
       db:
