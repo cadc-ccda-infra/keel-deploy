@@ -8,6 +8,10 @@ deployment:
     imagePullPolicy: Always
     registryURL: https://prod.canfar.net/reg
 
+    cookieSignaturePublicKey:
+      existingSecret:
+        name: cookie-signature-public-key
+
     uws:
       db:
         install: false
