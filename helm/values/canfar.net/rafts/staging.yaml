@@ -9,6 +9,10 @@ ingress:
         - path: /rafts
           pathType: Prefix
 
+image:
+  repository: bucket.canfar.net/rafts
+  tag: 1.0.1-20260313T155347
+
 imagePullSecrets:
   - name: bucket-registry-auth
 
@@ -35,7 +39,7 @@ application:
   canfarAcSearchUrl: "https://rc-ws-cadc.canfar.net/ac/search"
   canfarAcWhoamiUrl: "https://rc-ws-cadc.canfar.net/ac/whoami"
   canfarAcGroupsUrl: "https://rc-ws-cadc.canfar.net/ac/groups"
-  
+
   # END Services that still run at the old Web Service host.
 
   # Maps to NEXT_CANFAR_RAFT_GROUP_NAME
