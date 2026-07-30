@@ -10,7 +10,7 @@ registryURLs:
   - https://prod.canfar.net/reg
 
 rsaSignaturePublicKey:
-  existingSecret: rsa-signature-pub-key
+  existingSecret: cookie-signature-public-key
 
 serviceAccount:
   automount: false
