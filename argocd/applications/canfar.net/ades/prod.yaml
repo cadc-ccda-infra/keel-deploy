@@ -17,7 +17,7 @@ spec:
       recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: canfar-system-prod
+    namespace: canfar-system-production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

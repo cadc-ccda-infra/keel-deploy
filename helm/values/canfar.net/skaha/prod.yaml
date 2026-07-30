@@ -32,7 +32,7 @@ metricsBackend:
     METRICS_CACHE__TTL_SECONDS: "300"
     METRICS_CACHE__SCOPE_TTL_SECONDS: '{"platform":300}'
     # Chart telemetry.metrics must stay false; wire Metrics OTEL via env.
-    # Prometheus 3.x OTLP receiver (verified from canfar-system-prod):
+    # Prometheus 3.x OTLP receiver (verified from canfar-system-production):
     # classic :4318 is not open; use :9090/api/v1/otlp/v1/metrics.
     METRICS_OTEL_METRICS_ENABLED: "true"
     METRICS_OTEL_SERVICE_NAME: "skaha-metrics"

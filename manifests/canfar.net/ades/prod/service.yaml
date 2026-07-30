@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ades
-  namespace: canfar-system-prod
+  namespace: canfar-system-production
   labels:
     app.kubernetes.io/name: ades
     app.kubernetes.io/component: validator-api

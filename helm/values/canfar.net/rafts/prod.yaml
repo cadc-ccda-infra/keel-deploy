@@ -20,7 +20,7 @@ application:
   # Maps to NEXTAUTH_URL
   nextauthUrl: "https://prod.canfar.net"
 
-  # Maps to NEXTAUTH_SECRET — create Secret rafts-nextauth in canfar-system-prod
+  # Maps to NEXTAUTH_SECRET — create Secret rafts-nextauth in canfar-system-production
   nextauthSecret:
     existingSecret: rafts-nextauth
     secretKey: NEXTAUTH_SECRET
