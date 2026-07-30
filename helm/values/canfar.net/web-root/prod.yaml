@@ -1,6 +1,6 @@
 ingress:
   hosts:
-    - host: www.canfar.net
+    - host: prod.canfar.net
       paths:
         - path: /canfar
           pathType: Prefix
@@ -10,3 +10,6 @@ ingress:
           pathType: Prefix
         - path: /vosui
           pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth

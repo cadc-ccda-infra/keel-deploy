@@ -1,9 +1,137 @@
+kubernetesClusterDomain: keel-prod.local
+
+replicaCount: 3
+
+# Optional science-platform Metrics API (same Helm release as Skaha).
+# When enabled, the chart injects SKAHA_METRICS_BACKEND_URL on Tomcat so
+# GET /v1/session?view=stats (platform stats) reads capacity/allocated from
+# Metrics GET /api/v1/metrics/platform — not from node listing.
+# Kueue alignment: ClusterQueues `cadc` and `ska` — see
+# keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.cadc.yml,
+# keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.ska.yml, and
+# keel-deploy/helm/values/canfar.net/kueue/controller/controller.config.yml
+# (METRICS_* names follow science-platform/metrics docs/environment-contracts.md).
+# METRICS_REDIS_URL is injected by the Skaha chart from this release's Bitnami Redis when metricsBackend.redis.enabled is true.
+# METRICS_ENVIRONMENT is set per Argo overlay (staging.yaml, integration.yaml, prod.yaml) to match the deployment hostname tier.
+#
+# Capsule on keel-prod forbids chart-managed ClusterRole/ClusterRoleBinding
+# (create dry-run → Forbidden via capsule-proxy). Keep rbac.enabled false; do
+# not flip it. ClusterQueue get/list for SA canfar-skaha-prod is ambient /
+# pre-provisioned outside this release (track under Jira "Managed K8s Issues").
 metricsBackend:
+  enabled: true
+  rbac:
+    enabled: false
+  image:
+    tag: v0.1.5
   env:
     METRICS_ENVIRONMENT: "production"
+    METRICS_CLUSTER_NAME: "canfar"
+    METRICS_SOURCES__PLATFORM: "kueue"
+    METRICS_CACHE__BACKEND: "redis"
+    METRICS_CACHE__TTL_SECONDS: "300"
+    METRICS_CACHE__SCOPE_TTL_SECONDS: '{"platform":300}'
+    # Chart telemetry.metrics must stay false; wire Metrics OTEL via env.
+    # Prometheus 3.x OTLP receiver (verified from canfar-system-prod):
+    # classic :4318 is not open; use :9090/api/v1/otlp/v1/metrics.
+    METRICS_OTEL_METRICS_ENABLED: "true"
+    METRICS_OTEL_SERVICE_NAME: "skaha-metrics"
+    METRICS_OTEL_EXPORTER_OTLP_ENDPOINT: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp/v1/metrics"
+    METRICS_OTEL_EXPORT_INTERVAL_MILLIS: "60000"
+    METRICS_PROVIDERS__KUEUE__KUBE_API_URL: "https://kubernetes.default.svc"
+    METRICS_PROVIDERS__KUEUE__KUBE_VERIFY_TLS: "true"
+    METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","ska"]'
+    METRICS_PROVIDERS__KUEUE__TOKEN_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+    METRICS_PROVIDERS__KUEUE__CA_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+
+# Skaha Tomcat OTEL metrics (chart skaha >= 1.6.1). Same Prometheus OTLP
+# receiver as Metrics above: Java agent uses the OTLP base URL and appends
+# /v1/metrics; Metrics Python exporter is given the full metrics path.
+# telemetry.metrics stays false in this chart version (reserved).
+telemetry:
+  controller: true
+  metrics: false
+  otlp:
+    destination: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp"
+    interval: 60
+
+autoscaling:
+  minReplicas: 3
+  maxReplicas: 3
 
 deployment:
-  hostname: www.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: www.canfar.net
+  hostname: prod.canfar.net
+
+  skaha:
+    image: images-rc.canfar.net/skaha-system/skaha:1.3.1-rc.2
+    imagePullPolicy: Always
+    registryURL:
+      - https://prod.canfar.net/reg
+
+    sessions:
+      hostname: workloads.canfar.net
+      namespace: 
+        name: canfar-workloads
+        create: true
+      userStorage:
+        nodeURIPrefix: "vos://cadc.nrc.ca~arc"
+        spec:
+          cephfs:
+            monitors:
+              - 10.30.201.3:6789
+              - 10.30.202.3:6789
+              - 10.30.203.3:6789
+            path: /volumes/_nogroup/054e398e-a08e-425e-9f7c-fc394362e38e
+            user: keel-prod-admin
+            secretRef:
+              name: cephfs-cephx-admin-key
+            readOnly: false
+      kueue:
+        rbac:
+          create: true
+        default:
+          queueName: "cadc-default"
+          priorityClass: "high"
+        headless:
+          queueName: "cadc-default"
+          priorityClass: "low"
+
+      # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
+      limitRange:
+        enabled: true
+        rbac:
+          create: true
+        spec:
+          # -- max is the maximum allowed requested for 'fixed' User Sessions.
+          max:
+            memory: "192Gi"
+            cpu: "16"
+            nvidia.com/gpu: "7"
+          # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
+          default:
+            memory: "32Gi"
+            cpu: "16"
+            nvidia.com/gpu: "0"
+          # -- defaultRequest is the default requests for 'flex' User Sessions.  All flex sessions will start with this request.
+          defaultRequest:
+            memory: "4Gi"
+            cpu: "1"
+            nvidia.com/gpu: "0"
+
+      authorization:
+        group:
+          enabled: true
+          uri: "ivo://cadc.nrc.ca/gms?skaha-users"
+
+rbac:
+  # Whether to create RBAC roles and bindings for Skaha.  Defaults to true.
+  create: true
+
+  # Node-capacity ClusterRole is unused for platform stats (Metrics backend owns
+  # cluster totals). Capsule also cannot create cluster-scoped roles here.
+  # Keep false; do not re-enable for stats.
+  clusterRole:
+    create: false
+
+serviceAccount:
+  create: true

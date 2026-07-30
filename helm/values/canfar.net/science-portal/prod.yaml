@@ -1,15 +1,19 @@
 ingress:
   hosts:
-    - host: www.canfar.net
+    - host: prod.canfar.net
       paths:
         - path: /science-portal
           pathType: Prefix
 
 app:
   api:
-    storage: "https://www.canfar.net/arc/nodes/home/"
-    skaha: "https://www.canfar.net/skaha"
-  publicApi:
-    skaha: "https://www.canfar.net/skaha"
+    storage: "https://prod.canfar.net/arc/nodes/home/"
+    skaha: "https://prod.canfar.net/skaha"
+  public:
+    api:
+      skaha: "https://prod.canfar.net/skaha"
+    services:
+      storageManagement: "https://prod.canfar.net/storage/list"
+      sciencePortal: "https://prod.canfar.net/science-portal"
   auth:
-    nextauthUrl: "https://www.canfar.net/science-portal"
+    nextauthUrl: "https://prod.canfar.net/science-portal"

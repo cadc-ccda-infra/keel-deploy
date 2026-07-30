@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-access-prod
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: access
+spec:
+  project: canfar
+  sources:
+    - repoURL: https://images-rc.canfar.net/chartrepo/skaha-system
+      chart: access
+      targetRevision: 0.3.2
+      helm:
+        valueFiles:
+          - $values/helm/values/canfar.net/access/base.yaml
+          - $values/helm/values/canfar.net/access/prod.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-system-prod
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
