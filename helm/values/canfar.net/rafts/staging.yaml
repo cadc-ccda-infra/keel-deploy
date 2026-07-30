@@ -32,13 +32,13 @@ application:
   # These services run in the Docker Swarm deployment at UVic.
 
   # Maps to NEXT_VAULT_BASE_ENDPOINT
-  vaultBaseEndpoint: "https://rc-ws-cadc.canfar.net/vault/files"
+  vaultBaseEndpoint: "https://ws-cadc.canfar.net/vault/files"
 
   # CADC Access Control endpoints
-  canfarAcLoginUrl: "https://rc-ws-cadc.canfar.net/ac/login"
-  canfarAcSearchUrl: "https://rc-ws-cadc.canfar.net/ac/search"
-  canfarAcWhoamiUrl: "https://rc-ws-cadc.canfar.net/ac/whoami"
-  canfarAcGroupsUrl: "https://rc-ws-cadc.canfar.net/ac/groups"
+  canfarAcLoginUrl: "https://ws-cadc.canfar.net/ac/login"
+  canfarAcSearchUrl: "https://ws-cadc.canfar.net/ac/search"
+  canfarAcWhoamiUrl: "https://ws-cadc.canfar.net/ac/whoami"
+  canfarAcGroupsUrl: "https://ws-cadc.canfar.net/ac/groups"
 
   # END Services that still run at the old Web Service host.
 
