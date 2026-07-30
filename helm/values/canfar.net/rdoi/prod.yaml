@@ -1,0 +1,54 @@
+# Production overlay — DataCite test MDS and vault DOItest parent, aligned with
+# bucket/deployments/canfar-rc/doi/rc/config/doi.properties (RC), adapted for
+# prod.canfar.net (landing via the production citation UI).
+
+ingress:
+  hosts:
+    - host: prod.canfar.net
+      paths:
+        - path: /rdoi
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+application:
+  registryURL: https://prod.canfar.net/reg
+
+  config:
+    publisherGroupURI: ivo://cadc.nrc.ca/gms?RAFTS-test-reviewers
+    vospaceParentUri: vos://cadc.nrc.ca~vault/DOItest/rafts
+    doiIdentifierPrefix: RAFTS-
+    groupPrefix: TEST.DOI-
+    landingUrl: https://prod.canfar.net/rafts/landing
+    mdsUrl: https://mds.test.datacite.org
+    accountPrefix: "10.80791"
+    randomTestID: true
+
+  cookieSignaturePublicKey:
+    existingSecret:
+      name: canfar-skaha-prod-cookie-signature-public-key
+      path: RsaSignaturePub.key
+
+livenessProbe:
+  httpGet:
+    path: /rdoi/availability
+    port: http
+  periodSeconds: 40
+  timeoutSeconds: 40
+
+readinessProbe:
+  httpGet:
+    path: /rdoi/availability
+    port: http
+  periodSeconds: 40
+  timeoutSeconds: 40
+
+startupProbe:
+  httpGet:
+    path: /rdoi/availability
+    port: http
+  initialDelaySeconds: 10
+  timeoutSeconds: 40
+  periodSeconds: 40
+  failureThreshold: 30

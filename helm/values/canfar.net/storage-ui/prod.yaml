@@ -1,2 +1,19 @@
+kubernetesClusterDomain: keel-prod.local
+
 deployment:
-  hostname: www.canfar.net
+  hostname: prod.canfar.net
+
+  storageUI:
+    registryURL:
+      - "https://prod.canfar.net/reg"
+
+    cookieSignaturePublicKey:
+      existingSecret:
+        # Secret name (release namespace).
+        name: canfar-skaha-prod-cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
+
+    extraEnv:
+      - name: CANFAR_WEB_ROOT
+        value: "https://prod.canfar.net"

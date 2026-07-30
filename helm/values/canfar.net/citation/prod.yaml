@@ -1,13 +1,11 @@
 ingress:
-  enabled: true
   hosts:
     - host: prod.canfar.net
       paths:
-        - path: /
+        - path: /citation
           pathType: Prefix
-
-service:
-  port: 8000
 
 imagePullSecrets:
   - name: bucket-registry-auth
+
+canfarWebRoot: "https://prod.canfar.net"
