@@ -23,10 +23,6 @@ securityContext:
 
 deployment:
   storageUI:
-    registryURL:
-      - "https://spsrc27.iaa.csic.es/reg"
-      - "https://reg.swesrc.chalmers.se"
-
     theme:
       name: src
 
