@@ -42,8 +42,6 @@ deployment:
 
     gmsID: ivo://skao.int/gms
 
-    registryURL: "https://reg.swesrc.chalmers.se"
-
 secrets: {}
 
 # Database for UID/GID mappings (same JDBC as local deploy unless overridden per env).

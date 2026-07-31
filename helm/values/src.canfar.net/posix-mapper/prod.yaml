@@ -2,3 +2,7 @@ deployment:
   hostname: src.canfar.net
   posixMapper:
     resourceID: https://src.canfar.net/posix-mapper
+
+    registryURL: 
+      - "https://reg.swesrc.chalmers.se"
+      - "https://staging.canfar.net/reg"

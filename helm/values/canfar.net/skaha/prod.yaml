@@ -19,7 +19,7 @@ replicaCount: 3
 # not flip it. ClusterQueue get/list for SA canfar-skaha-prod is ambient /
 # pre-provisioned outside this release (track under Jira "Managed K8s Issues").
 metricsBackend:
-  enabled: false
+  enabled: true
   rbac:
     enabled: false
   image:
