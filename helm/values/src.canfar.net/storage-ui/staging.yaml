@@ -6,6 +6,10 @@ deployment:
       - "https://spsrc27.iaa.csic.es/reg"
       - "https://reg.swesrc.chalmers.se"
 
+    extraEnv:
+      - name: CATALINA_OPTS
+        value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5555"
+
     theme:
       logoURL: https://staging-src.canfar.net/science-portal/images/canSRCLogo.png
 
