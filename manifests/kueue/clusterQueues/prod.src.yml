@@ -2,7 +2,7 @@
 apiVersion: kueue.x-k8s.io/v1beta2
 kind: ClusterQueue
 metadata:
-  name: ska
+  name: src
   labels:
     app.kubernetes.io/name: kueue
 spec:
