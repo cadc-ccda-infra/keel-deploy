@@ -10,8 +10,7 @@ metadata:
 spec:
   project: canfar
   sources:
-    # - repoURL: https://images.opencadc.org/chartrepo/platform
-    - repoURL: https://images-rc.canfar.net/chartrepo/skaha-system
+    - repoURL: https://images.opencadc.org/chartrepo/platform
       chart: skaha
       targetRevision: 1.7.0
       helm:
