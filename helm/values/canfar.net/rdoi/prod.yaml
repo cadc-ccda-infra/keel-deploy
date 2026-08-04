@@ -16,14 +16,12 @@ application:
   registryURL: https://prod.canfar.net/reg
 
   config:
-    publisherGroupURI: ivo://cadc.nrc.ca/gms?RAFTS-test-reviewers
-    vospaceParentUri: vos://cadc.nrc.ca~vault/DOItest/rafts
+    publisherGroupURI: ivo://cadc.nrc.ca/gms?RAFTS-reviewers
+    vospaceParentUri: vos://cadc.nrc.ca~vault/AstroDataCitationDOI/CISTI.CANFAR/rafts
     doiIdentifierPrefix: RAFTS-
-    groupPrefix: TEST.DOI-
     landingUrl: https://prod.canfar.net/rafts/landing
-    mdsUrl: https://mds.test.datacite.org
-    accountPrefix: "10.80791"
-    randomTestID: true
+    mdsUrl: https://mds.datacite.org
+    accountPrefix: "10.11570"
 
   cookieSignaturePublicKey:
     existingSecret:

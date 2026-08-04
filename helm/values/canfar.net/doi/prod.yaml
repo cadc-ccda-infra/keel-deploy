@@ -16,12 +16,11 @@ application:
   registryURL: https://prod.canfar.net/reg
 
   config:
-    vospaceParentUri: vos://cadc.nrc.ca~vault/DOItest/doi
-    groupPrefix: TEST.DOI-
+    vospaceParentUri: vos://cadc.nrc.ca~vault/AstroDataCitationDOI/CISTI.CANFAR
+    groupPrefix: DOI-
     landingUrl: https://prod.canfar.net/citation/landing
-    mdsUrl: https://mds.test.datacite.org
-    accountPrefix: "10.80791"
-    randomTestID: true
+    mdsUrl: https://mds.datacite.org
+    accountPrefix: "10.11570"
 
   cookieSignaturePublicKey:
     existingSecret:
