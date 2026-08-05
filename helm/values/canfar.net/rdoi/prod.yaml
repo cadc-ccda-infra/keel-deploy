@@ -1,10 +1,10 @@
 # Production overlay — DataCite MDS and vault DOI parent, aligned with
 # bucket/deployments/canfar-rc/doi/rc/config/doi.properties (RC), adapted for
-# ws-cadc.canfar.net (landing via the production rafts UI on www.canfar.net).
+# ws-uv.canfar.net (landing via the production rafts UI on www.canfar.net).
 
 ingress:
   hosts:
-    - host: ws-cadc.canfar.net
+    - host: ws-uv.canfar.net
       paths:
         - path: /rdoi
           pathType: Prefix

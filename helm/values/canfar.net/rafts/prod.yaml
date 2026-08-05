@@ -26,7 +26,7 @@ application:
     secretKey: NEXTAUTH_SECRET
 
   # Maps to NEXT_DOI_BASE_URL
-  doiBaseUrl: "https://ws-cadc.canfar.net/rdoi/instances"
+  doiBaseUrl: "https://ws-uv.canfar.net/rdoi/instances"
 
   # BEGIN Services that still run at the old Web Service host.
   # These services run in the Docker Swarm deployment at UVic.
@@ -57,6 +57,6 @@ application:
   canfarStorageBaseUrl: "https://www.canfar.net/storage/vault/list"
 
   # ADES validator endpoints
-  validatorUrlXml: "https://ws-cadc.canfar.net/ades/validate-xml"
-  validatorUrlPsv: "https://ws-cadc.canfar.net/ades/validate-psv"
-  validatorUrlMpc: "https://ws-cadc.canfar.net/ades/validate-mpc"
+  validatorUrlXml: "https://ws-uv.canfar.net/ades/validate-xml"
+  validatorUrlPsv: "https://ws-uv.canfar.net/ades/validate-psv"
+  validatorUrlMpc: "https://ws-uv.canfar.net/ades/validate-mpc"

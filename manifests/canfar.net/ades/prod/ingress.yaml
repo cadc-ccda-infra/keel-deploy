@@ -1,4 +1,4 @@
-# Strip /ades so prod.canfar.net/ades/validate-* maps to the API root paths.
+# Strip /ades so ws-uv.canfar.net/ades/validate-* maps to the API root paths.
 # Matches the Traefik StripPrefix used in at88mph/deployment/rafts/docker-compose.yaml.
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -22,7 +22,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: canfar-system-production-ades-stripprefix@kubernetescrd
 spec:
   rules:
-    - host: prod.canfar.net
+    - host: ws-uv.canfar.net
       http:
         paths:
           - path: /ades
