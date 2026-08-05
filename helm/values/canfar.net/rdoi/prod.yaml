@@ -19,6 +19,7 @@ application:
     publisherGroupURI: ivo://cadc.nrc.ca/gms?RAFTS-reviewers
     vospaceParentUri: vos://cadc.nrc.ca~vault/AstroDataCitationDOI/CISTI.CANFAR/rafts
     doiIdentifierPrefix: RAFTS-
+    groupPrefix: ""
     landingUrl: https://www.canfar.net/rafts/landing
     mdsUrl: https://mds.datacite.org
     accountPrefix: "10.11570"
