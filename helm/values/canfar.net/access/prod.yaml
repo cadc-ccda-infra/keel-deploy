@@ -1,13 +1,13 @@
 ingress:
   enabled: true
   hosts:
-    - host: prod.canfar.net
+    - host: www.canfar.net
       paths:
         - path: /access
           pathType: Prefix
 
 registryURLs:
-  - https://prod.canfar.net/reg
+  - https://cadc-west-01.canfar.net/reg
 
 rsaSignaturePublicKey:
   existingSecret: cookie-signature-public-key

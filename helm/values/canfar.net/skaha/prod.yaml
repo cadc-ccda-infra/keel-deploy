@@ -60,13 +60,13 @@ autoscaling:
   maxReplicas: 3
 
 deployment:
-  hostname: prod.canfar.net
+  hostname: ws-uv.canfar.net
 
   skaha:
     image: images-rc.canfar.net/skaha-system/skaha:1.3.1-rc.2
     imagePullPolicy: Always
     registryURL:
-      - http://cadc-reg.cadc-system:8080/reg
+      - https://cadc-west-01.canfar.net/reg
 
     cookieSignaturePublicKey:
       existingSecret:

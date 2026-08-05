@@ -1,10 +1,10 @@
-# Production overlay — DataCite test MDS and vault DOItest parent, aligned with
+# Production overlay — DataCite MDS and vault DOI parent, aligned with
 # bucket/deployments/canfar-rc/doi/rc/config/doi.properties (RC), adapted for
-# prod.canfar.net (landing via the production citation UI).
+# ws-cadc.canfar.net (landing via the production rafts UI on www.canfar.net).
 
 ingress:
   hosts:
-    - host: prod.canfar.net
+    - host: ws-cadc.canfar.net
       paths:
         - path: /rdoi
           pathType: Prefix
@@ -13,13 +13,13 @@ imagePullSecrets:
   - name: bucket-registry-auth
 
 application:
-  registryURL: https://prod.canfar.net/reg
+  registryURL: https://cadc-west-01.canfar.net/reg
 
   config:
     publisherGroupURI: ivo://cadc.nrc.ca/gms?RAFTS-reviewers
     vospaceParentUri: vos://cadc.nrc.ca~vault/AstroDataCitationDOI/CISTI.CANFAR/rafts
     doiIdentifierPrefix: RAFTS-
-    landingUrl: https://prod.canfar.net/rafts/landing
+    landingUrl: https://www.canfar.net/rafts/landing
     mdsUrl: https://mds.datacite.org
     accountPrefix: "10.11570"
 

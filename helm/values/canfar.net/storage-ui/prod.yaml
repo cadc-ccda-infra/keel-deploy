@@ -1,11 +1,11 @@
 kubernetesClusterDomain: keel-prod.local
 
 deployment:
-  hostname: prod.canfar.net
+  hostname: www.canfar.net
 
   storageUI:
     registryURL:
-      - "https://prod.canfar.net/reg"
+      - "https://cadc-west-01.canfar.net/reg"
 
     cookieSignaturePublicKey:
       existingSecret:
@@ -16,4 +16,4 @@ deployment:
 
     extraEnv:
       - name: CANFAR_WEB_ROOT
-        value: "https://prod.canfar.net"
+        value: "https://www.canfar.net"

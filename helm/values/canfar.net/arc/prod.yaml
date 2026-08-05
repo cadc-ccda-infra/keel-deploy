@@ -1,12 +1,12 @@
 replicaCount: 1
 
 deployment:
-  hostname: prod.canfar.net
+  hostname: ws-uv.canfar.net
 
   cavern:
     image: images.opencadc.org/platform/cavern:0.10.2
     imagePullPolicy: Always
-    registryURL: https://prod.canfar.net/reg
+    registryURL: https://cadc-west-01.canfar.net/reg
 
     cookieSignaturePublicKey:
       existingSecret:

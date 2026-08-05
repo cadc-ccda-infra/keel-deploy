@@ -1,10 +1,10 @@
 # Production overlay — application env from
 # bucket/deployments/canfar-rc/rafts/configs.sh (env_vars), exposed on
-# prod.canfar.net (basePath /rafts).
+# www.canfar.net (basePath /rafts).
 
 ingress:
   hosts:
-    - host: prod.canfar.net
+    - host: www.canfar.net
       paths:
         - path: /rafts
           pathType: Prefix
@@ -18,7 +18,7 @@ imagePullSecrets:
 
 application:
   # Maps to NEXTAUTH_URL
-  nextauthUrl: "https://prod.canfar.net"
+  nextauthUrl: "https://www.canfar.net"
 
   # Maps to NEXTAUTH_SECRET — create Secret rafts-nextauth in canfar-system-production
   nextauthSecret:
@@ -26,7 +26,7 @@ application:
     secretKey: NEXTAUTH_SECRET
 
   # Maps to NEXT_DOI_BASE_URL
-  doiBaseUrl: "https://prod.canfar.net/rdoi/instances"
+  doiBaseUrl: "https://ws-cadc.canfar.net/rdoi/instances"
 
   # BEGIN Services that still run at the old Web Service host.
   # These services run in the Docker Swarm deployment at UVic.
@@ -48,15 +48,15 @@ application:
   # SSO cookie configuration
   cookieSsoKey: "CADC_SSO"
   canfarCookieDomain: "canfar.net"
-  canfarCookieUrl: "https://prod.canfar.net/access/sso?cookieValue="
+  canfarCookieUrl: "https://www.canfar.net/access/sso?cookieValue="
 
   # Maps to NEXT_CITE_URL
-  citeUrl: "DOItest/rafts"
+  citeUrl: "AstroDataCitationDOI/CISTI.CANFAR/rafts"
 
   # Maps to NEXT_CANFAR_STORAGE_BASE_URL
-  canfarStorageBaseUrl: "https://prod.canfar.net/storage/vault/list"
+  canfarStorageBaseUrl: "https://www.canfar.net/storage/vault/list"
 
   # ADES validator endpoints
-  validatorUrlXml: "https://prod.canfar.net/ades/validate-xml"
-  validatorUrlPsv: "https://prod.canfar.net/ades/validate-psv"
-  validatorUrlMpc: "https://prod.canfar.net/ades/validate-mpc"
+  validatorUrlXml: "https://ws-cadc.canfar.net/ades/validate-xml"
+  validatorUrlPsv: "https://ws-cadc.canfar.net/ades/validate-psv"
+  validatorUrlMpc: "https://ws-cadc.canfar.net/ades/validate-mpc"

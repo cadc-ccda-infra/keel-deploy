@@ -1,6 +1,6 @@
 ingress:
   hosts:
-    - host: prod.canfar.net
+    - host: www.canfar.net
       paths:
         - path: /citation
           pathType: Prefix
@@ -8,4 +8,4 @@ ingress:
 imagePullSecrets:
   - name: bucket-registry-auth
 
-canfarWebRoot: "https://prod.canfar.net"
+canfarWebRoot: "https://www.canfar.net"

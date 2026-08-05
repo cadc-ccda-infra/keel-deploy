@@ -1,6 +1,6 @@
 ingress:
   hosts:
-    - host: prod.canfar.net
+    - host: www.canfar.net
       paths:
         - path: /canfar
           pathType: Prefix
