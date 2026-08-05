@@ -2,9 +2,8 @@ deployment:
   hostname: staging-src.canfar.net
   storageUI:
     registryURL:
-      - "https://staging.canfar.net/reg"
-      - "https://spsrc27.iaa.csic.es/reg"
       - "https://reg.swesrc.chalmers.se"
+      - "https://spsrc27.iaa.csic.es/reg"
 
     extraEnv:
       - name: CATALINA_OPTS

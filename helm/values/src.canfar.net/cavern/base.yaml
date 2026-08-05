@@ -12,8 +12,8 @@ deployment:
     resourceID: "ivo://canfar.net/src/cavern"
 
     registryURL:
-      - "https://spsrc27.iaa.csic.es/reg"
       - "https://reg.swesrc.chalmers.se"
+      - "https://spsrc27.iaa.csic.es/reg"
 
     oidcURI: https://ska-iam.stfc.ac.uk/
 

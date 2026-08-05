@@ -1,6 +1,10 @@
 deployment:
   hostname: src.canfar.net
   skaha:
+    registryURL:
+      - "https://reg.swesrc.chalmers.se"
+      - "https://spsrc27.iaa.csic.es/reg"
+
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     sessions:
       hostname: workloads.canfar.net
