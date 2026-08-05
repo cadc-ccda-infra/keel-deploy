@@ -6,6 +6,10 @@ ingress:
         - path: /
           pathType: Prefix
 
+# Service URLs injected at runtime (see ADVANCED_SEARCH_URL / GROUP_MANAGEMENT_URL).
+advancedSearchUrl: "https://rc-www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/search/"
+groupManagementUrl: "https://rc-www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/groups/"
+
 service:
   port: 8000
 
