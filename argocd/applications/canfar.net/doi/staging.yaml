@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: canfar-doi-staging
-  namespace: canfar-argoc
+  namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: canfar.net
     argocd.argoproj.io/environment: staging
