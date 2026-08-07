@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: celery-cache-pvc
-  namespace: canfar-src-production
+  namespace: canfar-src-staging
 spec:
   accessModes:
   - ReadWriteOnce

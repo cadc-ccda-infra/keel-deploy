@@ -2,7 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: xrootd-pvc
-  namespace: canfar-src-production
+  namespace: canfar-src-staging
 spec:
   accessModes:
   - ReadOnlyMany
@@ -11,4 +11,4 @@ spec:
       storage: 1Ti
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: cephfs-legacy-src-production-xrootd-pv
+  volumeName: cephfs-legacy-src-staging-xrootd-pv
