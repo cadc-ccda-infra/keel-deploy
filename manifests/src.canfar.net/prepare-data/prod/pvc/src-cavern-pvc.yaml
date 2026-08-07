@@ -9,6 +9,6 @@ spec:
   resources:
     requests:
       storage: 1000Gi
-  storageClassName: "cephfs"
+  storageClassName: ""
   volumeMode: Filesystem
   volumeName: cephfs-legacy-src-production-cavern-pv
