@@ -10,6 +10,16 @@ deployment:
       hostname: workloads.canfar.net
       namespace: canfar-src-workloads
 
+      kueue:
+        rbac:
+          create: false
+        default:
+          queueName: "src-default"
+          priorityClass: "high"
+        headless:
+          queueName: "src-default"
+          priorityClass: "low"
+
       limitRange:
         enabled: true
         rbac:
