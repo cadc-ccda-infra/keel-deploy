@@ -141,7 +141,7 @@ Create in the target namespace before sync. Names are defined in values, not in 
 - **Cavern data:** `cavern/staging.yaml` mounts PVC `canfar-src-cavern-pvc` in `canfar-src-staging`
 - **Session home:** `skaha/base.yaml` mounts `canfar-src-workloads-pvc` in `canfar-src-workloads` under `/cavern`
 
-PVC manifests live in `manifests/src.canfar.net/volumes/staging/` and are applied outside the Helm release lifecycle.
+PVC manifests live in `manifests/src.canfar.net/volumes/[staging|production]/` and are applied outside the Helm release lifecycle.
 
 ## Kueue
 

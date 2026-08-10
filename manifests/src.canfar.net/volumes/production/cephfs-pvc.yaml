@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: canfar-src-cavern-pvc
+  namespace: canfar-src-production
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: cephfs-legacy-src-production-cavern-pv
