@@ -1,3 +1,5 @@
+# prod.yaml
+```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -32,3 +34,4 @@ spec:
     automated:
       prune: true
       selfHeal: true
+```
