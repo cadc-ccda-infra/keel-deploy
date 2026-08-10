@@ -23,7 +23,7 @@ spec:
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: canfar-cansrc
+    namespace: canfar-src-production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

@@ -25,7 +25,7 @@ spec:
       path: manifests/src.canfar.net/gatekeeper/prod
   destination:
     server: https://kubernetes.default.svc
-    namespace: canfar-cansrc
+    namespace: canfar-src-production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
