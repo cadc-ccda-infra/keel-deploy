@@ -43,21 +43,6 @@ celeryWorker:
                 operator: In
                 values: ["core", "celery-worker"]
           topologyKey: kubernetes.io/hostname
-    nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 50
-        preference:
-          matchExpressions:
-          - key: skaha.opencadc.org/node-type
-            operator: In
-            values:
-            - service-node
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: nvidia.com/gpu.count
-            operator: DoesNotExist
-
 
 service:
   type: ClusterIP
@@ -115,3 +100,17 @@ affinity:
               operator: In
               values: ["core", "celery-worker"]
         topologyKey: kubernetes.io/hostname
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference:
+        matchExpressions:
+        - key: skaha.opencadc.org/node-type
+          operator: In
+          values:
+          - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nvidia.com/gpu.count
+          operator: DoesNotExist
