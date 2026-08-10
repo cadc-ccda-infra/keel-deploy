@@ -20,7 +20,7 @@ deployment:
       limitRange:
         enabled: true
         rbac:
-          create: false
+          create: true
         spec:
           max:
             memory: "96Gi"
@@ -34,3 +34,13 @@ deployment:
             memory: "4Gi"
             cpu: "1"
             nvidia.com/gpu: "0"
+
+rbac:
+  # Whether to create RBAC roles and bindings for Skaha.  Defaults to true.
+  create: true
+
+  # Node-capacity ClusterRole is unused for platform stats (Metrics backend owns
+  # cluster totals). Capsule also cannot create cluster-scoped roles here.
+  # Keep false; do not re-enable for stats.
+  clusterRole:
+    create: false

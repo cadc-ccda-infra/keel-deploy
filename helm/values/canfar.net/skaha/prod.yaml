@@ -63,7 +63,6 @@ deployment:
   hostname: ws-uv.canfar.net
 
   skaha:
-    image: images-rc.canfar.net/skaha-system/skaha:1.3.1-rc.2
     imagePullPolicy: Always
     registryURL:
       - https://cadc-west-01.canfar.net/reg
