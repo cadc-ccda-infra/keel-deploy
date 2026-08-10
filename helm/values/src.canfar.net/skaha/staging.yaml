@@ -22,6 +22,11 @@ deployment:
         create: true
         name: canfar-src-workloads
 
+      userStorage:
+        spec:
+          persistentVolumeClaim:
+            claimName: src-workloads-pvc
+
       gpuEnabled: true
 
       kueue:

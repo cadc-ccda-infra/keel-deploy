@@ -8,7 +8,14 @@ deployment:
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     sessions:
       hostname: workloads.canfar.net
-      namespace: canfar-src-workloads
+      namespace: 
+        name: canfar-src-workloads
+        create: false
+
+      userStorage:
+        spec:
+          persistentVolumeClaim:
+            claimName: src-workloads-pvc
 
       limitRange:
         enabled: true
