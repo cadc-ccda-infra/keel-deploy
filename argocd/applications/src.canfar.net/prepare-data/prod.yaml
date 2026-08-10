@@ -10,7 +10,7 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://artefact.skao.int/service/rest/repository/browse/helm-internal
+    - repoURL: https://artefact.skao.int/repository/helm-internal/
       chart: ska-src-dm-local-data-preparer
       targetRevision: 0.3.9
       helm:
