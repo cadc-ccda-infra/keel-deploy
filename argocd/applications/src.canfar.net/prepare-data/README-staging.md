@@ -1,14 +1,14 @@
-# prepare data
+# staging.yaml
 
 ```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: src-prepare-data-prod
+  name: src-prepare-data-staging
   namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: src.canfar.net
-    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/environment: staging
     argocd.argoproj.io/service: prepare-data
 spec:
   project: canfar
@@ -20,16 +20,16 @@ spec:
         releaseName: dpapi
         valueFiles:
           - $values/helm/values/src.canfar.net/prepare-data/base.yaml
-          - $values/helm/values/src.canfar.net/prepare-data/prod.yaml
+          - $values/helm/values/src.canfar.net/prepare-data/staging.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
-      path: manifests/src.canfar.net/prepare-data/prod/pvc
+      path: manifests/src.canfar.net/prepare-data/staging/pvc
   destination:
     server: https://kubernetes.default.svc
-    namespace: canfar-src-production
+    namespace: canfar-src-staging
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

@@ -1,33 +1,26 @@
-# Gatekeeper
-
-Disabled service for now.  Recreate from YAML below when ready.
-
-```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: src-gatekeeper-prod
+  name: src-soda-prod
   namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: src.canfar.net
     argocd.argoproj.io/environment: production
-    argocd.argoproj.io/service: gatekeeper
+    argocd.argoproj.io/service: soda
 spec:
   project: canfar
   sources:
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
-      path: helm/charts/src.canfar.net/ska-src-dm-da-service-gatekeeper
+      path: helm/charts/src.canfar.net/ska-src-soda
       helm:
+        releaseName: ska-src-soda
         valueFiles:
-          - $values/helm/values/src.canfar.net/gatekeeper/base.yaml
-          - $values/helm/values/src.canfar.net/gatekeeper/prod.yaml
+          - $values/helm/values/src.canfar.net/soda/base.yaml
+          - $values/helm/values/src.canfar.net/soda/prod.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
-    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
-      targetRevision: main
-      path: manifests/src.canfar.net/gatekeeper/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: canfar-cansrc
@@ -37,4 +30,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-```

@@ -1,38 +1,35 @@
-# SODA
-
-Disabled service for now.  Recreate from YAML below when ready.
-
-```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: src-soda-prod
+  name: src-prepare-data-prod
   namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: src.canfar.net
     argocd.argoproj.io/environment: production
-    argocd.argoproj.io/service: soda
+    argocd.argoproj.io/service: prepare-data
 spec:
   project: canfar
   sources:
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
-      path: helm/charts/src.canfar.net/ska-src-soda
+      path: helm/charts/src.canfar.net/ska-src-dm-local-data-preparer
       helm:
-        releaseName: ska-src-soda
+        releaseName: dpapi
         valueFiles:
-          - $values/helm/values/src.canfar.net/soda/base.yaml
-          - $values/helm/values/src.canfar.net/soda/prod.yaml
+          - $values/helm/values/src.canfar.net/prepare-data/base.yaml
+          - $values/helm/values/src.canfar.net/prepare-data/prod.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      path: manifests/src.canfar.net/prepare-data/prod/pvc
   destination:
     server: https://kubernetes.default.svc
-    namespace: canfar-cansrc
+    namespace: canfar-src-production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
-```
