@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: canfar-src-cavern-pvc
+  name: src-cavern-pvc
   namespace: canfar-src-production
 spec:
   accessModes:

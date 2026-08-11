@@ -3,22 +3,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: src-prepare-data-prod
+  name: src-skaha-prod
   namespace: canfar-argocd
   labels:
     argocd.argoproj.io/domain: src.canfar.net
     argocd.argoproj.io/environment: production
-    argocd.argoproj.io/service: prepare-data
+    argocd.argoproj.io/service: skaha
 spec:
   project: canfar
   sources:
-    - repoURL: https://artefact.skao.int/repository/helm-internal/
-      chart: ska-src-dm-local-data-preparer
-      targetRevision: 0.3.9
+    - repoURL: https://images.opencadc.org/chartrepo/platform
+      chart: skaha
+      targetRevision: 1.7.0
       helm:
         valueFiles:
-          - $values/helm/values/src.canfar.net/prepare-data/base.yaml
-          - $values/helm/values/src.canfar.net/prepare-data/prod.yaml
+          - $values/helm/values/src.canfar.net/skaha/base.yaml
+          - $values/helm/values/src.canfar.net/skaha/prod.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values

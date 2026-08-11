@@ -2,11 +2,11 @@
 
 echo:
   namespace:
-    name: canfar-cansrc
+    name: canfar-src-production
 
 gatekeeper:
   resolver: 169.254.25.10
-  namespace: canfar-cansrc
+  namespace: canfar-src-production
   image:
     repository: at88mph/ska-src-dm-da-service-gatekeeper
     tag: 0.3.2

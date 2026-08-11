@@ -24,9 +24,6 @@ spec:
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
-    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
-      targetRevision: main
-      path: manifests/src.canfar.net/prepare-data/staging/pvc
   destination:
     server: https://kubernetes.default.svc
     namespace: canfar-src-staging
