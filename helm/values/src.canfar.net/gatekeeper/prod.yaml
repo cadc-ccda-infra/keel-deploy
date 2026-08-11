@@ -1,4 +1,4 @@
-# Production overlays for SKA Gatekeeper on src.canfar.net (namespace canfar-cansrc).
+# Production overlays for SKA Gatekeeper on src.canfar.net (namespace canfar-src-production).
 
 echo:
   namespace:
@@ -19,11 +19,11 @@ gatekeeper:
       # Echo service is used for testing gatekeeper throughput.
       # Example: curl -H "authorization: Bearer <TOKEN>" "https://src.canfar.net/echo?ID=some-test-value"
       - route: "/echo"
-        address: "http://ska-src-dm-da-service-gatekeeper-echo.canfar-cansrc.svc.keel-prod.local:8080/"
+        address: "http://ska-src-dm-da-service-gatekeeper-echo.canfar-src-production.svc.keel-prod.local:8080/"
         uuid: "0dddb922-b67e-4629-9b6f-2349d04350fe"
       - route: "/soda"
-        address: "http://ska-src-soda.canfar-cansrc.svc.keel-prod.local:8080/"
+        address: "http://ska-src-soda.canfar-src-production.svc.keel-prod.local:8080/"
         uuid: "cfce5f46-f034-4dd8-adb9-5cc96cf63cc9"
       - route: "/preparedata"
-        address: "http://core.canfar-cansrc.svc.keel-prod.local:8000/"
+        address: "http://core.canfar-src-production.svc.keel-prod.local:8000/"
         uuid: "2b9f8215-9aec-4554-9a1d-ed87bd0e9cf7"
