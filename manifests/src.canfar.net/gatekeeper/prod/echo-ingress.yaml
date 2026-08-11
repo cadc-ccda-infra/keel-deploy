@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: echo-traefik-ingress
-  namespace: canfar-cansrc
+  namespace: canfar-src-production
   annotations:
     traefik.ingress.kubernetes.io/router.tls: "false"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
