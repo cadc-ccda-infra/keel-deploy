@@ -15,7 +15,7 @@ deployment:
       userStorage:
         spec:
           persistentVolumeClaim:
-            claimName: src-workloads-pvc
+            claimName: canfar-src-workloads-pvc
 
       limitRange:
         enabled: true
