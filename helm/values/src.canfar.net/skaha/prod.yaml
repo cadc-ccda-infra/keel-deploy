@@ -35,6 +35,19 @@ deployment:
             cpu: "1"
             nvidia.com/gpu: "0"
 
+      authorization:
+        permissionsAPI:
+          # @see https://permissions.srcnet.skao.int/api/openapi.json for the API specification.
+          # -- When true, SKAHA_PERMISSIONS_API_*_ENABLED is set from baseURL, type, route, name, version, and method. Required baseURL when enabled (Helm validates). The Skaha service enforces mutually exclusive authorization modes at runtime.
+          enabled: true
+          # -- Required when enabled is true (Helm validates).
+          baseURL: "https://permissions.srcnet.skao.int/api"
+          authAPIBaseURL: "https://authn.srcnet.skao.int/api"
+          name: "canfar-api"
+          version: "1"
+       
+   
+
 rbac:
   # Whether to create RBAC roles and bindings for Skaha.  Defaults to true.
   create: true
