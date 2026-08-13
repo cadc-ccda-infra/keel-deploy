@@ -10,9 +10,9 @@ metadata:
 spec:
   project: cadc
   sources:
-    - repoURL: https://images-rc.canfar.net/chartrepo/library
+    - repoURL: https://images.opencadc.org/chartrepo/core
       chart: reg
-      targetRevision: 1.2.1-rc.2
+      targetRevision: 1.2.1
       helm:
         valueFiles:
           - $values/helm/values/cadc-west.canfar.net/reg/base.yaml
