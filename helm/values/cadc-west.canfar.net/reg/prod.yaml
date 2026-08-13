@@ -1,3 +1,9 @@
+image:
+  repository: bucket.canfar.net/reg-with-content
+  tag: "1.2.1-20250917T224327"
+imagePullSecrets:
+  - name: bucket-registry-auth
+
 application:
   # Ensure OAI is disabled.
   authority: ""
