@@ -15,8 +15,8 @@ spec:
       targetRevision: 1.2.1
       helm:
         valueFiles:
-          - $values/helm/values/staging-src.canfar.net/reg/base.yaml
-          - $values/helm/values/staging-src.canfar.net/reg/staging.yaml
+          - $values/helm/values/src.canfar.net/reg/base.yaml
+          - $values/helm/values/src.canfar.net/reg/staging.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
