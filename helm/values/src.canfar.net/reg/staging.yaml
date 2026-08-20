@@ -1,8 +1,6 @@
 image:
-  repository: bucket.canfar.net/reg-with-content
-  tag: "1.2.1-20250917T224327"  
-imagePullSecrets: 
-  - name: bucket-registry-auth
+  repository: images.canfar.net/core/reg
+  tag: "1.2.1-20251219T185353"  
 application:
   # Ensure OAI is disabled.
   authority: ""
@@ -17,8 +15,6 @@ application:
       url: https://rc-src.canfar.net/posix-mapper/capabilities
     - id: ivo://skao.int/gms
       url: https://permissions.srcnet.skao.int/api/v1/gms/capabilities
-
-  authority: ivo://canfar.net/src/authority
 
 ingress:
   hosts:
