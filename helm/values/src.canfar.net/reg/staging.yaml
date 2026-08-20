@@ -1,5 +1,5 @@
 image:
-  repository: images.canfar.net/core/reg
+  repository: images.opencadc.org/core/reg
   tag: "1.2.1-20251219T185353"  
 application:
   # Ensure OAI is disabled.
