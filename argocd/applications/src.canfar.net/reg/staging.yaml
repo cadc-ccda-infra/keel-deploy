@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-reg-staging
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: staging-src.canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: reg
+spec:
+  project: cadc
+  sources:
+    - repoURL: https://images.opencadc.org/chartrepo/core
+      chart: reg
+      targetRevision: 1.2.1
+      helm:
+        valueFiles:
+          - $values/helm/values/staging-src.canfar.net/reg/base.yaml
+          - $values/helm/values/staging-src.canfar.net/reg/staging.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-src-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

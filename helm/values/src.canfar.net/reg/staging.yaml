@@ -1,0 +1,28 @@
+image:
+  repository: bucket.canfar.net/reg-with-content
+  tag: "1.2.1-20250917T224327"  
+imagePullSecrets: 
+  - name: bucket-registry-auth
+application:
+  # Ensure OAI is disabled.
+  authority: ""
+
+  # Derived from IVOA Registry (reg) service entries in the reg-resource-caps.properties file.
+  serviceEntries:
+    - id: ivo://canfar.net/src/skaha
+      url: https://rc-src.canfar.net/skaha/capabilities
+    - id: ivo://canfar.net/src/cavern
+      url: https://rc-src.canfar.net/cavern/capabilities
+    - id: ivo://canfar.net/src/posix-mapper
+      url: https://rc-src.canfar.net/posix-mapper/capabilities
+    - id: ivo://skao.int/gms
+      url: https://permissions.srcnet.skao.int/api/v1/gms/capabilities
+
+  authority: ivo://canfar.net/src/authority
+
+ingress:
+  hosts:
+    - host: staging-src.canfar.net
+      paths:
+        - path: /reg
+          pathType: Prefix
