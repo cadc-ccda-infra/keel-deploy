@@ -1,7 +1,9 @@
+# Cohort `canfar` for the dev cluster (cadc ClusterQueue only).
 apiVersion: kueue.x-k8s.io/v1beta2
 kind: Cohort
 metadata:
   name: canfar
   labels:
     app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
 spec: {}

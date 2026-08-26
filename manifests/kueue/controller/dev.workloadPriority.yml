@@ -1,0 +1,33 @@
+---
+# WorkloadPriorityClass
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: WorkloadPriorityClass
+metadata:
+  name: low
+  labels:
+    app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
+value: 10000
+description: "Low Priority"
+---
+# WorkloadPriorityClass
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: WorkloadPriorityClass
+metadata:
+  name: medium
+  labels:
+    app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
+value: 100000
+description: "Medium Priority"
+---
+# WorkloadPriorityClass
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: WorkloadPriorityClass
+metadata:
+  name: high
+  labels:
+    app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
+value: 1000000
+description: "High Priority"

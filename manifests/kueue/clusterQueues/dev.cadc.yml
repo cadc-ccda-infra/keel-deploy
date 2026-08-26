@@ -23,17 +23,17 @@ spec:
         - name: "default"
           resources:
             - name: "cpu"
-              nominalQuota: "2800"
-              lendingLimit: "2800"
+              nominalQuota: "28"
+              lendingLimit: "28"
             - name: "memory"
-              nominalQuota: "12400Gi"
-              lendingLimit: "12400Gi"
+              nominalQuota: "124Gi"
+              lendingLimit: "124Gi"
             - name: "ephemeral-storage"
-              nominalQuota: "99200Gi"
-              lendingLimit: "99200Gi"
+              nominalQuota: "992Gi"
+              lendingLimit: "992Gi"
             - name: "nvidia.com/gpu"
-              nominalQuota: "112"
-              lendingLimit: "112"
+              nominalQuota: "0"
+              lendingLimit: "0"
   preemption:
     reclaimWithinCohort: LowerPriority
     borrowWithinCohort:
