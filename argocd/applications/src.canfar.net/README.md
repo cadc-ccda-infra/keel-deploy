@@ -71,7 +71,7 @@ Helm-based children use **multiple sources** (Argo CD 2.6+): chart from OpenCADC
 
 ### Kueue
 
-`canfar-kueue-staging-src` syncs only the SRC `LocalQueue` manifest from `helm/values/src.canfar.net/kueue/localQueues/prod.src.yml`. The cluster-wide Kueue controller and `ClusterQueue` resources are reconciled outside this repo by a ClusterOperator-managed Argo CD application.
+`canfar-kueue-staging-src` syncs only the SRC `LocalQueue` manifest from `helm/values/src.canfar.net/kueue/localQueues/prod.src.yml`. The cluster-wide Kueue controller and `ClusterQueue` resources are reconciled outside this app-of-apps by a ClusterOperator-managed Argo CD application. Layout, quotas, and labels: [`docs/kueue.md`](../../../docs/kueue.md).
 
 ## SRCNet integration
 
