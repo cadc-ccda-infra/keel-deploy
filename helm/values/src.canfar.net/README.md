@@ -145,4 +145,4 @@ PVC manifests live in `manifests/src.canfar.net/volumes/[staging|production]/` a
 
 ## Kueue
 
-`kueue/localQueues/prod.ska.yml` defines `LocalQueue` `ska-default` in `canfar-src-workloads`, bound to cluster queue `ska`. Synced by Argo app `canfar-kueue-staging-src`, not by a Helm chart in this tree.
+`kueue/localQueues/prod.src.yml` defines `LocalQueue` `src-default` in `canfar-src-workloads`, bound to cluster queue `src` (cohort `canfar`). Synced by Argo app `canfar-kueue-staging-src`, not by a Helm chart in this tree. Cluster-scoped Kueue objects and the canfar.net Metrics queue list: [`docs/kueue.md`](../../../docs/kueue.md).

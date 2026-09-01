@@ -17,6 +17,16 @@ deployment:
           persistentVolumeClaim:
             claimName: canfar-src-workloads-pvc
 
+      kueue:
+        rbac:
+          create: false
+        default:
+          queueName: "src-default"
+          priorityClass: "high"
+        headless:
+          queueName: "src-default"
+          priorityClass: "low"
+
       limitRange:
         enabled: true
         rbac:

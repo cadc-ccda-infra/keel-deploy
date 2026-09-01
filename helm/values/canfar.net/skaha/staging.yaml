@@ -6,10 +6,11 @@ replicaCount: 3
 # When enabled, the chart injects SKAHA_METRICS_BACKEND_URL on Tomcat so
 # GET /v1/session?view=stats (platform stats) reads capacity/allocated from
 # Metrics GET /api/v1/metrics/platform — not from node listing.
-# Kueue alignment: ClusterQueues `cadc` and `ska` — see
-# keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.cadc.yml,
-# keel-deploy/helm/values/canfar.net/kueue/clusterQueues/prod.ska.yml, and
-# keel-deploy/helm/values/canfar.net/kueue/controller/controller.config.yml
+# Kueue alignment: ClusterQueues `cadc` and `src` (cohort `canfar`) — see
+# keel-deploy/manifests/kueue/clusterQueues/prod.cadc.yml,
+# keel-deploy/manifests/kueue/clusterQueues/prod.src.yml,
+# keel-deploy/manifests/kueue/clusterQueues/prod.cohorts.yml, and
+# keel-deploy/manifests/kueue/controller/controller.config.yml
 # (METRICS_* names follow science-platform/metrics docs/environment-contracts.md).
 # METRICS_REDIS_URL is injected by the Skaha chart from this release's Bitnami Redis when metricsBackend.redis.enabled is true.
 # METRICS_ENVIRONMENT is set per Argo overlay (staging.yaml, integration.yaml, prod.yaml) to match the deployment hostname tier.
@@ -40,7 +41,7 @@ metricsBackend:
     METRICS_OTEL_EXPORT_INTERVAL_MILLIS: "60000"
     METRICS_PROVIDERS__KUEUE__KUBE_API_URL: "https://kubernetes.default.svc"
     METRICS_PROVIDERS__KUEUE__KUBE_VERIFY_TLS: "true"
-    METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","ska"]'
+    METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","src"]'
     METRICS_PROVIDERS__KUEUE__TOKEN_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/token"
     METRICS_PROVIDERS__KUEUE__CA_FILE: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 

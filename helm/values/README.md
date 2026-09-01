@@ -63,6 +63,9 @@ canSRC is **independent** from main `canfar.net` values—different hostnames, n
 | `argocd/applications/<domain>/` | `Application` CRs that consume these values |
 | `argocd/bootstrap/` | App-of-apps parents per domain |
 | `manifests/<domain>/` | PVCs and other resources not owned by a Helm release |
+| `manifests/kueue/` | Kueue controller values, ClusterQueues, Cohort (operator ApplicationSet) |
+| `docs/skaha-metrics.md` | How Skaha Metrics is enabled in the Skaha release |
+| `docs/kueue.md` | ClusterQueues, LocalQueues, prod vs dev |
 | `helm/harbor/` | Harbor chart repo registration helpers |
 
 Repository-wide bootstrap, secrets tables, and adding new applications: [root README.md](../../README.md).
