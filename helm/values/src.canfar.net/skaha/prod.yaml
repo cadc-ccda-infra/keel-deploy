@@ -10,7 +10,7 @@ deployment:
       hostname: workloads.canfar.net
       namespace: 
         name: canfar-src-workloads
-        create: false
+        create: true
 
       userStorage:
         spec:
