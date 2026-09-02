@@ -19,12 +19,12 @@ deployment:
       hostname: workloads.canfar.net
       namespace:
         create: true
-        name: canfar-src-workloads
+        name: canfar-staging-src-workloads
 
       userStorage:
         spec:
           persistentVolumeClaim:
-            claimName: canfar-src-workloads-pvc
+            claimName: canfar-staging-src-workloads-pvc
         topLevelDirectory: "/cavern"
         nodeURIPrefix: "vos://canfar.net~src~cavern"
         serviceURI: "ivo://canfar.net/src/cavern"
