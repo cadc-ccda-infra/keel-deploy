@@ -41,6 +41,7 @@ managedJobsNamespaceSelector:
       operator: In
       values:
         - canfar-workloads
+        - canfar-staging-workloads
         - canfar-src-workloads
 
 # Fair sharing: which preemption rules to try, in order (see validation-allowed sets in Kueue).

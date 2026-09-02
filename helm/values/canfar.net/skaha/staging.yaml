@@ -71,7 +71,7 @@ deployment:
     sessions:
       hostname: workloads.canfar.net
       namespace: 
-        name: canfar-workloads
+        name: canfar-staging-workloads
         create: true
       userStorage:
         nodeURIPrefix: "vos://cadc.nrc.ca~arc"
