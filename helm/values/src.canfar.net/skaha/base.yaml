@@ -81,11 +81,6 @@ deployment:
                   values:
                     - service-node
 
-      userStorage:
-        topLevelDirectory: "/cavern"
-        nodeURIPrefix: "vos://canfar.net~staging-src~cavern"
-        serviceURI: "ivo://canfar.net/staging-src/cavern"
-
       extraVolumes:
         - name: cvmfs
           volume:
