@@ -4,5 +4,4 @@ deployment:
     resourceID: https://staging-src.canfar.net/posix-mapper
 
     registryURL: 
-      - "https://reg.swesrc.chalmers.se"
-      - "https://staging.canfar.net/reg"
+      - "https://staging-src.canfar.net/reg"

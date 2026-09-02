@@ -4,6 +4,10 @@ deployment:
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/src/cavern"
 
+    registryURL:
+      - "https://reg.swesrc.chalmers.se"
+      - "https://spsrc27.iaa.csic.es/reg"
+
     uws:
       db:
         install: false
