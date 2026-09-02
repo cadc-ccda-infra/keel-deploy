@@ -13,8 +13,7 @@ deployment:
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
 
     registryURL:
-      - "https://reg.swesrc.chalmers.se"
-      - "https://spsrc27.iaa.csic.es/reg"
+      - "https://staging-src.canfar.net/reg"
 
     sessions:
       hostname: workloads.canfar.net
@@ -26,6 +25,9 @@ deployment:
         spec:
           persistentVolumeClaim:
             claimName: src-workloads-pvc
+        topLevelDirectory: "/cavern"
+        nodeURIPrefix: "vos://canfar.net~src~cavern"
+        serviceURI: "ivo://canfar.net/src/cavern"
 
       gpuEnabled: true
 
