@@ -22,4 +22,4 @@ storage:
   service:
     spec:
       persistentVolumeClaim:
-        claimName: src-cavern-pvc
+        claimName: canfar-src-cavern-pvc
