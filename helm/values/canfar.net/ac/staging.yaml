@@ -1,0 +1,23 @@
+ingress:
+  enabled: true
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /ac
+          pathType: Prefix
+
+tomcat:
+  connector:
+    proxyName: staging.canfar.net
+    scheme: https
+    proxyPort: "443"
+
+application:
+  registryURL: https://staging.canfar.net/reg
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+serviceAccount:
+  create: false
+  automount: false
