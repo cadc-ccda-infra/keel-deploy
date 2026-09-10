@@ -1,0 +1,5 @@
+# AC service identity. Required.
+org.opencadc.ac.resourceID = ivo://cadc.nrc.ca/gms
+
+# Optional. Repeat this property for each X.509 DN allowed to read any group.
+# org.opencadc.ac.readUser = <FILL_PRIVILEGED_X500_DN>

@@ -1,0 +1,8 @@
+# Public reverse-proxy settings. The chart should render these from ingress values.
+tomcat.connector.scheme = https
+tomcat.connector.proxyName = <FILL_AC_PUBLIC_HOST>
+tomcat.connector.proxyPort = 443
+
+# Common OpenCADC runtime settings used by the existing CANFAR charts.
+ca.nrc.cadc.auth.PrincipalExtractor.enableClientCertHeader = true
+ca.nrc.cadc.util.Log4jInit.messageOnly = true
