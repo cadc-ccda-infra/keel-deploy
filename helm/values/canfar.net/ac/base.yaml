@@ -30,6 +30,8 @@ securityContext:
 application:
   endpoint: /ac
   resourceID: ivo://cadc.nrc.ca/gms
+  runtimeConfig:
+    existingSecret: ac-runtime-config
   readUsers: []
   domains: []
   groupNameRules: {}
@@ -39,11 +41,32 @@ application:
     groups:
       - "ivo://cadc.nrc.ca/gms?CADC"
 
-# Pre-create this Secret in the destination namespace. It must contain
-# ac-ldap-config.properties. OIDC deployments also require
-# ac-oidc-clients.properties and the oidc-rsa256 public/private key pair.
-configuration:
-  existingSecret: ac-runtime-config
+  # Pre-create the runtimeConfig Secret in the destination namespace. It must
+  # contain ac-ldap-config.properties. OIDC deployments also require the OIDC
+  # client file and the oidc-rsa256 public/private key pair.
+
+  resources:
+    requests:
+      memory: "500M"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "750m"
+
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+            - key: skaha.opencadc.org/node-type
+              operator: In
+              values:
+                - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nvidia.com/gpu.count
+              operator: DoesNotExist
 
 livenessProbe:
   httpGet:
@@ -70,27 +93,3 @@ startupProbe:
   periodSeconds: 20
   timeoutSeconds: 30
   failureThreshold: 30
-
-resources:
-  requests:
-    memory: "500M"
-    cpu: "500m"
-  limits:
-    memory: "1Gi"
-    cpu: "750m"
-
-affinity:
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 50
-        preference:
-          matchExpressions:
-            - key: skaha.opencadc.org/node-type
-              operator: In
-              values:
-                - service-node
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: nvidia.com/gpu.count
-              operator: DoesNotExist

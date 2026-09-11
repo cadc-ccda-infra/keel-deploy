@@ -1,5 +1,0 @@
-# Optional dynamic logging controls. Repeat entries as required.
-# user = <FILL_PRIVILEGED_X500_DN>
-# username = <FILL_PRIVILEGED_HTTP_USER>
-# group = ivo://cadc.nrc.ca/gms?<FILL_LOGGING_GROUP>
-# secret = <FILL_LOG_CONTROL_SECRET>

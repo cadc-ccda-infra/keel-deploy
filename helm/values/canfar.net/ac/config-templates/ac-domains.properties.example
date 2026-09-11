@@ -1,2 +1,0 @@
-# Space-separated domains included in OIDC access tokens for SSO.
-domains = <FILL_SSO_DOMAINS_SPACE_SEPARATED>

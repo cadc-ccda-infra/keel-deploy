@@ -1,7 +1,9 @@
 # CANFAR ac staging deployment
 
-This directory contains the values and handoff templates for the OpenCADC ac
-service image `bucket.canfar.net/ac:1.5.0-20260127T224241`.
+This directory contains the CANFAR environment values for the OpenCADC ac
+service image `bucket.canfar.net/ac:1.5.0-20260127T224241`. The chart and
+configuration examples are maintained with the application source under
+`opencadc/ac/ac/helm`, following the same layout as `opencadc/doi/doi/helm`.
 
 Before syncing `canfar-ac-staging`, ensure that:
 
