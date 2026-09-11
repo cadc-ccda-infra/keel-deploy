@@ -14,6 +14,7 @@ spec:
       chart: doi
       targetRevision: 0.1.2
       helm:
+        passCredentials: true
         valueFiles:
           - $values/helm/values/canfar.net/doi/base.yaml
           - $values/helm/values/canfar.net/doi/staging.yaml
