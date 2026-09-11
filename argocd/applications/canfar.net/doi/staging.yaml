@@ -10,8 +10,8 @@ metadata:
 spec:
   project: canfar
   sources:
-    - path: doi
-      repoURL: bucket.canfar.net/charts
+    - repoURL: bucket.canfar.net/charts
+      chart: doi
       targetRevision: 0.1.2
       helm:
         passCredentials: true
