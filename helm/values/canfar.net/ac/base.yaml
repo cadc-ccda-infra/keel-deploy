@@ -62,35 +62,35 @@ application:
             - key: nvidia.com/gpu.count
               operator: DoesNotExist
 
-# LDAP connection details are intentionally listed here for the service owner
-# to complete. The password is read from an existing Kubernetes Secret.
-ldap:
-  readOnly:
-    servers: ""
-  readWrite:
-    servers: ""
-  unboundReadOnly:
-    servers: ""
-  port: 636
-  proxyUser: ""
-  proxyPassword:
-    existingSecret: ac-ldap-config
-    key: proxyPassword
-  usersDN: ""
-  groupsDN: ""
-  adminGroupsDN: ""
-  userRequestsDN: ""
+  # LDAP connection details are intentionally listed here for the service
+  # owner to complete. The password is read from an existing Kubernetes Secret.
+  ldap:
+    readOnly:
+      servers: ""
+    readWrite:
+      servers: ""
+    unboundReadOnly:
+      servers: ""
+    port: 636
+    proxyUser: ""
+    proxyPassword:
+      existingSecret: ac-ldap-config
+      key: proxyPassword
+    usersDN: ""
+    groupsDN: ""
+    adminGroupsDN: ""
+    userRequestsDN: ""
 
-# Add clients only when the ac OIDC endpoints are enabled. Each client secret
-# is referenced from Kubernetes rather than stored in this repository.
-oidc:
-  clients: []
-  # Replace [] with one entry per existing client after the service owner
-  # supplies the real client IDs and non-secret settings. Each entry requires
-  # id, secret.existingSecret, description, claims, and signDocuments;
-  # accessGroup is optional.
-  signingKeys:
-    existingSecret: ""
+  # Add clients only when the ac OIDC endpoints are enabled. Each client secret
+  # is referenced from Kubernetes rather than stored in this repository.
+  oidc:
+    clients: []
+    # Replace [] with one entry per existing client after the service owner
+    # supplies the real client IDs and non-secret settings. Each entry requires
+    # id, secret.existingSecret, description, claims, and signDocuments;
+    # accessGroup is optional.
+    signingKeys:
+      existingSecret: ""
 
 livenessProbe:
   httpGet:
