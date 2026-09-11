@@ -30,8 +30,6 @@ securityContext:
 application:
   endpoint: /ac
   resourceID: ivo://cadc.nrc.ca/gms
-  runtimeConfig:
-    existingSecret: ac-runtime-config
   readUsers: []
   domains: []
   groupNameRules: {}
@@ -40,10 +38,6 @@ application:
     usernames: []
     groups:
       - "ivo://cadc.nrc.ca/gms?CADC"
-
-  # Pre-create the runtimeConfig Secret in the destination namespace. It must
-  # contain ac-ldap-config.properties. OIDC deployments also require the OIDC
-  # client file and the oidc-rsa256 public/private key pair.
 
   resources:
     requests:
@@ -67,6 +61,32 @@ application:
         - matchExpressions:
             - key: nvidia.com/gpu.count
               operator: DoesNotExist
+
+# LDAP connection details are intentionally listed here for the service owner
+# to complete. The password is read from an existing Kubernetes Secret.
+ldap:
+  readOnly:
+    servers: ""
+  readWrite:
+    servers: ""
+  unboundReadOnly:
+    servers: ""
+  port: 636
+  proxyUser: ""
+  proxyPassword:
+    existingSecret: ac-ldap-config
+    key: proxyPassword
+  usersDN: ""
+  groupsDN: ""
+  adminGroupsDN: ""
+  userRequestsDN: ""
+
+# Add clients only when the ac OIDC endpoints are enabled. Each client secret
+# is referenced from Kubernetes rather than stored in this repository.
+oidc:
+  clients: []
+  signingKeys:
+    existingSecret: ""
 
 livenessProbe:
   httpGet:

@@ -9,13 +9,14 @@ Before syncing `canfar-ac-staging`, ensure that:
 
 1. ac chart `0.1.0` is available in the `skaha-system` chart repository.
 2. `bucket-registry-auth` exists in `canfar-system-staging`.
-3. `ac-runtime-config` exists in `canfar-system-staging` and contains a
-   completed `ac-ldap-config.properties`.
-4. If the ac OIDC endpoints are used, `ac-runtime-config` also contains
-   `ac-oidc-clients.properties`, `oidc-rsa256-pub.key`, and
-   `oidc-rsa256-priv.key`.
-5. The service owner has reviewed the optional read-user, domain, and reserved
-   group-name values currently left empty in `base.yaml`.
+3. The LDAP server, proxy user, and directory DN values in `base.yaml` have
+   been completed by the service owner.
+4. `ac-ldap-config` exists in `canfar-system-staging` and contains the
+   `proxyPassword` key.
+5. If the ac OIDC endpoints are used, each client Secret and the signing-key
+   Secret referenced by `oidc` exist in `canfar-system-staging`.
+6. The service owner has reviewed the optional read-user, domain, reserved
+   group-name, and OIDC client values in `base.yaml`.
 
 The Argo CD Application intentionally uses manual sync until these prerequisites
 are complete.
