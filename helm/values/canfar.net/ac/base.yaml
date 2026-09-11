@@ -85,6 +85,10 @@ ldap:
 # is referenced from Kubernetes rather than stored in this repository.
 oidc:
   clients: []
+  # Replace [] with one entry per existing client after the service owner
+  # supplies the real client IDs and non-secret settings. Each entry requires
+  # id, secret.existingSecret, description, claims, and signDocuments;
+  # accessGroup is optional.
   signingKeys:
     existingSecret: ""
 
