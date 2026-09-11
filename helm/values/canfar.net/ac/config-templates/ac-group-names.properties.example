@@ -3,7 +3,7 @@
 # <PREFIX> = <HTTP_USER_ALLOWED_TO_CREATE> [<GROUP_URI_GRANTED_ADMIN>]
 #
 # An empty value reserves the prefix so nobody can create matching groups.
-# Obtain the active rules from the current AC service owner before migration.
+# Obtain the active rules from the current ac service owner before migration.
 
 # <FILL_PREFIX> = <FILL_HTTP_USER> [<FILL_GROUP_URI>]
 # <FILL_DENIED_PREFIX> =

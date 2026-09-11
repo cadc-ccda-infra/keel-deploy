@@ -1,4 +1,4 @@
-# Local authority mappings for the CANFAR AC/GMS service.
+# Local authority mappings for the CANFAR ac/GMS service.
 ivo://ivoa.net/std/GMS#groups-0.1 = ivo://cadc.nrc.ca/gms
 ivo://ivoa.net/std/GMS#search-0.1 = ivo://cadc.nrc.ca/gms
 ivo://ivoa.net/std/GMS#search-1.0 = ivo://cadc.nrc.ca/gms

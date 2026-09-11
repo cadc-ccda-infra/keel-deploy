@@ -1,4 +1,4 @@
-# Shared defaults for the OpenCADC AC/GMS service.
+# Shared defaults for the OpenCADC ac/GMS service.
 
 image:
   repository: bucket.canfar.net/ac

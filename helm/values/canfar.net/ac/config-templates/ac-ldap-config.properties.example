@@ -1,4 +1,4 @@
-# LDAP configuration for AC 1.5.0.
+# LDAP configuration for ac 1.5.0.
 # This completed file is sensitive because it contains proxyPassword.
 
 # Read-only connection pool.
@@ -25,7 +25,7 @@ unboundReadOnly.poolPolicy = roundRobin
 unboundReadOnly.maxWait = 30000
 unboundReadOnly.createIfNeeded = false
 
-# Default port for all pools. AC 1.5.0 treats port 636 as secure LDAP.
+# Default port for all pools. ac 1.5.0 treats port 636 as secure LDAP.
 port = 636
 
 # LDAP bind identity and credential. Both values are read directly from this file.

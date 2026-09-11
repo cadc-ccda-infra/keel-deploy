@@ -79,7 +79,7 @@ The table below lists secret **names** and where they appear. Adjust if your clu
 | Secret name | Typical contents | Referenced from |
 | ------------- | ---------------- | ---------------- |
 | `bucket-registry-auth` | `dockerconfigjson` (or registry credentials your charts expect) for pulling private images | Staging values: `web-root`, `web-portal`, `access`, `ac`, `reg` (`imagePullSecrets`) |
-| `ac-runtime-config` | AC runtime files; at minimum `ac-ldap-config.properties`, plus OIDC client configuration and signing keys when OIDC is enabled | `ac/base.yaml` (`configuration.existingSecret`) |
+| `ac-runtime-config` | ac runtime files; at minimum `ac-ldap-config.properties`, plus OIDC client configuration and signing keys when OIDC is enabled | `ac/base.yaml` (`configuration.existingSecret`) |
 | `servops-clientcert` | TLS material for the ServOps client CA/cert bundle (mounted under `/usr/share/tomcat/.ssl/` where charts configure it) | `skaha/base.yaml`, `arc/base.yaml` |
 | `cephfs-cephx-admin-key` | CephFS CephX key for the volume driver / storage stanza | `arc/staging.yaml` (`storage.service.spec.cephfs.secretRef`) |
 | `arc-uws-db-auth` | UWS ARC database credentials (`username` and `password`) / `integration.canfar.net` | `cavern/integration.yaml`, `cavern/prod.yaml` |
