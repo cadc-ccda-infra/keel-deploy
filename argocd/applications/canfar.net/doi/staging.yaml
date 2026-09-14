@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: bucket.canfar.net
+    - repoURL: oci://bucket.canfar.net/charts/doi
       targetRevision: 0.1.2
-      path: charts/doi
+      path: .
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/doi/base.yaml
