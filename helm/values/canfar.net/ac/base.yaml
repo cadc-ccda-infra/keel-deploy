@@ -27,6 +27,29 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
+resources:
+  requests:
+    memory: "500M"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "750m"
+
+nodeAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference:
+        matchExpressions:
+          - key: skaha.opencadc.org/node-type
+            operator: In
+            values:
+              - service-node
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
+
 application:
   endpoint: /ac
   resourceID: ivo://cadc.nrc.ca/gms
@@ -38,29 +61,6 @@ application:
     usernames: []
     groups:
       - "ivo://cadc.nrc.ca/gms?CADC"
-
-  resources:
-    requests:
-      memory: "500M"
-      cpu: "500m"
-    limits:
-      memory: "1Gi"
-      cpu: "750m"
-
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 50
-        preference:
-          matchExpressions:
-            - key: skaha.opencadc.org/node-type
-              operator: In
-              values:
-                - service-node
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: nvidia.com/gpu.count
-              operator: DoesNotExist
 
   # LDAP connection details are intentionally listed here for the service
   # owner to complete. The password is read from an existing Kubernetes Secret.
