@@ -1,0 +1,17 @@
+ingress:
+  enabled: true
+  hosts:
+    - host: staging.canfar.net
+      paths:
+        - path: /ac
+          pathType: Prefix
+
+application:
+  registryURL: https://staging.canfar.net/reg
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+serviceAccount:
+  create: false
+  automount: false
