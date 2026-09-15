@@ -27,14 +27,6 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
-resources:
-  requests:
-    memory: "500M"
-    cpu: "500m"
-  limits:
-    memory: "1Gi"
-    cpu: "750m"
-
 nodeAffinity:
   preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 50
@@ -61,6 +53,14 @@ application:
     usernames: []
     groups:
       - "ivo://cadc.nrc.ca/gms?CADC"
+
+  resources:
+    requests:
+      memory: "500M"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "750m"
 
   # LDAP connection details are intentionally listed here for the service
   # owner to complete. The password is read from an existing Kubernetes Secret.
