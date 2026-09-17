@@ -1,7 +1,7 @@
 # CANFAR ac staging deployment
 
 This directory contains the CANFAR environment values for the OpenCADC ac
-service image `bucket.canfar.net/ac:1.5.0-20260127T224241`. The chart and
+service image `bucket.canfar.net/ac:1.5.1-20260917T193124`. The chart and
 configuration examples are maintained with the application source under
 `opencadc/ac/ac/helm`, following the same layout as `opencadc/doi/doi/helm`.
 
