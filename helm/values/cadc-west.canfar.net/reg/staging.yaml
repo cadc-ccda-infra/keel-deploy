@@ -9,8 +9,6 @@ application:
 
   # Derived from IVOA Registry (reg) service entries in the reg-resource-caps.properties file.
   serviceEntries:
-    - id: "ivo://cadc.nrc.ca/my-great-service"
-      url: "https://staging-cadc-west-01.canfar.net/my-great-service/capabilities"
     - id: "ivo://cadc.nrc.ca/reg"
       url: "https://staging-cadc-west-01.canfar.net/reg/capabilities"
     - id: "ivo://cadc.nrc.ca/cadc/minoc"
@@ -40,7 +38,7 @@ application:
     - id: "ivo://cadc.nrc.ca/caom2ops"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/caom2ops/capabilities"
     - id: "ivo://cadc.nrc.ca/cred"
-      url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/cred/capabilities"
+      url: "https://staging-cadc-west-01.canfar.net/cred/capabilities"
     - id: "ivo://cadc.nrc.ca/data"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/data/capabilities"
     - id: "ivo://cadc.nrc.ca/resolver"
@@ -80,9 +78,9 @@ application:
     - id: "ivo://cadc.nrc.ca/doi"
       url: "https://ws-cadc.canfar.net/doi/capabilities"
     - id: "ivo://cadc.nrc.ca/gms"
-      url: "https://ws-cadc.canfar.net/ac/capabilities"
+      url: "https://staging-cadc-west-01.canfar.net/ac/capabilities"
     - id: "ivo://cadc.nrc.ca/ums"
-      url: "https://ws-cadc.canfar.net/ac/capabilities"
+      url: "https://staging-cadc-west-01.canfar.net/ac/capabilities"
     - id: "ivo://cadc.nrc.ca/vault"
       url: "https://cadc-west-01.canfar.net/vault/capabilities"
     - id: "ivo://cadc.nrc.ca/youcat"

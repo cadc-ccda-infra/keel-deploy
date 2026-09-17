@@ -1,0 +1,17 @@
+# Production overlay — cadc-site cred replica count, exposed on
+# cadc-west-01.canfar.net.
+
+ingress:
+  hosts:
+    - host: cadc-west-01.canfar.net
+      paths:
+        - path: /cred
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+replicaCount: 1
+
+application:
+  registryURL: https://cadc-west-01.canfar.net/reg

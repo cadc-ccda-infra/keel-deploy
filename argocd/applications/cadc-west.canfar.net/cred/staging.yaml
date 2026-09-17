@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cadc-cred-staging
+  namespace: cadc-argocd
+  labels:
+    argocd.argoproj.io/domain: staging-cadc-west-01.canfar.net
+    argocd.argoproj.io/environment: staging
+    argocd.argoproj.io/service: cred
+spec:
+  project: cadc
+  sources:
+    - repoURL: oci://bucket.canfar.net/charts/cred
+      targetRevision: 0.1.0
+      path: .
+      helm:
+        valueFiles:
+          - $values/helm/values/cadc-west.canfar.net/cred/base.yaml
+          - $values/helm/values/cadc-west.canfar.net/cred/staging.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cadc-system-staging
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

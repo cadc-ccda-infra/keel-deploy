@@ -1,0 +1,233 @@
+# CADC West ac/GMS — shared defaults; chart schema:
+# oci://bucket.canfar.net/charts/ac (0.1.0)
+# Upstream: https://github.com/opencadc/ac/pull/223 (ac/helm)
+#
+# image.repository / image.tag / image.pullPolicy: use the chart's values.yaml
+# (released with each chart version) unless overridden per environment.
+#
+# Secrets (pre-create in the release namespace; credentials are not in Git):
+#   - ac-ldap-config: proxyPassword
+#   - ac-oidc-signing-keys: oidc-rsa256-pub.key / oidc-rsa256-priv.key
+#   - ac-oidc-<client-id>: secret (one Secret per OIDC client below)
+#   - cookie-signature-private-key: RsaSignaturePriv.key
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+volumeInit:
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 8675309
+    capabilities:
+      drop:
+        - ALL
+
+replicaCount: 1
+
+nodeAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference:
+        matchExpressions:
+          - key: skaha.opencadc.org/node-type
+            operator: In
+            values:
+              - service-node
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
+
+application:
+  endpoint: /ac
+  resourceID: ivo://cadc.nrc.ca/gms
+
+  readUsers:
+    - cn=servops_4a2,ou=cadc,o=hia,c=ca
+    - cn=canfarops_586,ou=cadc,o=hia,c=ca
+    - CN=cadcops_376,OU=cadc,O=hia,C=ca
+
+  domains:
+    - cadc-ccda.hia-iha.nrc-cnrc.gc.ca
+    - canfar.net
+    - cadc.dao.nrc.ca
+
+  groupNameRules:
+    "ALLOW-TEST-": "cadcauthtest1 ivo://cadc.nrc.ca/gms?cadc-ops"
+    "CFHT-": "cadcops ivo://cadc.nrc.ca/gms?CFHT-Staff"
+    "DAO-": "cadcops ivo://cadc.nrc.ca/gms?DAO-Staff"
+    "DOI-": "doiadmin"
+    "GSA-": ""
+    "HST-": ""
+    "JCMT-": "cadcops ivo://cadc.nrc.ca/gms?JCMT-Staff"
+    "OMM-": "cadcops ivo://cadc.nrc.ca/gms?OMM-Staff"
+
+  logging:
+    users:
+      - cn=servops_4a2,ou=cadc,o=hia,c=ca
+    usernames: []
+    groups:
+      - "ivo://cadc.nrc.ca/gms?CADC"
+
+  ldap:
+    readOnly:
+      poolPolicy: fewestConnections
+      maxWait: 1000
+      createIfNeeded: true
+    readWrite:
+      poolPolicy: fewestConnections
+      maxWait: 1000
+      createIfNeeded: true
+    unboundReadOnly:
+      poolPolicy: fewestConnections
+      maxWait: 1000
+      createIfNeeded: true
+
+    ## This is r/w port (10636) is required - otherwise, bouncycastle lib will result in
+    ### java.lang.RuntimeException: Ldap error (confidentiality required)
+    port: 10636
+    proxyUser: uid=webproxy,ou=SpecialUsers,dc=canfar,dc=net
+    proxyPassword:
+      existingSecret: ac-ldap-config
+      key: proxyPassword
+    usersDN: ou=Users,ou=ds,dc=canfar,dc=net
+    groupsDN: ou=Groups,ou=ds,dc=canfar,dc=net
+    adminGroupsDN: ou=adminGroups,ou=ds,dc=canfar,dc=net
+    userRequestsDN: ou=userRequests,ou=ds,dc=canfar,dc=net
+
+  oidc:
+    signingKeys:
+      existingSecret: ac-oidc-signing-keys
+      publicKey: oidc-rsa256-pub.key
+      privateKey: oidc-rsa256-priv.key
+    clients:
+      - id: opencadc-harbor
+        secret:
+          existingSecret: ac-oidc-opencadc-harbor
+          key: secret
+        description: OpenCADC Image Repository
+        accessGroup: ivo://cadc.nrc.ca/gms?CADC
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+      - id: arbutus-harbor
+        secret:
+          existingSecret: ac-oidc-arbutus-harbor
+          key: secret
+        description: CANFAR Image Repository
+        accessGroup: ivo://cadc.nrc.ca/gms?skaha-users
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+      - id: unions_wiki
+        secret:
+          existingSecret: ac-oidc-unions-wiki
+          key: secret
+        description: UNIONS Wiki
+        accessGroup: ivo://cadc.nrc.ca/gms?cfis-read
+        claims:
+          - email
+        signDocuments: false
+      - id: ossos-wiki
+        secret:
+          existingSecret: ac-oidc-ossos-wiki
+          key: secret
+        description: OSSOS Wiki
+        claims:
+          - name
+          - email
+        signDocuments: true
+      - id: unions_sky_browser
+        secret:
+          existingSecret: ac-oidc-unions-sky-browser
+          key: secret
+        description: UNIONS Sky Browser
+        accessGroup: ivo://cadc.nrc.ca/gms?cfis-read
+        claims:
+          - email
+        signDocuments: false
+      - id: candiapl
+        secret:
+          existingSecret: ac-oidc-candiapl
+          key: secret
+        description: Canadian Data-Intensive Astrophysics Platform
+        accessGroup: ivo://cadc.nrc.ca/gms?skaha-users
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+
+# SSO cookie signing private key used by the existing CADC ac deployments.
+extraVolumeMounts:
+  - name: cookie-signature-private-key
+    mountPath: /config/RsaSignaturePriv.key
+    subPath: RsaSignaturePriv.key
+    readOnly: true
+
+extraVolumes:
+  - name: cookie-signature-private-key
+    secret:
+      secretName: cookie-signature-private-key
+      items:
+        - key: RsaSignaturePriv.key
+          path: RsaSignaturePriv.key
+
+livenessProbe:
+  httpGet:
+    path: /ac/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ac/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /ac/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+
+serviceAccount:
+  create: false
+  automount: false

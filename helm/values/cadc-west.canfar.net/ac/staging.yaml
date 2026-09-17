@@ -1,0 +1,35 @@
+# Staging overlay — LDAP pool sizes and hosts from cadc-rc ac,
+# exposed on staging-cadc-west-01.canfar.net.
+
+ingress:
+  hosts:
+    - host: staging-cadc-west-01.canfar.net
+      paths:
+        - path: /ac
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+replicaCount: 1
+
+application:
+  registryURL: https://staging-cadc-west-01.canfar.net/reg
+
+  ldap:
+    readOnly:
+      servers: quokka.canfar.net
+      poolInitSize: 4
+      poolMaxSize: 10
+      port: 10389
+    readWrite:
+      servers: quokka.canfar.net
+      poolInitSize: 3
+      poolMaxSize: 5
+      port: 10636
+    unboundReadOnly:
+      servers: quokka.canfar.net
+      secure: false
+      poolInitSize: 1
+      poolMaxSize: 10
+      port: 10389
