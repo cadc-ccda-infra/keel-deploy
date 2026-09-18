@@ -8,30 +8,34 @@ ingress:
         - path: /ac
           pathType: Prefix
 
+image:
+  tag: 1.5.1-20260917T193124
+
 imagePullSecrets:
   - name: bucket-registry-auth
 
 replicaCount: 1
+
+extraHosts:
+  - hostname: quokka.canfar.internal
+    ip: 206.12.48.218
 
 application:
   registryURL: https://staging-cadc-west-01.canfar.net/reg
 
   ldap:
     readOnly:
-      servers: quokka.canfar.net
+      servers: quokka.canfar.internal
       poolInitSize: 4
       poolMaxSize: 10
       port: 10636
-      secure: true
     readWrite:
-      servers: quokka.canfar.net
+      servers: quokka.canfar.internal
       poolInitSize: 3
       poolMaxSize: 5
       port: 10636
-      secure: true
     unboundReadOnly:
-      servers: quokka.canfar.net
-      secure: true
+      servers: quokka.canfar.internal
       poolInitSize: 1
       poolMaxSize: 10
       port: 10636

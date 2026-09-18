@@ -8,35 +8,36 @@ ingress:
         - path: /ac
           pathType: Prefix
 
+image:
+  tag: 1.5.1-20260917T193124
+
 imagePullSecrets:
   - name: bucket-registry-auth
 
 # LDAP hosts used by the existing CADC ac deployments; keep if cluster DNS
 # does not resolve ns1-05 / ns1-06.
 extraHosts:
-  - ip: 132.246.195.16
-    hostname: ns1-05.cadc.dao.nrc.ca
-  - ip: 132.246.195.17
-    hostname: ns1-06.cadc.dao.nrc.ca
+  - hostname: quokka.canfar.internal
+    ip: 206.12.48.218
 
-replicaCount: 4
+replicaCount: 1
 
 application:
   registryURL: https://cadc-west-01.canfar.net/reg
 
   ldap:
     readOnly:
-      servers: ns1-05.cadc.dao.nrc.ca ns1-06.cadc.dao.nrc.ca
+      servers: quokka.canfar.internal
       poolInitSize: 20
       poolMaxSize: 400
-      port: 389
+      port: 10636
     readWrite:
-      servers: ns1-05.cadc.dao.nrc.ca ns1-06.cadc.dao.nrc.ca
+      servers: quokka.canfar.internal
       poolInitSize: 10
       poolMaxSize: 20
-      port: 636
+      port: 10636
     unboundReadOnly:
-      servers: ns1-05.cadc.dao.nrc.ca ns1-06.cadc.dao.nrc.ca
+      servers: quokka.canfar.internal
       poolInitSize: 20
       poolMaxSize: 400
-      port: 389
+      port: 10636

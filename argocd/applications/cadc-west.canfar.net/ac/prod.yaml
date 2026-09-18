@@ -1,30 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cadc-reg
+  name: cadc-ac
   namespace: cadc-argocd
   labels:
     argocd.argoproj.io/domain: cadc-west-01.canfar.net
     argocd.argoproj.io/environment: production
-    argocd.argoproj.io/service: reg
+    argocd.argoproj.io/service: ac
 spec:
   project: cadc
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/core
-      chart: reg
-      targetRevision: 1.2.1
+    - repoURL: oci://bucket.canfar.net/charts/ac
+      targetRevision: 0.1.0
+      path: .
       helm:
         valueFiles:
-          - $values/helm/values/cadc-west.canfar.net/reg/base.yaml
-          - $values/helm/values/cadc-west.canfar.net/reg/prod.yaml
+          - $values/helm/values/cadc-west.canfar.net/ac/base.yaml
+          - $values/helm/values/cadc-west.canfar.net/ac/prod.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    # Intentionally cadc-system for now to avoid moving the live registry.
-    # Other cadc-west-01 production apps use cadc-system-production.
-    namespace: cadc-system
+    namespace: cadc-system-production
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
