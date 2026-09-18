@@ -76,8 +76,8 @@ application:
     key: cadcproxy.pem
 
   cookieSignaturePublicKey:
-    existingSecret: cookie-signature-private-key
-    key: RsaSignaturePriv.key
+    existingSecret: cookie-signature-public-key
+    key: RsaSignaturePub.key
 
 livenessProbe:
   httpGet:

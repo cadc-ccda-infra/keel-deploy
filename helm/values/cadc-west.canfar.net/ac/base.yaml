@@ -13,6 +13,19 @@
 #   - ac-java-truststore: cacerts (JKS/PKCS12; default Java CAs plus the
 #     internal CA). Do not mount PEMs at /config/cacerts: cadc-tomcat would
 #     sudo update-ca-trust, which Kyverno blocks.
+#
+# Note about the ac-java-truststore:
+# The ac-java-truststore is a pre-built truststore that contains the full set of trusted CA certificates, as well
+# as the internal CA certificate. It is used to ensure that the ac service can trust the certificates of internal hosts.
+# 
+# The process to obtain the trust store is as follows:
+# 1. Copy the image truststore (Java 21 / Fedora extracted bundle)
+#   kubectl -n cadc-system-staging exec deploy/<ac-release>-tomcat -- cat /etc/pki/ca-trust/extracted/java/cacerts > cacerts
+# 2. Import the internal CA certificate into the trust store
+#   keytool -importcert -noprompt -alias cadc-internal-ca -file your-ca.pem -keystore cacerts -storepass changeit
+# 3. Create the secret
+#   kubectl -n cadc-system-staging create secret generic ac-java-truststore --from-file=cacerts=./cacerts
+# repeat in cadc-system-production
 
 podSecurityContext:
   runAsNonRoot: true
@@ -195,6 +208,10 @@ extraVolumeMounts:
     mountPath: /config/RsaSignaturePriv.key
     subPath: RsaSignaturePriv.key
     readOnly: true
+  - name: cookie-signature-public-key
+    mountPath: /config/RsaSignaturePub.key
+    subPath: RsaSignaturePub.key
+    readOnly: true
   - name: java-truststore
     mountPath: /config/java-truststore
     readOnly: true
@@ -206,6 +223,12 @@ extraVolumes:
       items:
         - key: RsaSignaturePriv.key
           path: RsaSignaturePriv.key
+  - name: cookie-signature-public-key
+    secret:
+      secretName: cookie-signature-public-key
+      items:
+        - key: RsaSignaturePub.key
+          path: RsaSignaturePub.key
   - name: java-truststore
     secret:
       defaultMode: 420
