@@ -1,6 +1,12 @@
 # Production overlay — LDAP pool sizes and hosts from cadc-site ac,
 # exposed on cadc-west-01.canfar.net.
 
+securityContext:
+  # cadc-tomcat uses sudo as 8675309 to import PEMs from /config/cacerts
+  # into the JVM trust store. allowPrivilegeEscalation: false sets
+  # no_new_privs and blocks that.
+  allowPrivilegeEscalation: true
+
 ingress:
   hosts:
     - host: cadc-west-01.canfar.net
