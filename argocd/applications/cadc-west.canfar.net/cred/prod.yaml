@@ -11,7 +11,7 @@ spec:
   project: cadc
   sources:
     - repoURL: oci://bucket.canfar.net/charts/cred
-      targetRevision: 0.1.0
+      targetRevision: 2.0.3
       path: .
       helm:
         valueFiles:
