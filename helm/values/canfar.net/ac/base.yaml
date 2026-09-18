@@ -1,0 +1,119 @@
+# Shared defaults for the OpenCADC ac/GMS service.
+
+image:
+  repository: bucket.canfar.net/ac
+  tag: "1.5.1-20260917T193124"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+resources:
+  requests:
+    memory: "500M"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "750m"
+
+nodeAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference:
+        matchExpressions:
+          - key: skaha.opencadc.org/node-type
+            operator: In
+            values:
+              - service-node
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
+
+application:
+  endpoint: /ac
+  resourceID: ivo://cadc.nrc.ca/gms
+  readUsers: []
+  domains: []
+  groupNameRules: {}
+  logging:
+    users: []
+    usernames: []
+    groups:
+      - "ivo://cadc.nrc.ca/gms?CADC"
+
+  # LDAP connection details are intentionally listed here for the service
+  # owner to complete. The password is read from an existing Kubernetes Secret.
+  ldap:
+    readOnly:
+      servers: ""
+    readWrite:
+      servers: ""
+    unboundReadOnly:
+      servers: ""
+    port: 636
+    proxyUser: ""
+    proxyPassword:
+      existingSecret: ac-ldap-config
+      key: proxyPassword
+    usersDN: ""
+    groupsDN: ""
+    adminGroupsDN: ""
+    userRequestsDN: ""
+
+  # Add clients only when the ac OIDC endpoints are enabled. Each client secret
+  # is referenced from Kubernetes rather than stored in this repository.
+  oidc:
+    clients: []
+    # Replace [] with one entry per existing client after the service owner
+    # supplies the real client IDs and non-secret settings. Each entry requires
+    # id, secret.existingSecret, description, claims, and signDocuments;
+    # accessGroup is optional.
+    signingKeys:
+      existingSecret: ""
+
+livenessProbe:
+  httpGet:
+    path: /ac/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ac/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /ac/availability
+    port: http
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30
