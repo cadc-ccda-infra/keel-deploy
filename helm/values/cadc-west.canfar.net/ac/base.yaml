@@ -186,7 +186,7 @@ application:
 
 # Point the JVM at a pre-built truststore so LDAP TLS works without sudo.
 extraEnv:
-  - name: JAVA_OPTS
+  - name: CATALINA_OPTS
     value: "-Djavax.net.ssl.trustStore=/config/java-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
 
 # SSO cookie signing private key used by the existing CADC ac deployments.
