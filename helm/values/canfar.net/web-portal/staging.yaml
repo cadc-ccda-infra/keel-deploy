@@ -9,7 +9,7 @@ ingress:
 # Service URLs injected at runtime (see ADVANCED_SEARCH_URL / GROUP_MANAGEMENT_URL).
 advancedSearchUrl: "https://rc-www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/search/"
 groupManagementUrl: "https://rc-www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/groups/"
-certificateUrl: "https://staging-cadc-west-01.canfar.net/cred"
+certificateUrl: "https://staging-cadc-west-01.canfar.net/cred/generate?daysValid=30"
 
 service:
   port: 8000
