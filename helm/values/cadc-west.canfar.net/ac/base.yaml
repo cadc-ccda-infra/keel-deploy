@@ -10,6 +10,9 @@
 #   - ac-oidc-signing-keys: oidc-rsa256-pub.key / oidc-rsa256-priv.key
 #   - ac-oidc-<client-id>: secret (one Secret per OIDC client below)
 #   - cookie-signature-private-key: RsaSignaturePriv.key
+#   - ac-java-truststore: cacerts (JKS/PKCS12; default Java CAs plus the
+#     internal CA). Do not mount PEMs at /config/cacerts: cadc-tomcat would
+#     sudo update-ca-trust, which Kyverno blocks.
 
 podSecurityContext:
   runAsNonRoot: true
@@ -181,14 +184,19 @@ application:
           - memberOf
         signDocuments: true
 
+# Point the JVM at a pre-built truststore so LDAP TLS works without sudo.
+extraEnv:
+  - name: JAVA_OPTS
+    value: "-Djavax.net.ssl.trustStore=/config/java-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+
 # SSO cookie signing private key used by the existing CADC ac deployments.
 extraVolumeMounts:
   - name: cookie-signature-private-key
     mountPath: /config/RsaSignaturePriv.key
     subPath: RsaSignaturePriv.key
     readOnly: true
-  - name: trusted-ca
-    mountPath: /config/cacerts
+  - name: java-truststore
+    mountPath: /config/java-truststore
     readOnly: true
 
 extraVolumes:
@@ -198,10 +206,13 @@ extraVolumes:
       items:
         - key: RsaSignaturePriv.key
           path: RsaSignaturePriv.key
-  - name: trusted-ca
+  - name: java-truststore
     secret:
       defaultMode: 420
-      secretName: cadc-trusted-ca
+      secretName: ac-java-truststore
+      items:
+        - key: cacerts
+          path: cacerts
 
 livenessProbe:
   httpGet:
