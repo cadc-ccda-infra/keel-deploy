@@ -187,6 +187,9 @@ extraVolumeMounts:
     mountPath: /config/RsaSignaturePriv.key
     subPath: RsaSignaturePriv.key
     readOnly: true
+  - name: trusted-ca
+    mountPath: /config/cacerts
+    readOnly: true
 
 extraVolumes:
   - name: cookie-signature-private-key
@@ -195,6 +198,10 @@ extraVolumes:
       items:
         - key: RsaSignaturePriv.key
           path: RsaSignaturePriv.key
+  - name: trusted-ca
+    secret:
+      defaultMode: 420
+      secretName: cadc-trusted-ca
 
 livenessProbe:
   httpGet:
