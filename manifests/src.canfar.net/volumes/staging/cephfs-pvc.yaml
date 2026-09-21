@@ -16,8 +16,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: canfar-src-workloads-pvc
-  namespace: canfar-src-workloads
+  name: canfar-staging-src-workloads-pvc
+  namespace: canfar-staging-src-workloads
 spec:
   accessModes:
   - ReadWriteMany
@@ -26,4 +26,4 @@ spec:
       storage: 1000Gi
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: cephfs-legacy-workloads-src-pv
+  volumeName: cephfs-legacy-src-staging-workloads-pv

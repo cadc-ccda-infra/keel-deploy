@@ -12,3 +12,18 @@ spec:
   storageClassName: ""
   volumeMode: Filesystem
   volumeName: cephfs-legacy-src-production-cavern-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: canfar-src-workloads-pvc
+  namespace: canfar-src-workloads
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: cephfs-legacy-workloads-src-pv
