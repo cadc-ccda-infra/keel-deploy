@@ -31,16 +31,16 @@ application:
       poolInitSize: 20
       poolMaxSize: 400
       secure: true
-      port: 10636
+      port: 11636
     readWrite:
       servers: quokka.canfar.internal
       poolInitSize: 10
       poolMaxSize: 20
       secure: true
-      port: 10636
+      port: 11636
     unboundReadOnly:
       servers: quokka.canfar.internal
       poolInitSize: 20
       poolMaxSize: 400
       secure: true
-      port: 10636
+      port: 11636
