@@ -14,6 +14,7 @@ deployment:
     oidcURI: https://ska-iam.stfc.ac.uk/
 
     gmsID: ivo://skao.int/gms
+    identityManagerClass: org.opencadc.auth.StandardIdentityManager
 
     allocations:
       defaultSizeGB: 200
