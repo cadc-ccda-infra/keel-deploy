@@ -7,6 +7,9 @@ deployment:
     registryURL:
       - "https://staging-src.canfar.net/reg"
 
+    loggingGroups:
+      - "ivo://skao.int/gms?roles/prod/user"
+
     uws:
       db:
         install: false

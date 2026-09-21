@@ -4,6 +4,9 @@ deployment:
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/src/cavern"
 
+    loggingGroups:
+      - "ivo://skao.int/gms?roles/prod/user"
+
     registryURL:
       - "https://reg.swesrc.chalmers.se"
       - "https://spsrc27.iaa.csic.es/reg"
