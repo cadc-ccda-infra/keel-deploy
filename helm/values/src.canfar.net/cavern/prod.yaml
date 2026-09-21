@@ -15,10 +15,10 @@ deployment:
       dataDir: "/data"
       subPath: "cavern"
       rootOwner:
-        adminUsername: "canfarops"
-        username: "canfarops"
-        uid: 10023
-        gid: 10023
+        adminUsername: "jenkinsd"
+        username: "jenkinsd"
+        uid: 10000
+        gid: 10000
 
     uws:
       db:
