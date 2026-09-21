@@ -18,7 +18,7 @@ deployment:
         adminUsername: "canfarops"
         username: "canfarops"
         uid: 10023
-        gid: 10023
+        gid: 20056
 
     uws:
       db:
