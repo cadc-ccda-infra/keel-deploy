@@ -10,6 +10,15 @@ deployment:
     loggingGroups:
       - "ivo://skao.int/gms?roles/prod/user"
 
+    filesystem:
+      dataDir: "/data"
+      subPath: "cavern"
+      rootOwner:
+        adminUsername: "canfarops"
+        username: "canfarops"
+        uid: 10023
+        gid: 10023
+
     uws:
       db:
         install: false

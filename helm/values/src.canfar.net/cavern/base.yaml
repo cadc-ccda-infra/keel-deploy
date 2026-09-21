@@ -23,15 +23,6 @@ deployment:
           baseURL: "https://permissions.srcnet.skao.int/api"
           authAPIBaseURL: "https://authn.srcnet.skao.int/api"
 
-    filesystem:
-      dataDir: "/data"
-      subPath: "cavern"
-      rootOwner:
-        adminUsername: "canfarops"
-        username: "canfarops"
-        uid: 10023
-        gid: 25560
-
     resources:
       requests:
         memory: "1Gi"

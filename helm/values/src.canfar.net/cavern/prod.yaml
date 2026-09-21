@@ -11,6 +11,15 @@ deployment:
       - "https://reg.swesrc.chalmers.se"
       - "https://spsrc27.iaa.csic.es/reg"
 
+    filesystem:
+      dataDir: "/data"
+      subPath: "cavern"
+      rootOwner:
+        adminUsername: "canfarops"
+        username: "canfarops"
+        uid: 10023
+        gid: 10023
+
     uws:
       db:
         install: false
