@@ -1,7 +1,6 @@
 deployment:
   hostname: src.canfar.net
   cavern:
-    image: images-rc.canfar.net/skaha-system/cavern:0.10.3-20260922T210428
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/src/cavern"
 
