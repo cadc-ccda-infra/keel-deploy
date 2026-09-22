@@ -17,8 +17,8 @@ deployment:
       rootOwner:
         adminUsername: "local-canfar-admin"
         username: "local-canfar-admin"
-        uid: 10000
-        gid: 10000
+        uid: 10250
+        gid: 10250
 
     uws:
       db:
