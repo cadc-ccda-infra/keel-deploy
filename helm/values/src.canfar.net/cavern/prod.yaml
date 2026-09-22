@@ -15,10 +15,10 @@ deployment:
       dataDir: "/data"
       subPath: "cavern"
       rootOwner:
-        adminUsername: "canfar-admin"
-        username: "canfar-admin"
-        uid: 14444
-        gid: 14444
+        adminUsername: "local-canfar-admin"
+        username: "local-canfar-admin"
+        uid: 10000
+        gid: 10000
 
     uws:
       db:
@@ -35,3 +35,15 @@ storage:
     spec:
       persistentVolumeClaim:
         claimName: src-cavern-pvc
+
+# livenessProbe:
+#   httpGet:
+#     path: /cavern/availability
+#     port: 8080
+#   initialDelaySeconds: 60
+
+# readinessProbe:
+#   httpGet:
+#     path: /cavern
+#     port: 8080
+#   initialDelaySeconds: 30
