@@ -14,6 +14,14 @@ image:
 imagePullSecrets:
   - name: bucket-registry-auth
 
+resources:
+  requests:
+    cpu: 750m
+    memory: 1000Mi
+  limits:
+    cpu: 2000m
+    memory: 2000Mi
+
 # LDAP hosts used by the existing CADC ac deployments; keep if cluster DNS
 # does not resolve ns1-05 / ns1-06.
 extraHosts:
