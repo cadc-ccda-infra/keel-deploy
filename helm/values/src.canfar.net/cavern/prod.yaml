@@ -15,7 +15,7 @@ deployment:
       dataDir: "/data"
       subPath: "cavern"
       rootOwner:
-        adminUsername: "local-canfar-admin"
+        adminUsername: "jenkinsd"
         username: "local-canfar-admin"
         uid: 10250
         gid: 10250
