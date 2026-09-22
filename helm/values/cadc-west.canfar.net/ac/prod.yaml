@@ -26,6 +26,7 @@ application:
   registryURL: https://cadc-west-01.canfar.net/reg
 
   ldap:
+    port: 11636
     readOnly:
       servers: quokka.canfar.internal
       poolInitSize: 20

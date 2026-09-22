@@ -118,9 +118,11 @@ application:
       maxWait: 1000
       createIfNeeded: true
 
-    ## This is r/w port (10636) is required - otherwise, bouncycastle lib will result in
+    ## This is r/w port is required - otherwise, bouncycastle lib will result in
+    ## SET THIS DOWNSTREAM!
     ### java.lang.RuntimeException: Ldap error (confidentiality required)
-    port: 10636
+    # port: 10636
+
     proxyUser: uid=webproxy,ou=SpecialUsers,dc=canfar,dc=net
     proxyPassword:
       existingSecret: ac-ldap-config
