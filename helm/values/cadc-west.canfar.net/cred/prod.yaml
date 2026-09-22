@@ -11,6 +11,14 @@ ingress:
 imagePullSecrets:
   - name: bucket-registry-auth
 
+resources:
+  requests:
+    cpu: 1000m
+    memory: 1000Mi
+  limits:
+    cpu: 4000m
+    memory: 3000Mi
+
 replicaCount: 1
 
 application:
