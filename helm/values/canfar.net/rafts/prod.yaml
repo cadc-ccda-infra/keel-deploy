@@ -35,10 +35,10 @@ application:
   vaultBaseEndpoint: "https://cadc-west-01.canfar.net/vault/files"
 
   # CADC Access Control endpoints
-  canfarAcLoginUrl: "https://ws-cadc.canfar.net/ac/login"
-  canfarAcSearchUrl: "https://ws-cadc.canfar.net/ac/search"
-  canfarAcWhoamiUrl: "https://ws-cadc.canfar.net/ac/whoami"
-  canfarAcGroupsUrl: "https://ws-cadc.canfar.net/ac/groups"
+  canfarAcLoginUrl: "https://cadc-west-01.canfar.net/ac/login"
+  canfarAcSearchUrl: "https://cadc-west-01.canfar.net/ac/search"
+  canfarAcWhoamiUrl: "https://cadc-west-01.canfar.net/ac/whoami"
+  canfarAcGroupsUrl: "https://cadc-west-01.canfar.net/ac/groups"
 
   # END Services that still run at the old Web Service host.
 
