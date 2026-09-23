@@ -28,7 +28,7 @@ extraHosts:
   - hostname: quokka.canfar.internal
     ip: 206.12.48.218
 
-replicaCount: 1
+replicaCount: 2
 
 application:
   registryURL: https://cadc-west-01.canfar.net/reg

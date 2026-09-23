@@ -19,7 +19,7 @@ resources:
     cpu: 5000m
     memory: 3000Mi
 
-replicaCount: 1
+replicaCount: 2
 
 application:
   registryURL: https://cadc-west-01.canfar.net/reg
