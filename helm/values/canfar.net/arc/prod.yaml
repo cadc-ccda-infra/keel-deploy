@@ -4,7 +4,6 @@ deployment:
   hostname: ws-uv.canfar.net
 
   cavern:
-    image: images.opencadc.org/platform/cavern:0.10.2
     imagePullPolicy: Always
     registryURL: https://cadc-west-01.canfar.net/reg
 
