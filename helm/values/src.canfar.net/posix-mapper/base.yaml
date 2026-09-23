@@ -51,4 +51,6 @@ postgresql:
   schema: mapping
   auth:
     username: posixmapper
-    password: CVFn67?Oq4?A
+    existingSecret: posixmapper-db-password
+    secretKey: password
+
