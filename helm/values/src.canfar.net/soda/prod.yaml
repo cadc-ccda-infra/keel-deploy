@@ -6,7 +6,7 @@ image:
   pullPolicy: IfNotPresent
 
 persistence:
-  relativeSubPath: soda/datasets
+  relativeSubPath: datasets
   existingClaim: xrootd-pvc
   existingClaimMountOptions:
     readOnly: false
