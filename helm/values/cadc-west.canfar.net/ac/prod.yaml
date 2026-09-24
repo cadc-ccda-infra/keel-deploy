@@ -38,18 +38,18 @@ application:
     readOnly:
       servers: quokka.canfar.internal
       poolInitSize: 20
-      poolMaxSize: 400
+      poolMaxSize: 200
       secure: true
       port: 11636
     readWrite:
       servers: quokka.canfar.internal
-      poolInitSize: "0"
-      poolMaxSize: "0"
+      poolInitSize: 20
+      poolMaxSize: 200
       secure: true
       port: 11636
     unboundReadOnly:
       servers: quokka.canfar.internal
       poolInitSize: 20
-      poolMaxSize: 400
+      poolMaxSize: 200
       secure: true
       port: 11636
