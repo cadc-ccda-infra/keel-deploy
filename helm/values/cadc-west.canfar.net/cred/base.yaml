@@ -11,6 +11,9 @@
 #   - cookie-signature-private-key: RsaSignaturePriv.key
 #     (projected into /config/RsaSignaturePub.key)
 
+image:
+  tag: 2.0.4
+
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 8675309
