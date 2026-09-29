@@ -244,16 +244,16 @@ livenessProbe:
     path: /ac/availability
     port: http
   initialDelaySeconds: 10
-  periodSeconds: 60
+  periodSeconds: 600
   timeoutSeconds: 30
   failureThreshold: 3
 
 readinessProbe:
   httpGet:
-    path: /ac/availability
+    path: /ac/
     port: http
   initialDelaySeconds: 10
-  periodSeconds: 60
+  periodSeconds: 600
   timeoutSeconds: 30
   failureThreshold: 3
 
