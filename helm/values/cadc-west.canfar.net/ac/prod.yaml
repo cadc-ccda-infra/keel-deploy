@@ -20,7 +20,7 @@ resources:
     memory: 1000Mi
   limits:
     cpu: 2000m
-    memory: 4000Mi
+    memory: 2000Mi
 
 # LDAP hosts used by the existing CADC ac deployments; keep if cluster DNS
 # does not resolve ns1-05 / ns1-06.
