@@ -6,8 +6,8 @@ ingress:
           pathType: Prefix
 
 image:
-  repository: images-rc.canfar.net/skaha-system/science-portal
-  tag: 2.1.1
+  repository: images.opencadc.org/platform/science-portal
+  tag: 2.3-look-and-feel
 
 app:
   api:
