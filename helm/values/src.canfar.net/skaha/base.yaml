@@ -24,7 +24,7 @@ securityContext:
 
 autoscaling:
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 1
 
 deployment:
   skaha:
@@ -117,3 +117,11 @@ redis:
   master:
     serviceAccount:
       create: false
+    livenessProbe:
+      timeoutSeconds: 20
+      periodSeconds: 10
+      failureThreshold: 6
+    readinessProbe:
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 6

@@ -86,6 +86,9 @@ deployment:
     # Ten (10) minutes cache TTL for posix mapper results
     posixMapperCacheTTLSeconds: "600"
 
+    # Thirty (30) minutes cache TTL for posix user group results
+    posixUserGroupCacheTTLSeconds: "1800"
+
     cookieSignaturePublicKey:
       existingSecret:
         # Secret name (release namespace).
@@ -161,5 +164,13 @@ redis:
   master:
     serviceAccount:
       create: false
+    livenessProbe:
+      timeoutSeconds: 20
+      periodSeconds: 10
+      failureThreshold: 6
+    readinessProbe:
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 6
 
 # deployment.hostname: integration.yaml, staging.yaml, prod.yaml
