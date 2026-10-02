@@ -1,5 +1,10 @@
 kubernetesClusterDomain: keel-prod.local
 
+# Scaled to zero for a short outage. Quoted because the chart uses Helm `default`,
+# which treats an unquoted 0 as empty and would keep replicas at 1.
+# Restore by deleting this key (chart default is 1).
+replicaCount: "0"
+
 deployment:
   hostname: staging.canfar.net
 

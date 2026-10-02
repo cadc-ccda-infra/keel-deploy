@@ -1,3 +1,6 @@
+# Scaled to zero for a short outage. Restore by deleting this key (chart default is 1).
+replicaCount: 0
+
 ingress:
   hosts:
     - host: staging.canfar.net
