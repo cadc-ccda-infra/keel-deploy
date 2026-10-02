@@ -1,9 +1,11 @@
 deployment:
   hostname: src.canfar.net
   skaha:
+    imagePullPolicy: Always
+    image: images-rc.canfar.net/skaha-system/skaha:1.5.1
     registryURL:
-      - "https://reg.swesrc.chalmers.se"
       - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
 
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     sessions:

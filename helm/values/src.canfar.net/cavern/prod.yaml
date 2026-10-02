@@ -8,8 +8,8 @@ deployment:
       - "ivo://skao.int/gms?roles/prod/user"
 
     registryURL:
-      - "https://reg.swesrc.chalmers.se"
       - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
 
     filesystem:
       dataDir: "/data"
