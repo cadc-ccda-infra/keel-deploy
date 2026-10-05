@@ -30,7 +30,6 @@ deployment:
 # Set these appropriately to match your Persistent Volume Claim labels.
 storage:
   service:
-    subPath: cavern
     spec:
       persistentVolumeClaim:
         claimName: canfar-system-production-cavern-pvc
