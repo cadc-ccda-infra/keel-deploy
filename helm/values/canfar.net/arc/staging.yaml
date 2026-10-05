@@ -33,3 +33,4 @@ storage:
     spec:
       persistentVolumeClaim:
         claimName: canfar-system-staging-cavern-pvc
+        subPath: cavern
