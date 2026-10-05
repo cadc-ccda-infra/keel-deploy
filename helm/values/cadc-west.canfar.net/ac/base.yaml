@@ -27,6 +27,9 @@
 #   kubectl -n cadc-system-staging create secret generic ac-java-truststore --from-file=cacerts=./cacerts
 # repeat in cadc-system-production
 
+image:
+  tag: 1.5.2-20261005T160558
+
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 8675309

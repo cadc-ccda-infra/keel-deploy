@@ -8,9 +8,6 @@ ingress:
         - path: /ac
           pathType: Prefix
 
-image:
-  tag: 1.5.1-20260917T193124
-
 imagePullSecrets:
   - name: bucket-registry-auth
 
