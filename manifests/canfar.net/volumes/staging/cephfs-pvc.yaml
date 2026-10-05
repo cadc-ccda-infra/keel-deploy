@@ -11,7 +11,7 @@ spec:
       storage: 1000Gi
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: cephfs-legacy-system-staging-cavern-pv
+  volumeName: cephfs-system-staging-cavern-pv
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -26,4 +26,4 @@ spec:
       storage: 1000Gi
   storageClassName: ""
   volumeMode: Filesystem
-  volumeName: cephfs-legacy-workloads-staging-pv
+  volumeName: cephfs-workloads-staging-cavern-pv
