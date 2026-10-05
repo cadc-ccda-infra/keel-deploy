@@ -1,7 +1,7 @@
 # Scaled to zero for a short outage. Quoted because the chart uses Helm `default`,
 # which treats an unquoted 0 as empty and would keep replicas at 1.
 # Restore to 1 to bring the service back.
-replicaCount: "0"
+replicaCount: "1"
 
 deployment:
   hostname: staging.canfar.net

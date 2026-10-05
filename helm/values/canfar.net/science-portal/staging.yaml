@@ -1,5 +1,5 @@
 # Scaled to zero for a short outage. Restore by deleting this key (chart default is 1).
-replicaCount: 0
+replicaCount: "1"
 
 ingress:
   hosts:

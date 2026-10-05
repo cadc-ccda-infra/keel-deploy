@@ -4,7 +4,7 @@ kubernetesClusterDomain: keel-prod.local
 # as empty, so replicaCount would become 1 and the HPA bounds would become 2 and 6.
 # The HPA stays disabled because Kubernetes rejects maxReplicas 0.
 # Restore replicaCount, minReplicas, and maxReplicas to 3 and delete enabled.
-replicaCount: "0"
+replicaCount: "1"
 
 # Optional science-platform Metrics API (same Helm release as Skaha).
 # When enabled, the chart injects SKAHA_METRICS_BACKEND_URL on Tomcat so
