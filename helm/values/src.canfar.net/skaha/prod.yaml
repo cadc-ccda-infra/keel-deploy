@@ -2,7 +2,7 @@ deployment:
   hostname: src.canfar.net
   skaha:
     imagePullPolicy: Always
-    image: images-rc.canfar.net/skaha-system/skaha:1.5.1
+    image: images-rc.canfar.net/skaha-system/skaha:1.5.2
     registryURL:
       - "https://spsrc27.iaa.csic.es/reg"
       - "https://reg.swesrc.chalmers.se"
