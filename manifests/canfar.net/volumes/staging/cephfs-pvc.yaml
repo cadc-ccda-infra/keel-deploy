@@ -17,7 +17,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: canfar-workloads-staging-pvc
-  namespace: canfar-workloads
+  namespace: canfar-workloads-staging
 spec:
   accessModes:
   - ReadWriteMany
