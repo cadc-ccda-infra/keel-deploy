@@ -1,6 +1,11 @@
 # Staging overlay — LDAP pool sizes and hosts from cadc-rc ac,
 # exposed on staging-cadc-west-01.canfar.net.
 
+image:
+  repository: at88mph/ac
+  pullPolicy: Always
+  tag: SNAPSHOT
+
 ingress:
   hosts:
     - host: staging-cadc-west-01.canfar.net
