@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ldapsearch
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+              - key: skaha.opencadc.org/node-type
+                operator: In
+                values:
+                  - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1001
+    seccompProfile:
+      type: RuntimeDefault
+  hostAliases:
+    - hostnames: 
+        - quokka.canfar.internal
+      ip: 206.12.48.218
+  containers:
+    - name: ldapsearch
+      image: bitnamilegacy/openldap:2.6.10-debian-12-r4
+      command: ["sleep", "infinity"]
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]
+
