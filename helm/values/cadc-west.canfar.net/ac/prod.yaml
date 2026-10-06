@@ -14,10 +14,10 @@ imagePullSecrets:
 resources:
   requests:
     cpu: 750m
-    memory: 1000Mi
+    memory: 3000Mi
   limits:
-    cpu: 2000m
-    memory: 2000Mi
+    cpu: 2500m
+    memory: 4000Mi
 
 # LDAP hosts used by the existing CADC ac deployments; keep if cluster DNS
 # does not resolve ns1-05 / ns1-06.

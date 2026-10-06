@@ -21,10 +21,10 @@ replicaCount: 2
 resources:
   requests:
     cpu: 750m
-    memory: 1000Mi
+    memory: 3000Mi
   limits:
     cpu: 2500m
-    memory: 2000Mi
+    memory: 4000Mi
 
 extraHosts:
   - hostname: quokka.canfar.internal
