@@ -2,9 +2,9 @@
 # exposed on staging-cadc-west-01.canfar.net.
 
 image:
-  repository: at88mph/ac
+  repository: bucket.canfar.net/ac
   pullPolicy: Always
-  tag: SNAPSHOT
+  tag: 1.5.2-20261006T215953
 
 ingress:
   hosts:
