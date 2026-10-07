@@ -8,7 +8,6 @@ deployment:
 
   cavern:
     imagePullPolicy: Always
-    image: images.opencadc.org/platform/cavern:0.10.4
     registryURL: https://cadc-west-01.canfar.net/reg
 
     cookieSignaturePublicKey:

@@ -2,7 +2,6 @@ deployment:
   hostname: src.canfar.net
   cavern:
     imagePullPolicy: Always
-    image: images.opencadc.org/platform/cavern:0.10.4
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     resourceID: "ivo://canfar.net/src/cavern"
 
