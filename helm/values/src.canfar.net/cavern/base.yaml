@@ -9,8 +9,6 @@ deployment:
   cavern:
     imagePullPolicy: Always
 
-    resourceID: "ivo://canfar.net/src/cavern"
-
     oidcURI: https://ska-iam.stfc.ac.uk/
 
     gmsID: ivo://skao.int/gms

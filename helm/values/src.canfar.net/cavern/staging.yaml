@@ -3,7 +3,7 @@ deployment:
   cavern:
     imagePullPolicy: Always
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
-    resourceID: "ivo://canfar.net/staging-src/cavern"
+    resourceID: "ivo://canfar.net/src/cavern"
 
     registryURL:
       - "https://staging-src.canfar.net/reg"
