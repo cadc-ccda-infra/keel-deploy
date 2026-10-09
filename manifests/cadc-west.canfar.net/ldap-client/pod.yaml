@@ -1,0 +1,49 @@
+# One-off LDAP client. Not wired to Argo CD; apply it when you need a shell:
+#   kubectl apply -f manifests/cadc-west.canfar.net/ldap-client/pod.yaml
+#   kubectl -n cadc-system-production exec -it ldap-client -- ldapsearch -VV
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ldap-client
+  namespace: cadc-system-production
+  labels:
+    app.kubernetes.io/name: ldap-client
+spec:
+  restartPolicy: Always
+  automountServiceAccountToken: false
+  # Same host AC uses; cluster DNS may not resolve it.
+  hostAliases:
+    - ip: 206.12.48.218
+      hostnames:
+        - quokka.canfar.internal
+  # osixia/openldap:stable creates the openldap user as uid/gid 911.
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 911
+    runAsGroup: 911
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: ldap-client
+      image: osixia/openldap:stable
+      imagePullPolicy: IfNotPresent
+      # Skip the image entrypoint so slapd does not start.
+      command: ["sleep", "infinity"]
+      securityContext:
+        allowPrivilegeEscalation: false
+        privileged: false
+        runAsNonRoot: true
+        runAsUser: 911
+        runAsGroup: 911
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: RuntimeDefault
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 256Mi
