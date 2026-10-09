@@ -32,8 +32,8 @@ deployment:
       defaultService: cavern
       services:
         cavern:
-          resourceID: "ivo://canfar.net/staging-src/cavern"
-          nodeURIPrefix: "vos://canfar.net~staging-src~cavern"
+          resourceID: "ivo://canfar.net/src/cavern"
+          nodeURIPrefix: "vos://canfar.net~src~cavern"
           userHomeDir: "/home"
           features:
             batchDownload: true
