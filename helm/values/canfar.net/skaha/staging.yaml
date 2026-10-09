@@ -69,10 +69,12 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
-    image: images-rc.canfar.net/skaha-system/skaha:1.6.0
+    image: images-integration.canfar.net/skaha-system/skaha:2026.3-rc.2
     imagePullPolicy: Always
     registryURL:
       - https://staging.canfar.net/reg
+
+    registryHosts: "images-integration.canfar.net"
 
     sessions:
       hostname: workloads.canfar.net

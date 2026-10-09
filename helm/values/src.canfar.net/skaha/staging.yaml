@@ -8,6 +8,7 @@ metricsBackend:
 deployment:
   hostname: staging-src.canfar.net
   skaha:
+    image: images-integration.canfar.net/skaha-system/skaha:2026.3-rc.2
     imagePullPolicy: Always
     registryHosts: "images-integration.canfar.net services.swesrc.chalmers.se spsrc26.iaa.csic.es"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
