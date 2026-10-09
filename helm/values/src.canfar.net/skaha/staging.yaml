@@ -9,7 +9,7 @@ deployment:
   hostname: staging-src.canfar.net
   skaha:
     imagePullPolicy: Always
-    registryHosts: "images.canfar.net"
+    registryHosts: "images-integration.canfar.net services.swesrc.chalmers.se spsrc26.iaa.csic.es"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
 
     registryURL:
