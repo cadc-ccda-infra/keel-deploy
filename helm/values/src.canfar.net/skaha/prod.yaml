@@ -6,6 +6,8 @@ deployment:
       - "https://spsrc27.iaa.csic.es/reg"
       - "https://reg.swesrc.chalmers.se"
 
+    registryHosts: "images.canfar.net services.swesrc.chalmers.se spsrc26.iaa.csic.es"
+
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     sessions:
       hostname: workloads.canfar.net
