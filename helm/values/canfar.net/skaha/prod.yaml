@@ -138,6 +138,9 @@ deployment:
             cpu: "1"
             nvidia.com/gpu: "0"
 
+      minEphemeralStorage: "20Gi"
+      maxEphemeralStorage: "300Gi"
+
       authorization:
         group:
           enabled: true
