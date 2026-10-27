@@ -6,9 +6,9 @@ application:
   rsaSignaturePublicKey:
     existingSecret: "cookie-signature-public-key"
 
-    serviceEntries:
-      - id: "ivo://cadc.nrc.ca/reg"
-        url: "https://dev.canfar.net/reg/capabilities"
+  serviceEntries:
+    - id: "ivo://cadc.nrc.ca/reg"
+      url: "https://dev.canfar.net/reg/capabilities"
 
 ingress:
   hosts:
