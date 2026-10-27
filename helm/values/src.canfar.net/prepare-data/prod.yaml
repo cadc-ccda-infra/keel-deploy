@@ -2,16 +2,16 @@
 
 localPreparerCore:
   image:
-    registry: images.opencadc.org
-    image: test/core
-    tag: "20260918"
+    registry: artefact.skao.int
+    image: dpapi-core
+    tag: "0.3.10"
     pullPolicy: Always
 
 celeryWorker:
   image:
-    registry: images.opencadc.org
-    image: test/celery
-    tag: "20260918"
+    registry: artefact.skao.int
+    image: dpapi-celery
+    tag: "0.3.10"
     pullPolicy: Always
 
 env:
