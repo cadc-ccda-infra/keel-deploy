@@ -34,15 +34,19 @@ argocd-deploy.git/
 ├── README.md
 ├── argocd/
 │   ├── applications/
-│   │   ├── canfar.net/
+│   │   ├── canfar.net/              # keel-prod (staging, production, …)
 │   │   │   ├── <service>/
 │   │   │   │   ├── production.yaml
 │   │   │   │   ├── staging.yaml
 │   │   │   │   └── integration.yaml
+│   │   ├── dev.canfar.net/          # dev cluster (dev environment Apps)
+│   │   │   └── <service>/
+│   │   │       └── dev.yaml
 │   │   ├── cadc-ccda/
 │   │   └── src.canfar.net/
 │   └── bootstrap/
-│       ├── canfar.net.yaml
+│       ├── canfar.net.yaml          # keel-prod
+│       ├── dev.canfar.net.yaml      # keel-dev (isolated; separate path)
 │       ├── cadc-ccda.yaml
 │       └── src.canfar.net.yaml
 └── helm/
@@ -86,11 +90,24 @@ The table below lists secret **names** and where they appear. Adjust if your clu
 **Notes**
 
 - **Staging namespace:** Several canfar.net staging apps target `canfar-system-staging`; secrets such as `bucket-registry-auth` and volume secrets must exist in that namespace for those releases.
+- **Dev namespace:** Development (`dev`) canfar.net apps target `canfar-system-dev` on keel-dev; create the same class of secrets there (for example `bucket-registry-auth`, RSA keys referenced in `access/dev.yaml`).
 - **Ingress TLS:** Values for `web-portal` and `access` still declare `ingress.tls` in integration and production overlays. If TLS is terminated outside the cluster, you may remove those blocks from values and omit the corresponding TLS secrets at the ingress—keep application-level secrets (RSA keys, client certs, registry pull secrets) as required by each chart.
 
 ## Bootstrap install
 
 Bootstrap manifests live under `argocd/bootstrap/`. Use this when you want Argo CD to **manage all child `Application` manifests** under a domain tree from Git (app-of-apps), instead of applying each child by hand.
+
+Each bootstrap file is a **parent `Application`**. Apply it on the **cluster where that parent should run** (context = target cluster). Child apps use in-cluster `https://kubernetes.default.svc`; there is no cross-cluster deployment from these parents.
+
+| Bootstrap file | Apply on cluster | Parent `spec.source.path` | Workloads |
+| -------------- | ---------------- | --------------------------- | --------- |
+| `canfar.net.yaml` | **keel-prod** | `argocd/applications/canfar.net/` | Staging, production, … on prod |
+| `dev.canfar.net.yaml` | **keel-dev** | `argocd/applications/dev.canfar.net/` | Dev (`dev.canfar.net`) on dev only |
+| `src.canfar.net.yaml` | prod (canSRC) | `argocd/applications/src.canfar.net/` | canSRC staging / prod |
+| `cadc-west.canfar.net.yaml` | CADC West cluster | `argocd/applications/cadc-west.canfar.net/` | CADC West services |
+| `cadc-ccda.yaml` | (when used) | `argocd/applications/cadc-ccda/` | cadc-ccda domain |
+
+**Dev vs prod for canfar.net:** Dev is an **environment** (same product as `canfar.net`), not a separate domain folder under `helm/values/`. Helm overlays live at `helm/values/canfar.net/<service>/dev.yaml`. Argo **Application** manifests for dev live under `argocd/applications/dev.canfar.net/` (cluster-scoped app tree; same hostname as the public dev site) so the prod bootstrap never recurses them. Values still use `$values/helm/values/canfar.net/...`.
 
 **Prerequisites**
 
@@ -99,17 +116,21 @@ Bootstrap manifests live under `argocd/bootstrap/`. Use this when you want Argo 
 
 **Install (once per domain you use)**
 
-Each domain has its own bootstrap file (there is **no** single root over all of `argocd/applications/`). Apply the ones you need:
+Each domain (or cluster-specific slice) has its own bootstrap file (there is **no** single root over all of `argocd/applications/`). Apply the ones you need on the matching cluster:
 
 ```bash
+# keel-prod
 kubectl apply -f argocd/bootstrap/canfar.net.yaml
 kubectl apply -f argocd/bootstrap/cadc-ccda.yaml
 kubectl apply -f argocd/bootstrap/src.canfar.net.yaml
+
+# keel-dev (isolated; do not apply dev bootstrap on prod)
+kubectl apply -f argocd/bootstrap/dev.canfar.net.yaml
 ```
 
 If you **already** had parents pointing at the old `apps/<domain>` path or children using `$values/values/...`, update the parent `spec.source.path` to `argocd/applications/<domain>` and child `helm.valueFiles` to `$values/helm/values/...`, then commit and let Argo reconcile.
 
-That creates **one parent `Application`** per command. Each parent’s `spec.source.path` is **`argocd/applications/<domain>/`** (for example `argocd/applications/canfar.net`), **not** `argocd/bootstrap/`. After Argo **syncs** that parent, it reads Git and creates or updates **every** child `Application` YAML under that path (recursively). You do **not** `kubectl apply` each child file in day-to-day use.
+That creates **one parent `Application`** per command. Each parent’s `spec.source.path` is under **`argocd/applications/`** (for example `argocd/applications/canfar.net` or `argocd/applications/dev.canfar.net`), **not** `argocd/bootstrap/`. After Argo **syncs** that parent, it reads Git and creates or updates **every** child `Application` YAML under that path (recursively). You do **not** `kubectl apply` each child file in day-to-day use.
 
 **Using the Argo CD UI instead of `kubectl`**
 
@@ -129,7 +150,7 @@ Add **Helm values** and **Argo `Application` manifests** to Git. Do **not** put 
 Create a directory `helm/values/<domain>/<service>/` with at least:
 
 - `base.yaml` — shared defaults for the chart.
-- One overlay per environment you deploy, e.g. `integration.yaml`, `staging.yaml`, `prod.yaml` (names should match what you reference from the `Application`).
+- One overlay per environment you deploy, e.g. `integration.yaml`, `staging.yaml`, `prod.yaml`, `dev.yaml` (names should match what you reference from the `Application`).
 
 Align keys with your chart’s `values.yaml` from Harbor.
 
@@ -137,8 +158,9 @@ Align keys with your chart’s `values.yaml` from Harbor.
 
 Under `argocd/applications/<domain>/<service>/`, add one YAML file per **environment** that should run at the same time (each env usually has its own Kubernetes namespace). Follow an existing service in that domain or the **`cadc-ccda/example-app`** template.
 
-- **Integration / Staging:** `integration.yaml`, `staging.yaml`.
-- **Production:** `production.yaml`.
+- **Integration / Staging:** `integration.yaml`, `staging.yaml` (keel-prod: `argocd/applications/canfar.net/`).
+- **Production:** `production.yaml` or `prod.yaml`.
+- **Dev (keel-dev):** `dev.yaml` under `argocd/applications/dev.canfar.net/<service>/`, with values `$values/helm/values/canfar.net/<service>/dev.yaml`. Register the dev bootstrap on keel-dev only ([Bootstrap install](#bootstrap-install)).
 
 Each file must be a valid `kind: Application` with:
 

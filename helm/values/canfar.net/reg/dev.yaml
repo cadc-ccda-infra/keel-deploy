@@ -1,0 +1,34 @@
+global:
+  hostname: dev.canfar.net
+
+application:
+  identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+  rsaSignaturePublicKey:
+    existingSecret: "cookie-signature-public-key"
+
+    serviceEntries:
+      - id: "ivo://cadc.nrc.ca/reg"
+        url: "https://dev.canfar.net/reg/capabilities"
+
+ingress:
+  hosts:
+    - host: dev.canfar.net
+      paths:
+        - path: /reg
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+# Optionally mount a custom CA certificate
+volumeMounts:
+  - mountPath: /usr/share/tomcat/.ssl/
+    name: servops-cert
+    readOnly: true
+
+# Create the CA certificate volume to be mounted in extraVolumeMounts
+volumes:
+  - name: servops-cert
+    secret:
+      defaultMode: 420
+      secretName: servops-clientcert
