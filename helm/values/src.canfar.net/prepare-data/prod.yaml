@@ -4,14 +4,14 @@ localPreparerCore:
   image:
     registry: images.opencadc.org
     image: test/core
-    tag: latest
+    tag: 0.3.10
     pullPolicy: Always
 
 celeryWorker:
   image:
     registry: images.opencadc.org
     image: test/celery
-    tag: celery
+    tag: 0.3.10
     pullPolicy: Always
 
 env:
