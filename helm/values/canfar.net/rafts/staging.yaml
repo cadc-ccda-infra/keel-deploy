@@ -2,6 +2,9 @@
 # bucket/deployments/canfar-rc/rafts/configs.sh (env_vars), exposed on
 # staging.canfar.net (basePath /rafts).
 
+image:
+  tag: "1.0.4-20261030T204815"
+
 ingress:
   hosts:
     - host: staging.canfar.net
