@@ -1,0 +1,92 @@
+replicaCount: 1
+
+image:
+  repository: images.canfar.net/candiapl/comet
+  tag: "6e509d0964d0"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+automountServiceAccountToken: false
+
+containerPort: 5000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: traefik
+  annotations: {}
+  host: ""
+  path: /
+  pathType: Prefix
+  tls:
+    enabled: false
+    secretName: ""
+
+# Name of a pre-created Secret whose keys are exposed as environment variables.
+# The chart deliberately does not create or store application credentials.
+existingSecret: ""
+
+# Non-sensitive environment variables. Sensitive values belong in existingSecret.
+env: {}
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+startupProbe:
+  enabled: true
+  path: /healthz
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 60
+
+readinessProbe:
+  enabled: true
+  path: /healthz
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+livenessProbe:
+  enabled: true
+  path: /healthz
+  periodSeconds: 30
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
