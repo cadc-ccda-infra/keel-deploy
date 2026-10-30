@@ -178,6 +178,8 @@ application:
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/capabilities"
     - id: "ivo://cadc.nrc.ca/LSST.DP1"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/capabilities"
+    - id: "ivo://cadc.nrc.ca/LSST.DP2"
+      url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/capabilities"
     - id: "ivo://cadc.nrc.ca/MACHO"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/capabilities"
     - id: "ivo://cadc.nrc.ca/MOST"
@@ -255,6 +257,8 @@ application:
     - id: "ivo://cadc.nrc.ca/test/LOTSS"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/sandbox/capabilities"
     - id: "ivo://cadc.nrc.ca/test/LSST.DP1"
+      url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/sandbox/capabilities"
+    - id: "ivo://cadc.nrc.ca/test/LSST.DP2"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/sandbox/capabilities"
     - id: "ivo://cadc.nrc.ca/test/OMM"
       url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/cadc/sandbox/capabilities"
@@ -359,3 +363,4 @@ volumes:
     secret:
       defaultMode: 420
       secretName: servops-clientcert
+
