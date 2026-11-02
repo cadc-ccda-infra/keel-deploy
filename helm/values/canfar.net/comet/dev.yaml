@@ -1,0 +1,17 @@
+# keel-dev values. COMET shares dev.canfar.net with other services under /comet.
+# TLS terminates in front of the cluster, so the Ingress carries no TLS block.
+ingress:
+  enabled: true
+  className: traefik
+  annotations: {}
+  host: dev.canfar.net
+  path: /comet
+  pathType: Prefix
+  tls:
+    enabled: false
+    secretName: ""
+
+env:
+  # Pins scheme, host, and path prefix; OAuth callbacks default to
+  # https://dev.canfar.net/comet/oauth/{cadc,github,gitlab}/callback.
+  COMET_PUBLIC_URL: https://dev.canfar.net/comet

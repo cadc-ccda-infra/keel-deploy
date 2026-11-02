@@ -1,17 +1,18 @@
-# Provisional staging values. Confirm the hostname, TLS Secret, and OAuth client
-# registration with the platform team before promoting the Application draft.
+# Provisional staging values. Confirm the path and OAuth client registration
+# with the platform team before promoting the Application draft.
+# TLS terminates in front of the cluster, so the Ingress carries no TLS block.
 ingress:
   enabled: true
   className: traefik
   annotations: {}
-  host: comet-staging.canfar.net
-  path: /
+  host: staging.canfar.net
+  path: /comet
   pathType: Prefix
   tls:
-    enabled: true
-    secretName: comet-staging-tls
+    enabled: false
+    secretName: ""
 
 env:
-  CADC_OIDC_REDIRECT_URI: https://comet-staging.canfar.net/oauth/cadc/callback
-  GITHUB_REDIRECT_URI: https://comet-staging.canfar.net/oauth/github/callback
-  GITLAB_REDIRECT_URI: https://comet-staging.canfar.net/oauth/gitlab/callback/
+  # Pins scheme, host, and path prefix; OAuth callbacks default to
+  # https://staging.canfar.net/comet/oauth/{cadc,github,gitlab}/callback.
+  COMET_PUBLIC_URL: https://staging.canfar.net/comet
