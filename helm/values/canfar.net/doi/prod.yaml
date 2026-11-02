@@ -27,6 +27,28 @@ application:
       name: cookie-signature-public-key
       path: RsaSignaturePub.key
 
+        # Mount the pre-auth service account PEM
+  extraVolumeMounts:
+    - mountPath: /usr/share/tomcat/.ssl/cadcproxy.pem
+      subPath: cadcproxy.pem
+      name: servops-cert
+      readOnly: true
+    - mountPath: /usr/share/tomcat/.ssl/doiadmin.pem
+      subPath: doiadmin.pem
+      name: doiadmin-cert
+      readOnly: true
+
+  # Create the CA certificate volume to be mounted in extraVolumeMounts
+  extraVolumes:
+    - name: servops-cert
+      secret:
+        defaultMode: 420
+        secretName: servops-clientcert
+    - name: doiadmin-cert
+      secret:
+        defaultMode: 420
+        secretName: doiadmin-clientcert
+
 livenessProbe:
   httpGet:
     path: /doi/availability
