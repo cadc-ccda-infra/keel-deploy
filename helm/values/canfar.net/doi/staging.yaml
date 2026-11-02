@@ -15,6 +15,14 @@ imagePullSecrets:
 application:
   registryURL: https://staging.canfar.net/reg
 
+  certificates:
+    servops:
+      existingSecret: servops-clientcert
+      key: cadcproxy.pem
+    doiadmin:
+      existingSecret: doiadmin-clientcert
+      key: doiadmin.pem
+
   config:
     vospaceParentUri: vos://cadc.nrc.ca~vault/DOItest/doi
     groupPrefix: TEST.DOI-
