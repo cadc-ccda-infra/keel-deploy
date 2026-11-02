@@ -32,9 +32,11 @@ application:
     - mountPath: /usr/share/tomcat/.ssl/
       name: servops-cert
       readOnly: true
+      subPath: cadcproxy.pem
     - mountPath: /usr/share/tomcat/.ssl/
       name: doiadmin-cert
       readOnly: true
+      subPath: doiadmin.pem
 
   # Create the CA certificate volume to be mounted in extraVolumeMounts
   extraVolumes:
