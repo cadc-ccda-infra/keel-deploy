@@ -12,17 +12,28 @@ ingress:
 imagePullSecrets:
   - name: bucket-registry-auth
 
+# Mount the pre-auth service account PEM
+volumeMounts:
+  - mountPath: /usr/share/tomcat/.ssl/
+    name: servops-cert
+    readOnly: true
+  - mountPath: /usr/share/tomcat/.ssl/
+    name: doiadmin-cert
+    readOnly: true
+
+# Create the CA certificate volume to be mounted in extraVolumeMounts
+volumes:
+  - name: servops-cert
+    secret:
+      defaultMode: 420
+      secretName: servops-clientcert
+  - name: doiadmin-cert
+    secret:
+      defaultMode: 420
+      secretName: doiadmin-clientcert
+
 application:
   registryURL: https://staging.canfar.net/reg
-
-  certificates:
-    servops:
-      existingSecret: servops-clientcert
-      key: cadcproxy.pem
-    doiadmin:
-      existingSecret: doiadmin-clientcert
-      key: doiadmin.pem
-
   config:
     vospaceParentUri: vos://cadc.nrc.ca~vault/DOItest/doi
     groupPrefix: TEST.DOI-

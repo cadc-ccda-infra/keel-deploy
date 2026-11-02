@@ -56,9 +56,6 @@ application:
     auth:
       existingSecret: doi-datacite
 
-  certificates:
-    existingSecret: doi-certs
-
   loggingGroups:
     - "ivo://cadc.nrc.ca/gms?CADC"
 
