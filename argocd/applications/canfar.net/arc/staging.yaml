@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: oci://images.opencadc.org/platform/charts/cavern
       path: .
-      targetRevision: 0.10.7
+      targetRevision: 0.10.8
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/arc/base.yaml

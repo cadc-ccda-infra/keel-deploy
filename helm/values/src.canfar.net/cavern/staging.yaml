@@ -35,3 +35,29 @@ storage:
     spec:
       persistentVolumeClaim:
         claimName: canfar-src-cavern-pvc
+
+# detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
+livenessProbe:
+  httpGet:
+    path: /cavern/availability?detail=min
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /cavern/availability
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 60
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /cavern/availability?detail=min
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30

@@ -1,5 +1,0 @@
-deployment:
-  hostname: integration.canfar.net
-
-  cavern:
-    registryURL: https://integration.canfar.net/reg
