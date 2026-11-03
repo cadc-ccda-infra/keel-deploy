@@ -15,3 +15,5 @@ env:
   # Pins scheme, host, and path prefix; OAuth callbacks default to
   # https://dev.canfar.net/comet/oauth/{cadc,github,gitlab}/callback.
   COMET_PUBLIC_URL: https://dev.canfar.net/comet
+  # Shared CADC sign-in stays off until COMET_MMP_CLIENT_SECRET is in comet-secrets.
+  MMP_BASE_URL: https://staging.portal.candiapl.ca
