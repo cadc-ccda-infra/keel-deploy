@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: images.canfar.net/candiapl/comet
-  tag: "d40f0f19736e"
+  tag: "0f3b3a6f1aea"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

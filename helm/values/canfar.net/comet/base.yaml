@@ -3,7 +3,7 @@ replicaCount: 1
 
 image:
   repository: images.canfar.net/candiapl/comet
-  tag: "d40f0f19736e"
+  tag: "0f3b3a6f1aea"
   pullPolicy: IfNotPresent
 
 # Replace this only if the platform creates the Secret under a different name.
@@ -45,8 +45,8 @@ livenessProbe:
   failureThreshold: 3
 
 env:
-  APP_VERSION: "d40f0f19736e"
-  COMMIT_HASH: "d40f0f19736e"
+  APP_VERSION: "0f3b3a6f1aea"
+  COMMIT_HASH: "0f3b3a6f1aea"
   HARBOR_URL: images.canfar.net
   HARBOR_API_URL: https://images.canfar.net/api/v2.0
   SESSION_COOKIE_SECURE: "true"
