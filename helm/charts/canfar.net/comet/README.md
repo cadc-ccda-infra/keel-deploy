@@ -29,9 +29,6 @@ Each OAuth app must list the callback under `env.COMET_PUBLIC_URL`, for example
 `https://dev.canfar.net/comet/oauth/github/callback`. Restart the Deployment
 after changing the Secret.
 
-`startupProbe`, `readinessProbe`, and `livenessProbe` take complete Kubernetes
-probe objects and are rendered as-is. Set one to `null` to omit it.
-
 COMET is mounted under a path on a shared CANFAR host (for example
 `https://dev.canfar.net/comet`). Set `env.COMET_PUBLIC_URL` to that URL and
 `ingress.path` to its path. COMET then serves the wizard and docs on that one
