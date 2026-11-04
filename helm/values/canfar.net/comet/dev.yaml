@@ -17,3 +17,10 @@ env:
   COMET_PUBLIC_URL: https://dev.canfar.net/comet
   # Shared CADC sign-in stays off until COMET_MMP_CLIENT_SECRET is in comet-secrets.
   MMP_BASE_URL: https://staging.portal.candiapl.ca
+  CADC_LOGIN_URL: https://cadc-west-01.canfar.net/ac/login
+  CADC_OIDC_TOKEN_URL: https://cadc-west-01.canfar.net/ac/token
+  CADC_OIDC_USERINFO_URL: https://cadc-west-01.canfar.net/ac/userinfo
+  CADC_CRED_DELEGATION_HOST: cadc-west-01.canfar.net
+  CADC_OIDC_CLIENT_ID: candiapl
+  CANFAR_ARC_FILES_URL: https://ws-uv.canfar.net/arc/files
+  CANFAR_ARC_NODES_URL: https://ws-uv.canfar.net/arc/nodes
