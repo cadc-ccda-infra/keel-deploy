@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: oci://images.canfar.net/candiapl/charts/comet
-      path: .
-      targetRevision: 0.1.0
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      path: helm/charts/canfar.net/comet
       helm:
         # Keeps resource names at "comet" so this adopts the existing release
         # instead of running a second Ingress on dev.canfar.net/comet.
