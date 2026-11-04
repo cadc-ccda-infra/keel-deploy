@@ -86,6 +86,7 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
+    image: images.opencadc.org/platform/skaha:1.6.3
     imagePullPolicy: Always
     registryURL:
       - https://staging.canfar.net/reg
