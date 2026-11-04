@@ -66,23 +66,27 @@ resources:
     cpu: 500m
     memory: 1Gi
 
+# Probe objects are rendered as-is. Set a probe to null to omit it.
 startupProbe:
-  enabled: true
-  path: /healthz
+  httpGet:
+    path: /healthz
+    port: http
   periodSeconds: 5
   timeoutSeconds: 3
   failureThreshold: 60
 
 readinessProbe:
-  enabled: true
-  path: /healthz
+  httpGet:
+    path: /healthz
+    port: http
   periodSeconds: 10
   timeoutSeconds: 3
   failureThreshold: 3
 
 livenessProbe:
-  enabled: true
-  path: /healthz
+  httpGet:
+    path: /healthz
+    port: http
   periodSeconds: 30
   timeoutSeconds: 3
   failureThreshold: 3
