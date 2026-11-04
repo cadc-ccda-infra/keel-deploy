@@ -1,0 +1,56 @@
+# Shared COMET settings. No credential values belong in this repository.
+replicaCount: 1
+
+image:
+  repository: images.canfar.net/candiapl/comet
+  tag: "0f3b3a6f1aea"
+  pullPolicy: IfNotPresent
+
+# Replace this only if the platform creates the Secret under a different name.
+existingSecret: comet-secrets
+
+containerPort: 5000
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+startupProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 60
+
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: http
+  periodSeconds: 30
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+env:
+  APP_VERSION: "0f3b3a6f1aea"
+  COMMIT_HASH: "0f3b3a6f1aea"
+  HARBOR_URL: images.canfar.net
+  HARBOR_API_URL: https://images.canfar.net/api/v2.0
+  SESSION_COOKIE_SECURE: "true"
+  SESSION_COOKIE_SAMESITE: Lax
