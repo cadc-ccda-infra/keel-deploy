@@ -69,7 +69,7 @@ deployment:
       expirySeconds: "345600"
       maxCount: "3"
       minEphemeralStorage: "20Gi"
-      maxEphemeralStorage: "100Gi"
+      maxEphemeralStorage: "300Gi"
       nodeLabelSelector: "skaha.opencadc.org/node-type=worker-node"
 
       nodeAffinity:
