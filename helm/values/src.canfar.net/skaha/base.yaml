@@ -26,6 +26,16 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 1
 
+# Chart default readiness uses /skaha/availability every 15s with no timeout (kube default 1s).
+# detail=min → heartbeat only; longer period and timeout avoid NotReady flapping under load.
+readinessProbe:
+  httpGet:
+    path: /skaha/availability?detail=min
+    port: http
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
 deployment:
   skaha:
     imagePullPolicy: Always
