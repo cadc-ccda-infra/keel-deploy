@@ -10,5 +10,18 @@ spec:
     requests:
       storage: 1000Gi
   storageClassName: ""
-  volumeMode: Filesystem
   volumeName: canfar-src-production-cavern-renewal-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: src-cavern-renewal-storage
+  namespace: canfar-src-workloads
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: ""
+  volumeName: canfar-src-workloads-src-cavern-renewal-storage

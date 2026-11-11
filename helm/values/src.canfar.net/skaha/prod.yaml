@@ -62,7 +62,7 @@ deployment:
       userStorage:
         spec:
           persistentVolumeClaim:
-            claimName: canfar-src-workloads-pvc
+            claimName: src-cavern-renewal-storage
         topLevelDirectory: "/cavern"
         nodeURIPrefix: "vos://canfar.net~src~cavern"
         serviceURI: "ivo://canfar.net/src/cavern"
