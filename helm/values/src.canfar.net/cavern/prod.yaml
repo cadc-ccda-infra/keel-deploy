@@ -1,3 +1,4 @@
+replicaCount: "2"
 deployment:
   hostname: src.canfar.net
   cavern:
