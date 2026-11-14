@@ -107,14 +107,14 @@ deployment:
           persistentVolumeClaim:
             claimName: canfar-workloads-production-pvc
       kueue:
-        rbac:
-          create: true
         default:
-          queueName: "cadc-default"
           priorityClass: "high"
         headless:
-          queueName: "cadc-default"
           priorityClass: "low"
+      communities:
+        cadc:
+          default: true
+          clusterQueue: cadc
 
       # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
       limitRange:
