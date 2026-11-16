@@ -7,6 +7,7 @@ Argo CD child `Application` manifests reference these files using a Git source w
 ```text
 $values/helm/values/<domain>/<service>/base.yaml
 $values/helm/values/<domain>/<service>/staging.yaml
+$values/helm/values/canfar.net/<service>/dev.yaml   # dev.canfar.net on keel-dev
 ```
 
 ## Layout
@@ -27,6 +28,7 @@ Each `<service>/` directory typically contains:
 | `integration.yaml` | Integration environment overlay (where used) |
 | `staging.yaml` | Staging overlay |
 | `prod.yaml` or `production.yaml` | Production overlay |
+| `dev.yaml` | Development overlay for **`dev.canfar.net`** on keel-dev (Argo apps under `argocd/applications/dev.canfar.net/`) |
 
 File names must match what the corresponding `Application` lists in `helm.valueFiles`. Not every service deploys to every environment.
 
@@ -53,7 +55,7 @@ canSRC is **independent** from main `canfar.net` values—different hostnames, n
 
 1. **Align keys with the chart** — Each `base.yaml` should mirror the chart's `values.yaml` schema from the published chart version pinned in the `Application` (`targetRevision`).
 2. **Keep secrets out of Git** — Use `existingSecret` / `secretKey` references; create secrets with kubectl, Sealed Secrets, or External Secrets in the destination namespace.
-3. **Hostname and resource IDs in overlays** — Shared tuning stays in `base.yaml`; environment-specific hostnames, OIDC redirect URIs, and `ivo://` resource IDs go in `staging.yaml` / `prod.yaml`.
+3. **Hostname and resource IDs in overlays** — Shared tuning stays in `base.yaml`; environment-specific hostnames, OIDC redirect URIs, and `ivo://` resource IDs go in `staging.yaml`, `prod.yaml`, or `dev.yaml` as appropriate.
 4. **Raw Kubernetes YAML** — Some paths (for example `kueue/localQueues/`) hold manifests synced directly by Argo CD rather than through Helm. Keep them under the same domain folder for clarity.
 
 ## Related paths
@@ -68,4 +70,4 @@ canSRC is **independent** from main `canfar.net` values—different hostnames, n
 | `docs/kueue.md` | ClusterQueues, LocalQueues, prod vs dev |
 | `helm/harbor/` | Harbor chart repo registration helpers |
 
-Repository-wide bootstrap, secrets tables, and adding new applications: [root README.md](../../README.md).
+Repository-wide bootstrap, secrets tables, and adding new applications: [root README.md](../../README.md). **canfar.net dev on keel-dev:** [adding-canfar-dev-environment.md](../../docs/adding-canfar-dev-environment.md).

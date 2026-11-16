@@ -10,6 +10,7 @@ This repository is the **Git source of truth** for Argo CD: `Application` (and o
 - [Required secrets (values references)](#required-secrets-values-references)
 - [Bootstrap install](#bootstrap-install)
 - [Adding a new Application](#adding-a-new-application)
+- [Adding the canfar.net dev environment](#adding-the-canfarnet-dev-environment-keel-dev)
 - [Charts (Harbor)](#charts-harbor)
 - [Git as source of truth](#git-as-source-of-truth)
 - [Prerequisites (operators)](#prerequisites-operators)
@@ -176,6 +177,12 @@ Commit and push. If the **bootstrap** parent for that domain is already applied 
 
 If you added a **new** domain folder under `argocd/applications/`, you must also add a matching **`argocd/bootstrap/<domain>.yaml`**, register nothing extra beyond Git, and `kubectl apply` that bootstrap file once so Argo starts managing `argocd/applications/<domain>/`.
 
+## Adding the canfar.net `dev` environment (keel-dev)
+
+**Dev** is not a folder under `helm/values/` — it is an environment that runs on **keel-dev** while reusing `helm/values/canfar.net/<service>/dev.yaml`. Argo manifests live under **`argocd/applications/dev.canfar.net/`** (not `canfar.net/`) so prod’s app-of-apps does not deploy them. Bootstrap with **`argocd/bootstrap/dev.canfar.net.yaml`** on keel-dev only.
+
+For a step-by-step runbook (bootstrap, per-service checklist, secrets, worked examples, and onboarding exercise), see **[`docs/adding-canfar-dev-environment.md`](docs/adding-canfar-dev-environment.md)**. An index of dev Applications already in Git is in [`argocd/applications/dev.canfar.net/README.md`](argocd/applications/dev.canfar.net/README.md).
+
 ## Charts (Harbor)
 
 - Chart packages are **not** stored in this repo, except vendored SKA charts under `helm/charts/src.canfar.net/` (Gatekeeper, prepare-data, and SODA; temporary — see each directory’s README).
@@ -197,6 +204,7 @@ If you added a **new** domain folder under `argocd/applications/`, you must also
 
 - **Helm values layout:** [`helm/values/README.md`](helm/values/README.md)
 - **Skaha Metrics:** [`docs/skaha-metrics.md`](docs/skaha-metrics.md) — optional Metrics API in the Skaha Helm release, `view=stats`, RBAC, and OTEL
+- **canfar.net dev (keel-dev):** [`docs/adding-canfar-dev-environment.md`](docs/adding-canfar-dev-environment.md) — bootstrap, values + Application layout, onboarding checklist
 - **Kueue ClusterQueues:** [`docs/kueue.md`](docs/kueue.md) — controller, ClusterQueues `cadc`/`src`, Cohort, LocalQueues, prod vs dev
 - **canSRC (SRCNet) deployment:** [`argocd/applications/src.canfar.net/README.md`](argocd/applications/src.canfar.net/README.md) and [`helm/values/src.canfar.net/README.md`](helm/values/src.canfar.net/README.md)
 
