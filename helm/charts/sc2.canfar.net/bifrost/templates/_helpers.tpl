@@ -60,3 +60,57 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "bifrost.publicHostname" -}}
+{{- if .Values.ingress.enabled -}}
+{{- with (first .Values.ingress.hosts) -}}
+{{- .host -}}
+{{- end -}}
+{{- else if .Values.httpRoute.enabled -}}
+{{- with (first .Values.httpRoute.hostnames) -}}
+{{- . -}}
+{{- end -}}
+{{- end -}}
+{{- end }}
+
+{{- define "bifrost.platform.proxyPort" -}}
+{{- coalesce .Values.application.proxyPort .Values.global.proxyPort 443 -}}
+{{- end }}
+
+{{- define "bifrost.platform.gmsId" -}}
+{{- coalesce .Values.application.gmsId .Values.global.gmsId -}}
+{{- end }}
+
+{{- define "bifrost.platform.cdpId" -}}
+{{- coalesce .Values.application.cdpId .Values.global.cdpId -}}
+{{- end }}
+
+{{- define "bifrost.platform.identityManager" -}}
+{{- $a := .Values.application.auth | default dict -}}
+{{- $g := .Values.global.auth | default dict -}}
+{{- coalesce $a.identityManager $g.identityManager "ca.nrc.cadc.ac.ACIdentityManager" -}}
+{{- end }}
+
+{{- define "bifrost.platform.enableClientCertHeader" -}}
+{{- $a := .Values.application.auth | default dict -}}
+{{- $g := .Values.global.auth | default dict -}}
+{{- coalesce $a.enableClientCertHeader $g.enableClientCertHeader true -}}
+{{- end }}
+
+{{- define "bifrost.platform.cookieSecretName" -}}
+{{- $g := (.Values.global.cookieSignaturePublicKey | default dict).existingSecret | default dict -}}
+{{- $a := (.Values.application.cookieSignaturePublicKey | default dict).existingSecret | default dict -}}
+{{- coalesce $a.name $g.name -}}
+{{- end }}
+
+{{- define "bifrost.platform.cookieSecretKey" -}}
+{{- $g := (.Values.global.cookieSignaturePublicKey | default dict).existingSecret | default dict -}}
+{{- $a := (.Values.application.cookieSignaturePublicKey | default dict).existingSecret | default dict -}}
+{{- coalesce $a.key $g.key "RsaSignaturePub.key" -}}
+{{- end }}
+
+{{- define "bifrost.platform.cookieSecretPath" -}}
+{{- $g := (.Values.global.cookieSignaturePublicKey | default dict).existingSecret | default dict -}}
+{{- $a := (.Values.application.cookieSignaturePublicKey | default dict).existingSecret | default dict -}}
+{{- coalesce $a.path $g.path "RsaSignaturePub.key" -}}
+{{- end }}
