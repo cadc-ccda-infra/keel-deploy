@@ -1,0 +1,32 @@
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-prepare-data-prod
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: prepare-data
+spec:
+  project: canfar
+  sources:
+    - repoURL: https://artefact.skao.int/repository/helm-internal/
+      chart: ska-src-dm-local-data-preparer
+      targetRevision: 0.3.10
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/prepare-data/base.yaml
+          - $values/helm/values/src.canfar.net/prepare-data/prod.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-src-production
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,40 @@
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-skaha-prod
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: skaha
+spec:
+  project: canfar
+  sources:
+    - repoURL: oci://images.opencadc.org/platform/charts/skaha
+      targetRevision: 1.10.2
+      path: .
+      helm:
+        valueFiles:
+          - $values/helm/values/src.canfar.net/skaha/base.yaml
+          - $values/helm/values/src.canfar.net/skaha/prod.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-src-production
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: src-skaha-prod-skaha-metrics-cache
+      namespace: canfar-src-production
+      jsonPointers:
+        - /data/key-secret
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+    automated:
+      prune: true
+      selfHeal: true
