@@ -33,7 +33,7 @@ env:
 pvc:
   rse: xrootd-pvc
   rsePath: /rse
-  cavern: cavern-renewal-pvc
+  cavern: cavern-renewal-storage
   cavernPath: /user-storage/
   celeryCache: celery-cache-pvc
   celeryCachePath: /celery/cache
