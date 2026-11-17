@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sc2-sc2meta-prod
+  namespace: cadc-sandbox
+  labels:
+    argocd.argoproj.io/domain: sc2.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: sc2meta
+spec:
+  project: cadc
+  sources:
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      path: helm/charts/sc2.canfar.net/sc2meta
+      helm:
+        valueFiles:
+          - $values/helm/values/sc2.canfar.net/sc2meta/base.yaml
+          - $values/helm/values/sc2.canfar.net/sc2meta/prod.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cadc-sandbox
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
