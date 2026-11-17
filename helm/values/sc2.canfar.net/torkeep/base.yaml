@@ -1,0 +1,79 @@
+# sc2.canfar.net torkeep — Kubernetes defaults.
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+replicaCount: 1
+
+livenessProbe:
+  httpGet:
+    path: /sc2repo/availability?detail=min
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 600
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /sc2repo/availability
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /sc2repo/availability?detail=min
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "2Gi"
+    cpu: "1"
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+            - key: skaha.opencadc.org/node-type
+              operator: In
+              values:
+                - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nvidia.com/gpu.count
+              operator: DoesNotExist
+
+application:
+  contextPath: sc2repo
+  caom2Metadata:
+    maxActive: 3

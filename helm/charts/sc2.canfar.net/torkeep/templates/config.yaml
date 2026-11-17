@@ -1,0 +1,75 @@
+{{- $app := .Values.application -}}
+{{- $hostname := required "set ingress.hosts[].host or httpRoute.hostnames[] (enable ingress or httpRoute)" (include "torkeep.publicHostname" .) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace }}
+data:
+  cadc-registry.properties: |
+    ivo://ivoa.net/std/GMS#search-1.0 = {{ required "global.gmsId" (include "torkeep.platform.gmsId" .) }}
+    http://www.opencadc.org/std/UMS#users-1.0 = {{ include "torkeep.platform.gmsId" . }}
+    ivo://ivoa.net/std/UMS#users-0.1 = {{ include "torkeep.platform.gmsId" . }}
+
+    ivo://ivoa.net/std/CDP#proxy-1.0 = {{ required "global.cdpId" (include "torkeep.platform.cdpId" .) }}
+
+    http://www.opencadc.org/std/posix#group-mapping-0.1 = {{ include "torkeep.platform.gmsId" . }}
+    http://www.opencadc.org/std/posix#user-mapping-0.1 = {{ include "torkeep.platform.gmsId" . }}
+
+    {{- $urls := coalesce $app.registryUrls .Values.global.registryUrls (list) -}}
+    {{- range $urls }}
+    ca.nrc.cadc.reg.client.RegistryClient.baseURL = {{ . }}
+    {{- end }}
+  cadc-log.properties: |
+    {{- $logG := .Values.global.logging | default dict -}}
+    {{- $logA := $app.logging | default dict -}}
+    {{- $logUsers := $logA.users | default $logG.users | default (list) -}}
+    {{- $logUsernames := $logA.usernames | default $logG.usernames | default (list) -}}
+    {{- $logGroups := $logA.groups | default $logG.groups | default (list) -}}
+    {{- range $logUsers }}
+    user = {{ . }}
+    {{- end }}
+    {{- range $logUsernames }}
+    username = {{ . }}
+    {{- end }}
+    {{- range $logGroups }}
+    group = {{ . }}
+    {{- end }}
+    {{- $logSecretG := $logG.secret | default dict -}}
+    {{- $logSecretA := $logA.secret | default dict -}}
+    {{- $logSecretRef := $logSecretA.existingSecret | default $logSecretG.existingSecret | default dict -}}
+    {{- $logSecretName := $logSecretRef.name | default "" -}}
+    {{- if $logSecretName }}
+    {{- $logSecretKeys := $logSecretRef.keys | default (list ($logSecretRef.key | default "secret")) -}}
+    {{- $logSecretObj := lookup "v1" "Secret" .Release.Namespace $logSecretName -}}
+    {{- if $logSecretObj }}
+    {{- range $logSecretKeys }}
+    {{- $logSecretVal := index $logSecretObj.data . | b64dec -}}
+    secret = {{ $logSecretVal }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+  catalina.properties: |
+    tomcat.connector.scheme=https
+    tomcat.connector.proxyName={{ $hostname }}
+    tomcat.connector.proxyPort={{ include "torkeep.platform.proxyPort" . }}
+    ca.nrc.cadc.auth.PrincipalExtractor.enableClientCertHeader={{ include "torkeep.platform.enableClientCertHeader" . }}
+    ca.nrc.cadc.util.Log4jInit.messageOnly=true
+    ca.nrc.cadc.auth.IdentityManager={{ include "torkeep.platform.identityManager" . }}
+
+    {{- with $app.caom2Metadata }}
+    org.opencadc.torkeep.caom2.maxActive = {{ .maxActive | default 2 }}
+    org.opencadc.torkeep.caom2.url = {{ required "application.caom2Metadata.url" .url }}
+    org.opencadc.torkeep.caom2.username = {{ required "application.caom2Metadata.username" .username }}
+    org.opencadc.torkeep.caom2.password = {{ required "application.caom2Metadata.password" .password }}
+    {{- end }}
+  torkeep.properties: |
+    {{- range $app.grantProviders | default (list) }}
+    org.opencadc.torkeep.grantProvider = {{ . }}
+    {{- end }}
+    {{- range $app.collections | default (list) }}
+    org.opencadc.torkeep.collection = {{ required "application.collections[].name" .name }}
+    {{ .name }}.basePublisherID = {{ required (printf "application.collections[%s].basePublisherID" .name) .basePublisherID }}
+    {{ .name }}.computeMetadata = {{ .computeMetadata | default false }}
+    {{ .name }}.proposalGroup = {{ .proposalGroup | default false }}
+    {{- end }}
