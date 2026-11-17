@@ -6,7 +6,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sandbox-apps
+  name: sc2-canfar-net-apps
   namespace: cadc-argocd
 spec:
   project: cadc
@@ -14,7 +14,7 @@ spec:
     repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
     targetRevision: main
     ref: values
-    path: argocd/applications/sandbox
+    path: argocd/applications/sc2.canfar.net
     directory:
       recurse: true
   destination:
