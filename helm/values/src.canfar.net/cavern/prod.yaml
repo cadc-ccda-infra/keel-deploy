@@ -1,4 +1,7 @@
-replicaCount: "1"
+replicaCount: "2"
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 2
 deployment:
   hostname: src.canfar.net
   cavern:
