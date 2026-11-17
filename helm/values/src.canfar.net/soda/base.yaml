@@ -1,0 +1,40 @@
+# Shared defaults for SKA SODA vendored chart 0.0.5.
+# Production overlays: prod.yaml. No staging environment for SKA bundle services.
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 92145
+  fsGroup: 92145
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+            - key: skaha.opencadc.org/node-type
+              operator: In
+              values:
+                - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nvidia.com/gpu.count
+              operator: DoesNotExist
+
+service:
+  type: ClusterIP
+
+serviceAccount: {}
+
+ingress:
+  enabled: false

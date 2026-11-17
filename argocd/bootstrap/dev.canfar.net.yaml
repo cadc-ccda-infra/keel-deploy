@@ -1,0 +1,31 @@
+# Parent Application (app-of-apps) for canfar.net on the keel-dev cluster.
+# Apply once on keel-dev only: kubectl apply -f argocd/bootstrap/dev.canfar.net.yaml
+# Replace spec.source.repoURL with this repository's clone URL before applying.
+# Child and parent Application CRs use namespace canfar-argocd; create it and grant Argo CD
+# permission to manage Application resources there (cluster setup dependent).
+#
+# spec.source.path is argocd/applications/dev.canfar.net (not argocd/applications/canfar.net)
+# so the keel-prod canfar.net bootstrap does not reconcile dev-only Applications.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-canfar-net-apps
+  namespace: canfar-argocd
+spec:
+  project: canfar
+  source:
+    repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+    targetRevision: main
+    ref: values
+    path: argocd/applications/dev.canfar.net
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-argocd
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

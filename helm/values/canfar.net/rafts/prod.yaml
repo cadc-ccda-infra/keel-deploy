@@ -1,0 +1,62 @@
+# Production overlay — application env from
+# bucket/deployments/canfar-rc/rafts/configs.sh (env_vars), exposed on
+# www.canfar.net (basePath /rafts).
+
+image:
+  tag: "1.0.4-20261030T204815"
+
+ingress:
+  hosts:
+    - host: www.canfar.net
+      paths:
+        - path: /rafts
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+application:
+  # Maps to NEXTAUTH_URL
+  nextauthUrl: "https://www.canfar.net"
+
+  # Maps to NEXTAUTH_SECRET — create Secret rafts-nextauth in canfar-system-production
+  nextauthSecret:
+    existingSecret: rafts-nextauth
+    secretKey: NEXTAUTH_SECRET
+
+  # Maps to NEXT_DOI_BASE_URL
+  doiBaseUrl: "https://ws-uv.canfar.net/rdoi/instances"
+
+  # BEGIN Services that still run at the old Web Service host.
+  # These services run in the Docker Swarm deployment at UVic.
+
+  # Maps to NEXT_VAULT_BASE_ENDPOINT
+  vaultBaseEndpoint: "https://cadc-west-01.canfar.net/vault/files"
+  vaultSyncTransEndpoint: "https://cadc-west-01.canfar.net/vault/synctrans"
+
+  # CADC Access Control endpoints
+  canfarAcLoginUrl: "https://cadc-west-01.canfar.net/ac/login"
+  canfarAcSearchUrl: "https://cadc-west-01.canfar.net/ac/search"
+  canfarAcWhoamiUrl: "https://cadc-west-01.canfar.net/ac/whoami"
+  canfarAcGroupsUrl: "https://cadc-west-01.canfar.net/ac/groups"
+
+  # END Services that still run at the old Web Service host.
+
+  # Maps to NEXT_CANFAR_RAFT_GROUP_NAME
+  canfarRaftGroupName: "RAFTS-test-reviewers"
+
+  # SSO cookie configuration
+  cookieSsoKey: "CADC_SSO"
+  canfarCookieDomain: "canfar.net"
+  canfarCookieUrl: "https://www.canfar.net/access/sso?cookieValue="
+
+  # Maps to NEXT_CITE_URL
+  citeUrl: "AstroDataCitationDOI/CISTI.CANFAR/rafts"
+
+  # Maps to NEXT_CANFAR_STORAGE_BASE_URL
+  canfarStorageBaseUrl: "https://www.canfar.net/storage/vault/list"
+
+  # ADES validator endpoints
+  validatorUrlXml: "https://ws-uv.canfar.net/ades/validate-xml"
+  validatorUrlPsv: "https://ws-uv.canfar.net/ades/validate-psv"
+  validatorUrlMpc: "https://ws-uv.canfar.net/ades/validate-mpc"

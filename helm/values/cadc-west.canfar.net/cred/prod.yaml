@@ -1,0 +1,25 @@
+# Production overlay — cadc-site cred replica count, exposed on
+# cadc-west-01.canfar.net.
+
+ingress:
+  hosts:
+    - host: cadc-west-01.canfar.net
+      paths:
+        - path: /cred
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+resources:
+  requests:
+    cpu: 1000m
+    memory: 1000Mi
+  limits:
+    cpu: 5000m
+    memory: 3000Mi
+
+replicaCount: 2
+
+application:
+  registryURL: https://cadc-west-01.canfar.net/reg

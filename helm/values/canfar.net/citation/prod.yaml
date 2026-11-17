@@ -1,0 +1,11 @@
+ingress:
+  hosts:
+    - host: www.canfar.net
+      paths:
+        - path: /citation
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+canfarWebRoot: "https://www.canfar.net"

@@ -1,3 +1,47 @@
+# src.canfar.net production — science-portal chart 2.x (Next.js).
+
+replicaCount: 1
+
 env:
   - name: APP_ENV
     value: production
+
+ingress:
+  enabled: true
+  hosts:
+    - host: src.canfar.net
+      paths:
+        - path: /science-portal
+          pathType: Prefix
+
+app:
+  api:
+    storage: "https://src.canfar.net/storage"
+    srcCavern: "https://src.canfar.net/cavern/nodes/home/"
+    srcSkaha: "https://src.canfar.net/skaha"
+  public:
+    api:
+      srcSkaha: "https://src.canfar.net/skaha"
+      srcCavern: "https://src.canfar.net/cavern/nodes/home/"
+    services:
+      storageManagement: "https://src.canfar.net/storage/list"
+      sciencePortal: "https://src.canfar.net/science-portal"
+    srcnetLogoUrl: "/science-portal/canSRCLogo.png"
+
+  auth:
+    trustHost: true
+    nextauthUrl: https://src.canfar.net
+    authSecret:
+      existingSecret: science-portal-secrets
+      secretKey: auth-secret
+
+  oidc:
+    enabled: true
+    uri: https://ska-iam.stfc.ac.uk/
+    clientId: 551f1415-60d7-42a5-a977-11fd69700fe0
+    callbackUri: https://src.canfar.net/science-portal
+    redirectUri: https://src.canfar.net/science-portal/api/auth/callback/oidc
+    scope: openid profile offline_access
+    clientSecret:
+      existingSecret: science-portal-oidc-secret-src
+      secretKey: oidc-client-secret

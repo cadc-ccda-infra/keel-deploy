@@ -1,0 +1,10 @@
+# Cohort `canfar` groups ClusterQueues `cadc` and `src` for cross-queue borrowing
+# and preemption. Membership is declared on each ClusterQueue via spec.cohortName.
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: Cohort
+metadata:
+  name: canfar
+  labels:
+    app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
+spec: {}

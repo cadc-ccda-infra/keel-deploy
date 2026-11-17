@@ -1,25 +1,131 @@
+replicaCount: 2
+autoscaling:
+  enabled: false
+  minReplicas: "0"
+  maxReplicas: "0"
+metrics:
+  platformName: canfar
+  # Must match the Mimir/Prometheus series label on this cluster.
+  clusterName: keel-prod
+  rbac:
+    enabled: false
+    namespaces:
+      - canfar-src-workloads
+  image:
+    repository: images.opencadc.org/platform/metrics
+    tag: v0.1.7
+  # Chart >= 1.10.1 always allows this namespace (Redis) and DNS on port 53.
+  # Cilium ignores ipBlock for the kubernetes ClusterIP and matches the API
+  # server after Service translation, so allow its endpoint port (6443).
+  # Mimir and the Prometheus OTLP receiver live in the monitoring namespace.
+  networkPolicy:
+    egress:
+      kubeApiServer:
+        - ports:
+            - port: 6443
+              protocol: TCP
+      promql:
+        - to:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: monitoring
+      otlp:
+        - to:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: monitoring
+  prometheus:
+    url: "http://mimir-distributed-gateway.monitoring.svc/prometheus"
+  otlp:
+    # Prometheus 3.x OTLP receiver: :4318 is closed; use :9090 path.
+    endpoint: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp/v1/metrics"
+  env:
+    METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","src"]'
+    # Chart telemetry.metrics stays false; remaining OTEL identity via env.
+    METRICS_OTEL__SERVICE_NAME: "skaha-metrics"
+    METRICS_OTEL__EXPORT_INTERVAL_MILLIS: "60000"
+    METRICS_OTEL__DEPLOYMENT_ENVIRONMENT: "production"
+    METRICS_OTEL__KUBERNETES_NAMESPACE: "canfar-system-production"
+
 deployment:
   hostname: src.canfar.net
   skaha:
+    imagePullPolicy: Always
+    registryURL:
+      - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
+
+    registryHosts: "images.canfar.net services.swesrc.chalmers.se spsrc26.iaa.csic.es"
+
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
     sessions:
       hostname: workloads.canfar.net
-      namespace: canfar-src-workloads
+      namespace: 
+        name: canfar-src-workloads
+        create: true
+
+      userStorage:
+        spec:
+          persistentVolumeClaim:
+            claimName: cavern-renewal-storage
+        topLevelDirectory: "/cavern"
+        nodeURIPrefix: "vos://canfar.net~src~cavern"
+        serviceURI: "ivo://canfar.net/src/cavern"
+
+      kueue:
+        rbac:
+          create: true
+        default:
+          queueName: "src-default"
+          priorityClass: "high"
+        headless:
+          queueName: "src-default"
+          priorityClass: "low"
 
       limitRange:
         enabled: true
         rbac:
-          create: false
+          create: true
         spec:
+          # -- max is the maximum allowed requested for 'fixed' User Sessions.
           max:
-            memory: "96Gi"
-            cpu: "8"
-            nvidia.com/gpu: "2"
+            memory: "512Gi"
+            cpu: "32"
+            nvidia.com/gpu: "7"
+          # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
           default:
-            memory: "12Gi"
-            cpu: "2"
+            memory: "32Gi"
+            cpu: "16"
             nvidia.com/gpu: "0"
+          # -- defaultRequest is the default requests for 'flex' User Sessions.  All flex sessions will start with this request.
           defaultRequest:
             memory: "4Gi"
             cpu: "1"
             nvidia.com/gpu: "0"
+
+      authorization:
+        permissionsAPI:
+          # @see https://permissions.srcnet.skao.int/api/openapi.json for the API specification.
+          # -- When true, SKAHA_PERMISSIONS_API_*_ENABLED is set from baseURL, type, route, name, version, and method. Required baseURL when enabled (Helm validates). The Skaha service enforces mutually exclusive authorization modes at runtime.
+          enabled: true
+          # -- Required when enabled is true (Helm validates).
+          baseURL: "https://permissions.srcnet.skao.int/api"
+          authAPIBaseURL: "https://authn.srcnet.skao.int/api"
+          name: "canfar-api"
+          version: "1"
+       
+   
+
+rbac:
+  # Whether to create RBAC roles and bindings for Skaha.  Defaults to true.
+  create: true
+
+  # Whether to create a ClusterRole with read-only permissions for Skaha to query Nodes for their capacity.
+  # This is used to provide information to the Science Portal UI about available resources in the cluster.
+  # A simple node: list permission is granted, but this does require elevated privileges, so it is optional and defaults to false.
+  clusterRole:
+    create: false
+
+serviceAccount:
+  create: true
+  name: src-skaha-prod

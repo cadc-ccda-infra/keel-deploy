@@ -1,3 +1,6 @@
+# Scaled to zero for a short outage. Restore by deleting this key (chart default is 1).
+replicaCount: "1"
+
 ingress:
   hosts:
     - host: www.canfar.net
@@ -7,9 +10,16 @@ ingress:
 
 app:
   api:
-    storage: "https://www.canfar.net/arc/nodes/home/"
-    skaha: "https://www.canfar.net/skaha"
-  publicApi:
-    skaha: "https://www.canfar.net/skaha"
+    storage: "https://ws-uv.canfar.net/arc/nodes/home/"
+    skaha: "https://ws-uv.canfar.net/skaha"
+    login: "https://cadc-west-01.canfar.net/ac"
+  public:
+    certificateUrl: "https://cadc-west-01.canfar.net/cred"
+    api:
+      skaha: "https://ws-uv.canfar.net/skaha"
+      login: "https://cadc-west-01.canfar.net/ac"
+    services:
+      storageManagement: "https://www.canfar.net/storage/list"
+      sciencePortal: "https://www.canfar.net/science-portal"
   auth:
     nextauthUrl: "https://www.canfar.net/science-portal"

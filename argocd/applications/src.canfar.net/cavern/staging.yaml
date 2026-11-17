@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/platform
-      chart: cavern
-      targetRevision: 0.10.0
+    - repoURL: oci://images.opencadc.org/platform/charts/cavern
+      targetRevision: 0.10.9
+      path: .
       helm:
         valueFiles:
           - $values/helm/values/src.canfar.net/cavern/base.yaml

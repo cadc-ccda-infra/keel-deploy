@@ -1,0 +1,290 @@
+# CADC West ac/GMS — shared defaults; chart schema:
+# oci://bucket.canfar.net/charts/ac (0.1.0)
+# Upstream: https://github.com/opencadc/ac/pull/223 (ac/helm)
+#
+# image.repository / image.tag / image.pullPolicy: use the chart's values.yaml
+# (released with each chart version) unless overridden per environment.
+#
+# Secrets (pre-create in the release namespace; credentials are not in Git):
+#   - ac-ldap-config: proxyPassword
+#   - ac-oidc-signing-keys: oidc-rsa256-pub.key / oidc-rsa256-priv.key
+#   - ac-oidc-<client-id>: secret (one Secret per OIDC client below)
+#   - cookie-signature-private-key: RsaSignaturePriv.key
+#   - ac-java-truststore: cacerts (JKS/PKCS12; default Java CAs plus the
+#     internal CA). Do not mount PEMs at /config/cacerts: cadc-tomcat would
+#     sudo update-ca-trust, which Kyverno blocks.
+#
+# Note about the ac-java-truststore:
+# The ac-java-truststore is a pre-built truststore that contains the full set of trusted CA certificates, as well
+# as the internal CA certificate. It is used to ensure that the ac service can trust the certificates of internal hosts.
+# 
+# The process to obtain the trust store is as follows:
+# 1. Copy the image truststore (Java 21 / Fedora extracted bundle)
+#   kubectl -n cadc-system-staging exec deploy/<ac-release>-tomcat -- cat /etc/pki/ca-trust/extracted/java/cacerts > cacerts
+# 2. Import the internal CA certificate into the trust store
+#   keytool -importcert -noprompt -alias cadc-internal-ca -file your-ca.pem -keystore cacerts -storepass changeit
+# 3. Create the secret
+#   kubectl -n cadc-system-staging create secret generic ac-java-truststore --from-file=cacerts=./cacerts
+# repeat in cadc-system-production
+
+image:
+  tag: 1.5.2-20261005T160558
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+volumeInit:
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 8675309
+    capabilities:
+      drop:
+        - ALL
+
+replicaCount: 1
+
+nodeAffinity:
+  preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference:
+        matchExpressions:
+          - key: skaha.opencadc.org/node-type
+            operator: In
+            values:
+              - service-node
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
+
+application:
+  endpoint: /ac
+  resourceID: ivo://cadc.nrc.ca/gms
+
+  readUsers:
+    - cn=servops_4a2,ou=cadc,o=hia,c=ca
+    - cn=canfarops_586,ou=cadc,o=hia,c=ca
+    - CN=cadcops_376,OU=cadc,O=hia,C=ca
+
+  domains:
+    - cadc-ccda.hia-iha.nrc-cnrc.gc.ca
+    - canfar.net
+    - cadc.dao.nrc.ca
+
+  groupNameRules:
+    "ALLOW-TEST-": "cadcauthtest1 ivo://cadc.nrc.ca/gms?cadc-ops"
+    "CFHT-": "cadcops ivo://cadc.nrc.ca/gms?CFHT-Staff"
+    "DAO-": "cadcops ivo://cadc.nrc.ca/gms?DAO-Staff"
+    "DOI-": "doiadmin"
+    "GSA-": ""
+    "HST-": ""
+    "JCMT-": "cadcops ivo://cadc.nrc.ca/gms?JCMT-Staff"
+    "OMM-": "cadcops ivo://cadc.nrc.ca/gms?OMM-Staff"
+
+  logging:
+    users:
+      - cn=servops_4a2,ou=cadc,o=hia,c=ca
+    usernames: []
+    groups:
+      - "ivo://cadc.nrc.ca/gms?CADC"
+
+  ldap:
+    readOnly:
+      poolPolicy: fewestConnections
+      maxWait: 1000
+      createIfNeeded: true
+    readWrite:
+      poolPolicy: fewestConnections
+      maxWait: 1000
+      createIfNeeded: true
+    unboundReadOnly:
+      poolPolicy: fewestConnections
+      maxWait: 1000
+      createIfNeeded: true
+
+    ## This is r/w port is required - otherwise, bouncycastle lib will result in
+    ## SET THIS DOWNSTREAM!
+    ### java.lang.RuntimeException: Ldap error (confidentiality required)
+    # port: 10636
+
+    proxyUser: uid=webproxy,ou=SpecialUsers,dc=canfar,dc=net
+    proxyPassword:
+      existingSecret: ac-ldap-config
+      key: proxyPassword
+    usersDN: ou=Users,ou=ds,dc=canfar,dc=net
+    groupsDN: ou=Groups,ou=ds,dc=canfar,dc=net
+    adminGroupsDN: ou=adminGroups,ou=ds,dc=canfar,dc=net
+    userRequestsDN: ou=userRequests,ou=ds,dc=canfar,dc=net
+
+  oidc:
+    signingKeys:
+      existingSecret: ac-oidc-signing-keys
+      publicKey: oidc-rsa256-pub.key
+      privateKey: oidc-rsa256-priv.key
+    clients:
+      - id: opencadc-harbor
+        secret:
+          existingSecret: ac-oidc-opencadc-harbor
+          key: secret
+        description: OpenCADC Image Repository
+        accessGroup: ivo://cadc.nrc.ca/gms?CADC
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+      - id: arbutus-harbor
+        secret:
+          existingSecret: ac-oidc-arbutus-harbor
+          key: secret
+        description: CANFAR Image Repository
+        accessGroup: ivo://cadc.nrc.ca/gms?skaha-users
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+      - id: unions_wiki
+        secret:
+          existingSecret: ac-oidc-unions-wiki
+          key: secret
+        description: UNIONS Wiki
+        accessGroup: ivo://cadc.nrc.ca/gms?cfis-read
+        claims:
+          - email
+        signDocuments: false
+      - id: ossos-wiki
+        secret:
+          existingSecret: ac-oidc-ossos-wiki
+          key: secret
+        description: OSSOS Wiki
+        claims:
+          - name
+          - email
+        signDocuments: true
+      - id: unions_sky_browser
+        secret:
+          existingSecret: ac-oidc-unions-sky-browser
+          key: secret
+        description: UNIONS Sky Browser
+        accessGroup: ivo://cadc.nrc.ca/gms?cfis-read
+        claims:
+          - email
+        signDocuments: false
+      - id: candiapl
+        secret:
+          existingSecret: ac-oidc-candiapl
+          key: secret
+        description: Canadian Data-Intensive Astrophysics Platform
+        accessGroup: ivo://cadc.nrc.ca/gms?skaha-users
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+      - id: rafts-app
+        secret:
+          existingSecret: ac-oidc-rafts-app
+          key: secret
+        description: Research Announcements For The Solar System
+        accessGroup: ivo://cadc.nrc.ca/gms?skaha-users
+        claims:
+          - name
+          - email
+          - memberOf
+        signDocuments: true
+
+# Point the JVM at a pre-built truststore so LDAP TLS works without sudo.
+extraEnv:
+  - name: CATALINA_OPTS
+    value: "-Djavax.net.ssl.trustStore=/config/java-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+
+# SSO cookie signing private key used by the existing CADC ac deployments.
+extraVolumeMounts:
+  - name: cookie-signature-private-key
+    mountPath: /config/RsaSignaturePriv.key
+    subPath: RsaSignaturePriv.key
+    readOnly: true
+  - name: cookie-signature-public-key
+    mountPath: /config/RsaSignaturePub.key
+    subPath: RsaSignaturePub.key
+    readOnly: true
+  - name: java-truststore
+    mountPath: /config/java-truststore
+    readOnly: true
+
+extraVolumes:
+  - name: cookie-signature-private-key
+    secret:
+      secretName: cookie-signature-private-key
+      items:
+        - key: RsaSignaturePriv.key
+          path: RsaSignaturePriv.key
+  - name: cookie-signature-public-key
+    secret:
+      secretName: cookie-signature-public-key
+      items:
+        - key: RsaSignaturePub.key
+          path: RsaSignaturePub.key
+  - name: java-truststore
+    secret:
+      defaultMode: 420
+      secretName: ac-java-truststore
+      items:
+        - key: cacerts
+          path: cacerts
+
+livenessProbe:
+  httpGet:
+    path: /ac/availability?detail=min
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 600
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /ac/
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 600
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /ac/availability?detail=min
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+
+serviceAccount:
+  create: false
+  automount: false

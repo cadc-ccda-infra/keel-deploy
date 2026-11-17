@@ -2,13 +2,16 @@ global:
   hostname: staging.canfar.net
 
 application:
+  identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
+  rsaSignaturePublicKey:
+    existingSecret: "canfar-skaha-staging-cookie-signature-public-key"
   serviceEntries:
     - id: "ivo://canfar.net/staging-src/cavern"
       url: "https://staging-src.canfar.net/cavern/capabilities"
     - id: "ivo://skao.int/gms"
       url: "https://permissions.srcnet.skao.int/api/v1/gms/capabilities"
     - id: "ivo://cadc.nrc.ca/gms"
-      url: "https://ws-cadc.canfar.net/ac/capabilities"
+      url: "https://staging-cadc-west-01.canfar.net/ac/capabilities"
     - id: "ivo://cadc.nrc.ca/skaha"
       url: "https://staging.canfar.net/skaha/capabilities"
     - id: "ivo://cadc.nrc.ca/arc"
@@ -16,7 +19,9 @@ application:
     - id: "ivo://cadc.nrc.ca/vault"
       url: "https://cadc-west-01.canfar.net/vault/capabilities"
     - id: "ivo://cadc.nrc.ca/cred"
-      url: "https://ws.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/cred/capabilities"
+      url: "https://staging-cadc-west-01.canfar.net/cred/capabilities"
+    - id: "ivo://cadc.nrc.ca/doi"
+      url: "https://staging.canfar.net/doi/capabilities"
   userInterfaceEntries:
     - id: "ivo://cadc.nrc.ca/passchg"
       url: "https://staging.canfar.net/en/auth/resetPassword.html"
@@ -46,3 +51,16 @@ ingress:
 
 imagePullSecrets:
   - name: bucket-registry-auth
+
+# Optionally mount a custom CA certificate
+volumeMounts:
+  - mountPath: /usr/share/tomcat/.ssl/
+    name: servops-cert
+    readOnly: true
+
+# Create the CA certificate volume to be mounted in extraVolumeMounts
+volumes:
+  - name: servops-cert
+    secret:
+      defaultMode: 420
+      secretName: servops-clientcert

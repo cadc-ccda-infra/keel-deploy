@@ -32,7 +32,7 @@ deployment:
     themeName: canfar
 
     backend:
-      defaultService: arc
+      defaultService: vault
       services:
         arc:
           resourceID: "ivo://cadc.nrc.ca/arc"

@@ -5,12 +5,14 @@ metadata:
   name: cadc
   labels:
     app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
+    canfar.net/community: cadc
 spec:
   namespaceSelector:
     matchExpressions:
       - key: kubernetes.io/metadata.name
         operator: In
-        values: [canfar-workloads]
+        values: [canfar-workloads, canfar-staging-workloads]
   queueingStrategy: BestEffortFIFO
   cohortName: canfar
   admissionScope:

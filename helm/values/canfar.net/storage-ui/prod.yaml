@@ -1,2 +1,24 @@
+kubernetesClusterDomain: keel-prod.local
+
+# Scaled to zero for a short outage. Quoted because the chart uses Helm `default`,
+# which treats an unquoted 0 as empty and would keep replicas at 1.
+# Restore by deleting this key (chart default is 1).
+replicaCount: "1"
+
 deployment:
   hostname: www.canfar.net
+
+  storageUI:
+    registryURL:
+      - "https://cadc-west-01.canfar.net/reg"
+
+    cookieSignaturePublicKey:
+      existingSecret:
+        # Secret name (release namespace).
+        name: cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
+
+    extraEnv:
+      - name: CANFAR_WEB_ROOT
+        value: "https://www.canfar.net"

@@ -1,4 +1,69 @@
+#replicaCount: "2"
+#autoscaling:
+#  enabled: false
+#  minReplicas: "0"
+#  maxReplicas: "0"
 deployment:
   hostname: src.canfar.net
   cavern:
+    imagePullPolicy: Always
     posixMapperResourceID: "https://src.canfar.net/posix-mapper"
+    resourceID: "ivo://canfar.net/src/cavern"
+
+    loggingGroups:
+      - "ivo://skao.int/gms?roles/prod/user"
+
+    registryURL:
+      - "https://spsrc27.iaa.csic.es/reg"
+      - "https://reg.swesrc.chalmers.se"
+
+    filesystem:
+      dataDir: "/data"
+      subPath: "cavern"
+      rootOwner:
+        adminUsername: "jenkinsd"
+        username: "local-canfar-admin"
+        uid: 10250
+        gid: 10250
+
+    uws:
+      db:
+        install: false
+        maxActive: 6
+        url: "jdbc:postgresql://quokka.canfar.net:8601/arcdb"
+        auth:
+          existingSecret: cavern-uws-db-auth
+        # Postgres User default in the postgres:13 image
+        runUID: 999
+
+storage:
+  service:
+    spec:
+      persistentVolumeClaim:
+        claimName: cavern-renewal-pvc
+
+# detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
+livenessProbe:
+  httpGet:
+    path: /cavern/availability?detail=min
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /cavern/availability
+    port: 8080
+  periodSeconds: 180
+  timeoutSeconds: 60
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /cavern/availability?detail=min
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30

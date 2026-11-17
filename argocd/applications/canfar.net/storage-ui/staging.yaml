@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/client
-      chart: storageui
-      targetRevision: 1.4.4
+    - repoURL: oci://images.opencadc.org/client/charts/storage-ui
+      path: .
+      targetRevision: 1.4.8
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/storage-ui/base.yaml

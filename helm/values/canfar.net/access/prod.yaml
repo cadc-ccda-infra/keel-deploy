@@ -1,7 +1,24 @@
 ingress:
+  enabled: true
   hosts:
     - host: www.canfar.net
       paths:
         - path: /access
           pathType: Prefix
 
+registryURLs:
+  - https://cadc-west-01.canfar.net/reg
+
+rsaSignaturePublicKey:
+  existingSecret: cookie-signature-public-key
+
+serviceAccount:
+  automount: false
+  create: false
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+logging:
+  groups:
+    - "ivo://cadc.nrc.ca/gms?CADC"

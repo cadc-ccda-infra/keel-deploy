@@ -18,7 +18,7 @@ spec:
     path: helm/values/src.canfar.net/kueue
     directory:
       recurse: true
-      include: '{localQueues/prod.ska.yml}'
+      include: '{localQueues/prod.src.yml}'
   destination:
     server: https://kubernetes.default.svc
     namespace: canfar-src-workloads

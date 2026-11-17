@@ -1,0 +1,17 @@
+# Staging overlay — cadc-rc cred replica count, exposed on
+# staging-cadc-west-01.canfar.net.
+
+ingress:
+  hosts:
+    - host: staging-cadc-west-01.canfar.net
+      paths:
+        - path: /cred
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+replicaCount: 1
+
+application:
+  registryURL: https://staging-cadc-west-01.canfar.net/reg

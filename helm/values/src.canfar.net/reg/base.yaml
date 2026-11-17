@@ -1,0 +1,43 @@
+# IVOA Registry (reg) chart defaults; see chart values:
+# https://images-rc.canfar.net/chartrepo/library (chart reg).
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  fsGroup: 8675309
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 8675309
+  runAsGroup: 8675309
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference: 
+        matchExpressions:
+        - key: skaha.opencadc.org/node-type
+          operator: In
+          values:
+          - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nvidia.com/gpu.count
+          operator: DoesNotExist

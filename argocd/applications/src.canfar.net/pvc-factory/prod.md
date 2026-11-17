@@ -1,0 +1,26 @@
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: src-pvc-factory-prod
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: src.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: pvc-factory
+spec:
+  project: canfar
+  sources:
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      path: manifests/src.canfar.net/volumes/production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-src-production
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - Delete=false
+    automated:
+      prune: true
+      selfHeal: true

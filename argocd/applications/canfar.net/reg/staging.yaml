@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://images-rc.canfar.net/chartrepo/library
-      chart: reg
-      targetRevision: 1.2.0
+    - repoURL: oci://images.opencadc.org/core/charts/reg
+      path: .
+      targetRevision: 1.2.2
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/reg/base.yaml

@@ -42,8 +42,6 @@ deployment:
 
     gmsID: ivo://skao.int/gms
 
-    registryURL: "https://reg.swesrc.chalmers.se"
-
 secrets: {}
 
 # Database for UID/GID mappings (same JDBC as local deploy unless overridden per env).
@@ -53,4 +51,6 @@ postgresql:
   schema: mapping
   auth:
     username: posixmapper
-    password: CVFn67?Oq4?A
+    existingSecret: posixmapper-db-password
+    secretKey: password
+

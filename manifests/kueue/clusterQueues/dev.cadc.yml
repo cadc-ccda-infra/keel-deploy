@@ -1,0 +1,43 @@
+# ClusterQueue
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: ClusterQueue
+metadata:
+  name: cadc
+  labels:
+    app.kubernetes.io/name: kueue
+    app.kubernetes.io/part-of: canfar
+    canfar.net/community: cadc
+spec:
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values: [canfar-workloads]
+  queueingStrategy: BestEffortFIFO
+  cohortName: canfar
+  admissionScope:
+    admissionMode: UsageBasedAdmissionFairSharing
+  resourceGroups:
+    - coveredResources: ["cpu", "memory", "ephemeral-storage", "nvidia.com/gpu"]
+      flavors:
+        - name: "default"
+          resources:
+            - name: "cpu"
+              nominalQuota: "28"
+              lendingLimit: "28"
+            - name: "memory"
+              nominalQuota: "124Gi"
+              lendingLimit: "124Gi"
+            - name: "ephemeral-storage"
+              nominalQuota: "992Gi"
+              lendingLimit: "992Gi"
+            - name: "nvidia.com/gpu"
+              nominalQuota: "0"
+              lendingLimit: "0"
+  preemption:
+    reclaimWithinCohort: LowerPriority
+    borrowWithinCohort:
+      policy: LowerPriority
+      maxPriorityThreshold: 10000
+    withinClusterQueue: LowerPriority
+  stopPolicy: None

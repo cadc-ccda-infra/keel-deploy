@@ -1,0 +1,70 @@
+# CANFAR RAFTS — shared defaults; chart schema:
+# https://images-rc.canfar.net/chartrepo/skaha-system (chart rafts).
+# Upstream source: /Users/jenkinsd/Projects/at88mph/doi/rafts/helm
+# (published as images-rc.canfar.net/chartrepo/skaha-system chart rafts).
+#
+# image.repository / image.tag / image.pullPolicy: use the chart's values.yaml
+# (released with each chart version) unless overridden per environment.
+#
+# Secrets (pre-create in the release namespace; credentials are not in Git):
+#   - rafts-nextauth: NEXTAUTH_SECRET (session encryption key)
+
+# UID/GID 1001: `nextjs` user in the rafts image (see frontend/Dockerfile).
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  privileged: false
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
+replicaCount: 1
+
+livenessProbe:
+  httpGet:
+    path: /rafts/
+    port: http
+  initialDelaySeconds: 60
+
+readinessProbe:
+  httpGet:
+    path: /rafts/
+    port: http
+  initialDelaySeconds: 30
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+
+serviceAccount:
+  create: false
+  automount: false
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 50
+      preference:
+        matchExpressions:
+        - key: skaha.opencadc.org/node-type
+          operator: In
+          values:
+          - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nvidia.com/gpu.count
+          operator: DoesNotExist

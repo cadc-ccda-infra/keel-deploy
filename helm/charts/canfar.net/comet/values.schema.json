@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["replicaCount", "image", "containerPort", "service", "ingress"],
+  "properties": {
+    "replicaCount": {
+      "type": "integer",
+      "const": 1,
+      "description": "COMET currently uses an in-memory session store and must run as one replica."
+    },
+    "image": {
+      "type": "object",
+      "required": ["repository", "tag", "pullPolicy"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "tag": {"type": "string", "minLength": 1, "not": {"const": "latest"}},
+        "pullPolicy": {"type": "string", "enum": ["Always", "IfNotPresent", "Never"]}
+      }
+    },
+    "containerPort": {"type": "integer", "minimum": 1, "maximum": 65535},
+    "service": {
+      "type": "object",
+      "required": ["type", "port"],
+      "properties": {
+        "type": {"type": "string", "const": "ClusterIP"},
+        "port": {"type": "integer", "minimum": 1, "maximum": 65535}
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "required": ["enabled", "className", "host", "path", "pathType", "tls"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "className": {"type": "string"},
+        "host": {"type": "string"},
+        "path": {"type": "string"},
+        "pathType": {"type": "string", "enum": ["Exact", "Prefix", "ImplementationSpecific"]},
+        "tls": {
+          "type": "object",
+          "required": ["enabled", "secretName"],
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "secretName": {"type": "string"}
+          }
+        }
+      }
+    },
+    "existingSecret": {"type": "string"},
+    "env": {
+      "type": "object",
+      "additionalProperties": {"type": ["string", "number", "boolean"]}
+    }
+  }
+}

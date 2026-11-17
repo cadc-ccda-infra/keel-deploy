@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/platform
-      chart: skaha
-      targetRevision: 1.6.0
+    - repoURL: oci://images.opencadc.org/platform/charts/skaha
+      targetRevision: 1.10.2
+      path: .
       helm:
         valueFiles:
           - $values/helm/values/src.canfar.net/skaha/base.yaml
@@ -23,9 +23,17 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: canfar-src-staging
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: src-skaha-staging-skaha-metrics-cache
+      namespace: canfar-src-staging
+      jsonPointers:
+        - /data/key-secret
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
     automated:
       prune: true
       selfHeal: true

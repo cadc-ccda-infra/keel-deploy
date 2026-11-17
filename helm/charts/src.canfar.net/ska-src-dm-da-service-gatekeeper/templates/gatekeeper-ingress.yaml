@@ -1,0 +1,22 @@
+{{- if .Values.gatekeeper.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gatekeeper
+  namespace: {{ .Values.gatekeeper.namespace }}
+spec:
+  {{- with .Values.gatekeeper.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  rules:
+    - host: {{.Values.gatekeeper.ingress.host}}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ska-src-dm-da-service-gatekeeper
+                port:
+                  number: 80
+{{- end }}

@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/platform
-      chart: science-portal
-      targetRevision: 2.0.0
+    - repoURL: oci://images.opencadc.org/platform/charts/science-portal
+      targetRevision: 2.3.0
+      path: .
       helm:
         valueFiles:
           - $values/helm/values/src.canfar.net/science-portal/base.yaml

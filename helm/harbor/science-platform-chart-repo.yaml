@@ -8,7 +8,8 @@ metadata:
 stringData:
   type: helm
   name: harbor-science-platform
-  url: https://images.opencadc.org/chartrepo/platform
+  url: oci://images.opencadc.org/platform/charts
+  enableOCI: "true"
 
 ---
 apiVersion: v1
@@ -21,7 +22,8 @@ metadata:
 stringData:
   type: helm
   name: harbor-science-client
-  url: https://images.opencadc.org/chartrepo/client
+  url: oci://images.opencadc.org/client/charts
+  enableOCI: "true"
 
 ---
 # Temporary secret for the RC Skaha System chart repository.

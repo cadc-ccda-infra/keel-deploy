@@ -1,0 +1,10 @@
+{{ with .Values.gatekeeper.resolver }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatekeeper-nginx-resolver
+data:
+  resolver.conf: |
+    resolver {{ . }} ipv6=off valid=30s;
+    resolver_timeout 5s;
+{{ end }}

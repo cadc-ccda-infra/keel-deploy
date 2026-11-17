@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/platform
-      chart: posixmapper
-      targetRevision: 0.6.0
+    - repoURL: oci://images.opencadc.org/platform/charts/posix-mapper
+      path: .
+      targetRevision: 0.6.2
       helm:
         valueFiles:
           - $values/helm/values/src.canfar.net/posix-mapper/base.yaml

@@ -1,0 +1,53 @@
+# Production overlay — DataCite MDS and vault DOI parent, aligned with
+# bucket/deployments/canfar-rc/doi/rc/config/doi.properties (RC), adapted for
+# ws-uv.canfar.net (landing via the production rafts UI on www.canfar.net).
+
+ingress:
+  hosts:
+    - host: ws-uv.canfar.net
+      paths:
+        - path: /rdoi
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
+
+application:
+  registryURL: https://cadc-west-01.canfar.net/reg
+
+  config:
+    publisherGroupURI: ivo://cadc.nrc.ca/gms?RAFTS-reviewers
+    vospaceParentUri: vos://cadc.nrc.ca~vault/AstroDataCitationDOI/CISTI.CANFAR/rafts
+    doiIdentifierPrefix: RAFTS-
+    groupPrefix: ""
+    landingUrl: https://www.canfar.net/rafts/landing
+    mdsUrl: https://mds.datacite.org
+    accountPrefix: "10.11570"
+
+  cookieSignaturePublicKey:
+    existingSecret:
+      name: cookie-signature-public-key
+      path: RsaSignaturePub.key
+
+livenessProbe:
+  httpGet:
+    path: /rdoi/availability
+    port: http
+  periodSeconds: 40
+  timeoutSeconds: 40
+
+readinessProbe:
+  httpGet:
+    path: /rdoi/availability
+    port: http
+  periodSeconds: 40
+  timeoutSeconds: 40
+
+startupProbe:
+  httpGet:
+    path: /rdoi/availability
+    port: http
+  initialDelaySeconds: 10
+  timeoutSeconds: 40
+  periodSeconds: 40
+  failureThreshold: 30

@@ -1,0 +1,84 @@
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "api.fullname" -}}
+{{- if .fullnameOverride }}
+{{- .fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default $.Chart.Name .nameOverride }}
+{{- if contains $name $.Release.Name }}
+{{- $.Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" $.Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "api.serviceAccountName" -}}
+{{- if .serviceAccount.create }}
+{{- default (include "api.fullname" .) .serviceAccount.name }}
+{{- else }}
+{{- default "default" .serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- with .Values.echo }}
+{{- if .namespace.create }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .namespace.name }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ska-src-dm-da-service-gatekeeper-echo
+  name: ska-src-dm-da-service-gatekeeper-echo
+  namespace: {{ .namespace.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ska-src-dm-da-service-gatekeeper-echo
+  template:
+    metadata:
+      labels:
+        app: ska-src-dm-da-service-gatekeeper-echo
+    spec:
+      {{- with .podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+      - image: "{{ .image.registry }}/{{ .image.name }}:{{ .image.tag }}"
+        imagePullPolicy: Always
+        name: ska-src-dm-da-service-gatekeeper-echo
+        resources: {}
+        {{- with .securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
+
+      restartPolicy: Always
+      # Do not require a Service Account for the Echo service if none specified.
+      {{- if .serviceAccount }}
+      serviceAccountName: {{ include "api.serviceAccountName" . }}
+      {{- end }}
+
+      {{- with .nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+{{- end }}

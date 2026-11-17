@@ -1,8 +1,24 @@
 deployment:
   hostname: staging-src.canfar.net
   cavern:
+    imagePullPolicy: Always
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
-    resourceID: "ivo://canfar.net/staging-src/cavern"
+    resourceID: "ivo://canfar.net/src/cavern"
+
+    registryURL:
+      - "https://staging-src.canfar.net/reg"
+
+    loggingGroups:
+      - "ivo://skao.int/gms?roles/prod/user"
+
+    filesystem:
+      dataDir: "/data"
+      subPath: "cavern"
+      rootOwner:
+        adminUsername: "jenkinsd"
+        username: "local-canfar-admin"
+        uid: 10250
+        gid: 10250
 
     uws:
       db:
@@ -18,4 +34,30 @@ storage:
   service:
     spec:
       persistentVolumeClaim:
-        claimName: canfar-src-cavern-pvc
+        claimName: cavern-renwal-pvc
+
+# detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
+livenessProbe:
+  httpGet:
+    path: /cavern/availability?detail=min
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /cavern/availability
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 60
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /cavern/availability?detail=min
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30

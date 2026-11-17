@@ -1,24 +1,71 @@
-metricsBackend:
-  enabled: false
+metrics:
+  platformName: canfar
+  # Must match the Mimir/Prometheus series label on this cluster.
+  clusterName: keel-prod
   rbac:
     enabled: false
+    namespaces:
+      - canfar-staging-src-workloads
+  image:
+    repository: images.opencadc.org/platform/metrics
+    tag: v0.1.7
+  # Chart >= 1.10.1 always allows this namespace (Redis) and DNS on port 53.
+  # Cilium ignores ipBlock for the kubernetes ClusterIP and matches the API
+  # server after Service translation, so allow its endpoint port (6443).
+  # Mimir and the Prometheus OTLP receiver live in the monitoring namespace.
+  networkPolicy:
+    egress:
+      kubeApiServer:
+        - ports:
+            - port: 6443
+              protocol: TCP
+      promql:
+        - to:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: monitoring
+      otlp:
+        - to:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: monitoring
+  prometheus:
+    url: "http://mimir-distributed-gateway.monitoring.svc/prometheus"
+  otlp:
+    # Prometheus 3.x OTLP receiver: :4318 is closed; use :9090 path.
+    endpoint: "http://prometheus-operated.monitoring.svc:9090/api/v1/otlp/v1/metrics"
   env:
-    METRICS_ENVIRONMENT: "staging"
+    METRICS_PROVIDERS__KUEUE__CLUSTER_QUEUES: '["cadc","src"]'
+    # Chart telemetry.metrics stays false; remaining OTEL identity via env.
+    METRICS_OTEL__SERVICE_NAME: "skaha-metrics"
+    METRICS_OTEL__EXPORT_INTERVAL_MILLIS: "60000"
+    METRICS_OTEL__DEPLOYMENT_ENVIRONMENT: "staging"
+    METRICS_OTEL__KUBERNETES_NAMESPACE: "canfar-src-staging"
 
 deployment:
   hostname: staging-src.canfar.net
   skaha:
-    registryHosts: "images.canfar.net"
+    image: images.opencadc.org/platform/skaha:1.6.3
+    imagePullPolicy: Always
+    registryHosts: "images-integration.canfar.net services.swesrc.chalmers.se spsrc26.iaa.csic.es"
     posixMapperResourceID: "https://staging-src.canfar.net/posix-mapper"
 
     registryURL:
-      - "https://staging.canfar.net/reg"
+      - "https://staging-src.canfar.net/reg"
 
     sessions:
       hostname: workloads.canfar.net
       namespace:
         create: true
-        name: canfar-src-workloads
+        name: canfar-staging-src-workloads
+
+      userStorage:
+        spec:
+          persistentVolumeClaim:
+            claimName: canfar-staging-src-workloads-pvc
+        topLevelDirectory: "/cavern"
+        nodeURIPrefix: "vos://canfar.net~src~cavern"
+        serviceURI: "ivo://canfar.net/src/cavern"
 
       gpuEnabled: true
 
@@ -26,10 +73,10 @@ deployment:
         rbac:
           create: true
         default:
-          queueName: "ska-default"
+          queueName: "src-default"
           priorityClass: "high"
         headless:
-          queueName: "ska-default"
+          queueName: "src-default"
           priorityClass: "low"
 
       # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
@@ -40,9 +87,9 @@ deployment:
         spec:
           # -- max is the maximum allowed requested for 'fixed' User Sessions.
           max:
-            memory: "384Gi"
-            cpu: "16"
-            nvidia.com/gpu: "8"
+            memory: "512Gi"
+            cpu: "32"
+            nvidia.com/gpu: "7"
           # -- default is the default limits for 'flex' User Sessions.  These Sessions will grow until this limit is reached.
           default:
             memory: "32Gi"

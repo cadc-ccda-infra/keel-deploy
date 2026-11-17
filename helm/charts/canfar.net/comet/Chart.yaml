@@ -1,0 +1,12 @@
+apiVersion: v2
+name: comet
+description: Helm chart for the CANFAR COMET web service
+type: application
+version: 0.1.0
+appVersion: "1.7.11"
+home: https://github.com/CanDIAPL/canfar-comet
+sources:
+  - https://github.com/CanDIAPL/canfar-comet
+keywords:
+  - canfar
+  - comet

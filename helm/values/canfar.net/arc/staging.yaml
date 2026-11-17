@@ -1,4 +1,7 @@
-replicaCount: 1
+# Scaled to zero for a short outage. Quoted because the chart uses Helm `default`,
+# which treats an unquoted 0 as empty and would keep replicas at 1.
+# Restore to 1 to bring the service back.
+replicaCount: "1"
 
 deployment:
   hostname: staging.canfar.net
@@ -6,6 +9,13 @@ deployment:
   cavern:
     imagePullPolicy: Always
     registryURL: https://staging.canfar.net/reg
+
+    cookieSignaturePublicKey:
+      existingSecret:
+        # Secret name (release namespace).
+        name: canfar-skaha-staging-cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
 
     uws:
       db:
@@ -21,13 +31,31 @@ deployment:
 storage:
   service:
     spec:
-      cephfs:
-        monitors:
-        - 10.30.201.3:6789
-        - 10.30.202.3:6789
-        - 10.30.203.3:6789
-        path: /volumes/_nogroup/054e398e-a08e-425e-9f7c-fc394362e38e
-        user: keel-prod-admin
-        secretRef:
-          name: cephfs-cephx-admin-key
-        readOnly: false
+      persistentVolumeClaim:
+        claimName: canfar-system-staging-cavern-pvc
+
+# detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
+livenessProbe:
+  httpGet:
+    path: /arc/availability?detail=min
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /arc/availability
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 60
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /arc/availability?detail=min
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30

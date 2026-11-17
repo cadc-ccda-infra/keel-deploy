@@ -1,5 +1,61 @@
+# Scaled to zero for a short outage. Quoted because the chart uses Helm `default`,
+# which treats an unquoted 0 as empty and would keep replicas at 1.
+# Restore to 1 to bring the service back.
+replicaCount: "2"
+
 deployment:
-  hostname: www.canfar.net
-  extraHosts:
-    - ip: 132.246.194.20
-      hostname: www.canfar.net
+  hostname: ws-uv.canfar.net
+
+  cavern:
+    imagePullPolicy: Always
+    registryURL: https://cadc-west-01.canfar.net/reg
+
+    cookieSignaturePublicKey:
+      existingSecret:
+        # Secret name (release namespace).
+        name: cookie-signature-public-key
+        # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+        path: RsaSignaturePub.key
+
+    uws:
+      db:
+        install: false
+        maxActive: 6
+        url: "jdbc:postgresql://quokka.canfar.net:8601/arcdb"
+        auth:
+          existingSecret: arc-uws-db-auth
+        # Postgres User default in the postgres:13 image
+        runUID: 999
+
+# Set these appropriately to match your Persistent Volume Claim labels.
+storage:
+  service:
+    spec:
+      persistentVolumeClaim:
+        claimName: canfar-system-production-cavern-pvc
+
+# detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
+livenessProbe:
+  httpGet:
+    path: /arc/availability?detail=min
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe: 
+  httpGet:
+    path: /arc/availability
+    port: 8080
+  periodSeconds: 180
+  timeoutSeconds: 60
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /arc/availability?detail=min
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30

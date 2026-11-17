@@ -24,7 +24,24 @@ securityContext:
 
 autoscaling:
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 1
+
+# Chart default readiness uses /skaha/availability every 15s with no timeout (kube default 1s).
+# detail=min → heartbeat only; longer period and timeout avoid NotReady flapping under load.
+readinessProbe:
+  httpGet:
+    path: /skaha/availability?detail=min
+    port: http
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+livenessProbe:
+  httpGet:
+    path: /skaha/availability
+    port: http
+  periodSeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 3
 
 deployment:
   skaha:
@@ -69,7 +86,7 @@ deployment:
       expirySeconds: "345600"
       maxCount: "3"
       minEphemeralStorage: "20Gi"
-      maxEphemeralStorage: "100Gi"
+      maxEphemeralStorage: "300Gi"
       nodeLabelSelector: "skaha.opencadc.org/node-type=worker-node"
 
       nodeAffinity:
@@ -80,14 +97,6 @@ deployment:
                   operator: NotIn
                   values:
                     - service-node
-
-      userStorage:
-        topLevelDirectory: "/cavern"
-        spec:
-          persistentVolumeClaim:
-            claimName: canfar-src-workloads-pvc
-        nodeURIPrefix: "vos://canfar.net~staging-src~cavern"
-        serviceURI: "ivo://canfar.net/staging-src/cavern"
 
       extraVolumes:
         - name: cvmfs
@@ -102,11 +111,11 @@ deployment:
 
     resources:
       limits:
-        cpu: "2"
-        memory: 4Gi
+        cpu: "4"
+        memory: 8Gi
       requests:
-        cpu: "20m"
-        memory: 300Mi
+        cpu: "2"
+        memory: 2Gi
 
     priorityClass:
       name: uber-user-preempt-high
@@ -125,3 +134,11 @@ redis:
   master:
     serviceAccount:
       create: false
+    livenessProbe:
+      timeoutSeconds: 20
+      periodSeconds: 10
+      failureThreshold: 6
+    readinessProbe:
+      timeoutSeconds: 5
+      periodSeconds: 10
+      failureThreshold: 6
