@@ -1,0 +1,44 @@
+global:
+  registryUrls:
+    - https://sc2.canfar.net/reg
+  gmsId: "ivo://cadc.nrc.ca/gms"
+  cdpId: "ivo://cadc.nrc.ca/cred"
+  cookieSignaturePublicKey:
+    existingSecret:
+      name: cadc-sandbox-cookie-signature-public-key
+      key: RsaSignaturePub.key
+      path: RsaSignaturePub.key
+
+application:
+  tapServiceId: ivo://cadc.nrc.ca/sc2tap
+  uws:
+    url: jdbc:postgresql://quokka.canfar.net:5432/caom2
+    username: caom2
+    password: caom2pw
+podLabels:
+  app.kubernetes.io/part-of: sc2.canfar.net
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: sc2.canfar.net
+      paths:
+        - path: /AdvancedSearch
+          pathType: Prefix
+  tls: []
+
+livenessProbe:
+  httpGet:
+    path: /AdvancedSearch/
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /AdvancedSearch/
+    port: http
+
+startupProbe:
+  httpGet:
+    path: /AdvancedSearch/
+    port: http

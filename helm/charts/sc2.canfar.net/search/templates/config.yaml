@@ -1,0 +1,65 @@
+{{- $app := .Values.application -}}
+{{- $hostname := required "set ingress.hosts[].host or httpRoute.hostnames[] (enable ingress or httpRoute)" (include "search.publicHostname" .) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  namespace: {{ .Release.Namespace }}
+data:
+  cadc-registry.properties: |
+    ivo://ivoa.net/std/GMS#search-1.0 = {{ required "global.gmsId" (include "search.platform.gmsId" .) }}
+    http://www.opencadc.org/std/UMS#users-1.0 = {{ include "search.platform.gmsId" . }}
+    ivo://ivoa.net/std/UMS#users-0.1 = {{ include "search.platform.gmsId" . }}
+
+    ivo://ivoa.net/std/CDP#proxy-1.0 = {{ required "global.cdpId" (include "search.platform.cdpId" .) }}
+
+    http://www.opencadc.org/std/posix#group-mapping-0.1 = {{ include "search.platform.gmsId" . }}
+    http://www.opencadc.org/std/posix#user-mapping-0.1 = {{ include "search.platform.gmsId" . }}
+
+    {{- $urls := coalesce $app.registryUrls .Values.global.registryUrls (list) -}}
+    {{- range $urls }}
+    ca.nrc.cadc.reg.client.RegistryClient.baseURL = {{ . }}
+    {{- end }}
+  cadc-log.properties: |
+    {{- $logG := .Values.global.logging | default dict -}}
+    {{- $logA := $app.logging | default dict -}}
+    {{- $logUsers := $logA.users | default $logG.users | default (list) -}}
+    {{- $logUsernames := $logA.usernames | default $logG.usernames | default (list) -}}
+    {{- $logGroups := $logA.groups | default $logG.groups | default (list) -}}
+    {{- range $logUsers }}
+    user = {{ . }}
+    {{- end }}
+    {{- range $logUsernames }}
+    username = {{ . }}
+    {{- end }}
+    {{- range $logGroups }}
+    group = {{ . }}
+    {{- end }}
+    {{- $logSecretG := $logG.secret | default dict -}}
+    {{- $logSecretA := $logA.secret | default dict -}}
+    {{- $logSecretRef := $logSecretA.existingSecret | default $logSecretG.existingSecret | default dict -}}
+    {{- $logSecretName := $logSecretRef.name | default "" -}}
+    {{- if $logSecretName }}
+    {{- $logSecretKeys := $logSecretRef.keys | default (list ($logSecretRef.key | default "secret")) -}}
+    {{- $logSecretObj := lookup "v1" "Secret" .Release.Namespace $logSecretName -}}
+    {{- if $logSecretObj }}
+    {{- range $logSecretKeys }}
+    {{- $logSecretVal := index $logSecretObj.data . | b64dec -}}
+    secret = {{ $logSecretVal }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+  catalina.properties: |
+    tomcat.connector.scheme=https
+    tomcat.connector.proxyName={{ $hostname }}
+    tomcat.connector.proxyPort={{ include "search.platform.proxyPort" . }}
+    ca.nrc.cadc.auth.PrincipalExtractor.enableClientCertHeader={{ include "search.platform.enableClientCertHeader" . }}
+    ca.nrc.cadc.util.Log4jInit.messageOnly=true
+    ca.nrc.cadc.auth.IdentityManager={{ include "search.platform.identityManager" . }}
+
+    {{- with $app.uws }}
+    advancedsearch.uws.maxActive = {{ .maxActive | default 5 }}
+    advancedsearch.uws.url = {{ required "application.uws.url" .url }}
+    advancedsearch.uws.username = {{ required "application.uws.username" .username }}
+    advancedsearch.uws.password = {{ required "application.uws.password" .password }}
+    {{- end }}

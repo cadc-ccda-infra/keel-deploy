@@ -1,0 +1,13 @@
+{{- $app := .Values.application -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-search-props
+  namespace: {{ .Release.Namespace }}
+data:
+  searchProps: |
+    {{- $tapId := required "application.tapServiceId" $app.tapServiceId }}
+    org.opencadc.search.tap-service-id={{ $tapId }}
+    {{- range $key, $val := $app.searchProperties | default dict }}
+    {{ $key }}={{ $val }}
+    {{- end }}

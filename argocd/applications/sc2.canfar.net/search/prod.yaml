@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sc2-search-prod
+  namespace: cadc-sandbox
+  labels:
+    argocd.argoproj.io/domain: sc2.canfar.net
+    argocd.argoproj.io/environment: production
+    argocd.argoproj.io/service: search
+spec:
+  project: cadc
+  sources:
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      path: helm/charts/sc2.canfar.net/search
+      helm:
+        valueFiles:
+          - $values/helm/values/sc2.canfar.net/search/base.yaml
+          - $values/helm/values/sc2.canfar.net/search/prod.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cadc-sandbox
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

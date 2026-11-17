@@ -1,3 +1,8 @@
+{{- $cookieSecretName := required "global.cookieSignaturePublicKey.existingSecret.name is required (Secret data key RsaSignaturePub.key)" (include "search.platform.cookieSecretName" .) -}}
+{{- $cookieSecretKey := include "search.platform.cookieSecretKey" . -}}
+{{- $cookieMountPath := include "search.platform.cookieSecretPath" . -}}
+{{- $clientCertSecret := include "search.platform.clientCertSecretName" . -}}
+{{- $clientCertItems := (.Values.application.clientCertificates | default dict).existingSecret | default dict -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,6 +49,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
@@ -56,12 +65,38 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
+            - mountPath: /config
+              name: config-volume
+              readOnly: true
+          {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.volumes }}
       volumes:
+        - name: config-volume
+          projected:
+            sources:
+              - configMap:
+                  name: {{ .Release.Name }}-config
+              - configMap:
+                  name: {{ .Release.Name }}-search-props
+                  items:
+                    - key: searchProps
+                      path: org.opencadc.search.properties
+              - secret:
+                  name: {{ $cookieSecretName }}
+                  items:
+                    - key: {{ $cookieSecretKey }}
+                      path: {{ $cookieMountPath }}
+              {{- with $clientCertItems.items }}
+              {{- if $clientCertSecret }}
+              - secret:
+                  name: {{ $clientCertSecret }}
+                  items:
+                    {{- toYaml . | nindent 20 }}
+              {{- end }}
+              {{- end }}
+      {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.nodeSelector }}
