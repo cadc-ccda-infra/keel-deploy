@@ -4,5 +4,5 @@ deployment:
     resourceID: https://src.canfar.net/posix-mapper
 
     registryURL:
-      - "https://reg.swesrc.chalmers.se"
       - "https://spsrc27.iaa.csic.es/reg"
+      #- "https://reg.swesrc.chalmers.se"
