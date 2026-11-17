@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sandbox-argus-prod
+  name: sc2-argus-prod
   namespace: cadc-sandbox
   labels:
     argocd.argoproj.io/domain: sc2.canfar.net
@@ -10,13 +10,13 @@ metadata:
 spec:
   project: cadc
   sources:
-    - repoURL: https://images.opencadc.org/chartrepo/platform
-      chart: argus
-      targetRevision: 0.10.0
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      path: helm/charts/sc2.canfar.net/argus
       helm:
         valueFiles:
-          - $values/helm/values/sandbox/argus/base.yaml
-          - $values/helm/values/sandbox/argus/prod.yaml
+          - $values/helm/values/sc2.canfar.net/argus/base.yaml
+          - $values/helm/values/sc2.canfar.net/argus/prod.yaml
     - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
       targetRevision: main
       ref: values

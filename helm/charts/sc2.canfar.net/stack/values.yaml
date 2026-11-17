@@ -1,0 +1,39 @@
+# Umbrella values: global.* is propagated to every subchart; service keys override chart defaults.
+# Example: helm install sc2 helm/charts/sc2.canfar.net/stack -f helm/values/sc2.canfar.net/stack/prod.yaml
+
+global:
+  proxyPort: 443
+  registryUrls: []
+  gmsId: ""
+  cdpId: ""
+  auth:
+    identityManager: ca.nrc.cadc.ac.ACIdentityManager
+    enableClientCertHeader: true
+  cookieSignaturePublicKey:
+    existingSecret:
+      name: ""
+      key: RsaSignaturePub.key
+      path: RsaSignaturePub.key
+  logging:
+    users: []
+    usernames: []
+    groups: []
+    secret:
+      existingSecret:
+        name: ""
+        key: secret
+
+argus:
+  enabled: true
+
+bifrost:
+  enabled: true
+
+sc2meta:
+  enabled: true
+
+torkeep:
+  enabled: true
+
+search:
+  enabled: true

@@ -1,41 +1,34 @@
 global:
-  gmsID: "ivo://cadc.nrc.ca/gms"
-  cdpID: "ivo://cadc.nrc.ca/cred"
-  posixMapperID: "ivo://cadc.nrc.ca/gms"
-  hostname: "sandbox.kawfee.ca"
-  registryURL: "https://sandbox.kawfee.ca/reg"
+  registryUrls:
+    - https://sc2.canfar.net/reg
+  gmsId: "ivo://cadc.nrc.ca/gms"
+  cdpId: "ivo://cadc.nrc.ca/cred"
   cookieSignaturePublicKey:
     existingSecret:
-      # Secret name (release namespace).
       name: cadc-sandbox-cookie-signature-public-key
-      # Filename under `/config` in the pod; defaults to **`RsaSignaturePub.key`** (must match Secret data entry name).
+      key: RsaSignaturePub.key
       path: RsaSignaturePub.key
 
 application:
   uws:
-    maxActive: 2
-    url: jdbc:postgresql://quokka.canfar.net:5432/caom2
-    username: caom2
-    password: caom2pw
-  query:
-    maxActive: 3
     url: jdbc:postgresql://quokka.canfar.net:5432/caom2
     username: caom2
     password: caom2pw
   tapadm:
-    maxActive: 3
     url: jdbc:postgresql://quokka.canfar.net:5432/caom2
     username: caom2
     password: caom2pw
-  materializedViews:
-    enabled: false
+  query:
+    url: jdbc:postgresql://quokka.canfar.net:5432/caom2
+    username: caom2
+    password: caom2pw
 
 podLabels:
-  app.kubernetes.io/part-of: sandbox
+  app.kubernetes.io/part-of: sc2.canfar.net
 
 ingress:
   enabled: true
-  className: "traefik"
+  className: traefik
   hosts:
     - host: sc2.canfar.net
       paths:

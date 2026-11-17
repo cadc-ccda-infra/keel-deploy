@@ -1,0 +1,27 @@
+apiVersion: v2
+name: stack
+description: SC2 web stack umbrella (argus, bifrost, sc2meta, torkeep, search)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: argus
+    version: 0.1.0
+    repository: file://../argus
+    condition: argus.enabled
+  - name: bifrost
+    version: 0.1.0
+    repository: file://../bifrost
+    condition: bifrost.enabled
+  - name: sc2meta
+    version: 0.1.0
+    repository: file://../sc2meta
+    condition: sc2meta.enabled
+  - name: torkeep
+    version: 0.1.0
+    repository: file://../torkeep
+    condition: torkeep.enabled
+  - name: search
+    version: 0.1.0
+    repository: file://../search
+    condition: search.enabled

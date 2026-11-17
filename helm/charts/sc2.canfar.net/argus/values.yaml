@@ -1,0 +1,117 @@
+# Default values for argus.
+# Platform (stack-wide): global.* — set once on the parent stack chart; inherited by all subcharts.
+# Service-specific: application.* — argus-only (JDBC pools, context path, tap-tmp overrides).
+# https://github.com/opencadc/caom2/tree/main/argus#configuration
+
+replicaCount: 1
+
+image:
+  repository: images.opencadc.org/caom2/argus
+  pullPolicy: Always
+  tag: "1.0.28"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /argus
+          pathType: Prefix
+  tls: []
+
+httpRoute:
+  enabled: false
+  annotations: {}
+  parentRefs:
+    - name: gateway
+      sectionName: http
+  hostnames:
+    - chart-example.local
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /argus
+
+resources: {}
+
+livenessProbe:
+  httpGet:
+    path: /argus/availability?detail=min
+    port: http
+readinessProbe:
+  httpGet:
+    path: /argus/availability
+    port: http
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumes: []
+volumeMounts: []
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Shared across argus, bifrost, sc2meta, torkeep, search when installed via stack.
+global:
+  proxyPort: 443
+  registryUrls: []
+  gmsId: ""
+  cdpId: ""
+  auth:
+    identityManager: ca.nrc.cadc.ac.ACIdentityManager
+    enableClientCertHeader: true
+  cookieSignaturePublicKey:
+    existingSecret:
+      name: ""
+      key: RsaSignaturePub.key
+      path: RsaSignaturePub.key
+  # LogControlServlet ACL — https://github.com/opencadc/core/tree/main/cadc-log#cadc-logproperties-optional
+  logging:
+    users: []
+    usernames: []
+    groups: []
+    # LogControl shared secret (secret= query param or X-CADC-LOGCONTROL header); see cadc-log LogControlServlet.
+    secret:
+      existingSecret:
+        name: ""
+        key: secret
+        # keys: []  # optional; multiple secret = lines from one Kubernetes Secret
+
+application:
+  contextPath: argus
+  uws: {}
+  tapadm: {}
+  query: {}
+  materializedViews:
+    enabled: false
+  tapTmp:
+    storageManager: org.opencadc.tap.tmp.TempStorageManager
+    baseURL: ""
+    baseStorageDir: /tmp
