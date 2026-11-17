@@ -1,0 +1,15 @@
+ingress:
+  hosts:
+    - host: dev.canfar.net
+      paths:
+        - path: /canfar
+          pathType: Prefix
+        - path: /cadcJS
+          pathType: Prefix
+        - path: /cadcVOTV
+          pathType: Prefix
+        - path: /vosui
+          pathType: Prefix
+
+imagePullSecrets:
+  - name: bucket-registry-auth
