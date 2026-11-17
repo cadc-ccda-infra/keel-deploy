@@ -2,8 +2,8 @@ deployment:
   hostname: src.canfar.net
   storageUI:
     registryURL:
-      - "https://reg.swesrc.chalmers.se"
       - "https://spsrc27.iaa.csic.es/reg"
+      #- "https://reg.swesrc.chalmers.se"
 
     theme:
       logoURL: https://src.canfar.net/science-portal/images/canSRCLogo.png

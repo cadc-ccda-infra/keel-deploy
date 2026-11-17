@@ -53,7 +53,7 @@ deployment:
     imagePullPolicy: Always
     registryURL:
       - "https://spsrc27.iaa.csic.es/reg"
-      - "https://reg.swesrc.chalmers.se"
+      #- "https://reg.swesrc.chalmers.se"
 
     registryHosts: "images.canfar.net services.swesrc.chalmers.se spsrc26.iaa.csic.es"
 
