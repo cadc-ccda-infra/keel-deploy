@@ -40,7 +40,7 @@ storage:
   service:
     spec:
       persistentVolumeClaim:
-        claimName: cavern-renewal-pvc
+        claimName: cavern-renewal-storage
 
 # detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
 livenessProbe:
