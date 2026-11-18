@@ -27,7 +27,6 @@ application:
       name: cookie-signature-public-key
       path: RsaSignaturePub.key
 
-        # Mount the pre-auth service account PEM
   extraVolumeMounts:
     - mountPath: /usr/share/tomcat/.ssl/cadcproxy.pem
       subPath: cadcproxy.pem
