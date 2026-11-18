@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canfar-web-portal-dev
+  namespace: canfar-argocd
+  labels:
+    argocd.argoproj.io/domain: dev.canfar.net
+    argocd.argoproj.io/environment: dev
+    argocd.argoproj.io/service: web-portal
+spec:
+  project: canfar
+  sources:
+    # Same chart and version as production.
+    - repoURL: oci://bucket.canfar.net/charts/canfar-web-portal
+      path: .
+      targetRevision: 0.2.5
+      helm:
+        valueFiles:
+          - $values/helm/values/canfar.net/web-portal/base.yaml
+          - $values/helm/values/canfar.net/web-portal/dev.yaml
+    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canfar-system-dev
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

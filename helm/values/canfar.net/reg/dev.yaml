@@ -6,9 +6,16 @@ application:
   rsaSignaturePublicKey:
     existingSecret: "cookie-signature-public-key"
 
+  # Identity (gms, cred) uses the staging CADC West stack so dev never touches
+  # production accounts. Add dev.canfar.net entries (skaha, arc, ...) as each
+  # service lands on keel-dev.
   serviceEntries:
     - id: "ivo://cadc.nrc.ca/reg"
       url: "https://dev.canfar.net/reg/capabilities"
+    - id: "ivo://cadc.nrc.ca/gms"
+      url: "https://staging-cadc-west-01.canfar.net/ac/capabilities"
+    - id: "ivo://cadc.nrc.ca/cred"
+      url: "https://staging-cadc-west-01.canfar.net/cred/capabilities"
 
 ingress:
   hosts:
