@@ -10,7 +10,7 @@ registryURLs:
   - https://staging.canfar.net/reg
 
 rsaSignaturePublicKey:
-  existingSecret: rsa-signature-pub-key
+  existingSecret: canfar-skaha-staging-cookie-signature-public-key
 
 serviceAccount:
   automount: false

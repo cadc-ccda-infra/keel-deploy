@@ -1,6 +1,0 @@
-ingress:
-  hosts:
-    - host: integration.canfar.net
-      paths:
-        - path: /access
-          pathType: Prefix
