@@ -24,9 +24,6 @@ ingress:
         - path: /reg
           pathType: Prefix
 
-imagePullSecrets:
-  - name: bucket-registry-auth
-
 # Optionally mount a custom CA certificate
 volumeMounts:
   - mountPath: /usr/share/tomcat/.ssl/

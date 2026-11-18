@@ -10,6 +10,3 @@ ingress:
           pathType: Prefix
         - path: /vosui
           pathType: Prefix
-
-imagePullSecrets:
-  - name: bucket-registry-auth

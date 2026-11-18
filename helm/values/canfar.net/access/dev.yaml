@@ -16,9 +16,6 @@ serviceAccount:
   automount: false
   create: false
 
-imagePullSecrets:
-  - name: bucket-registry-auth
-
 logging:
   groups:
     - "ivo://cadc.nrc.ca/gms?CADC"

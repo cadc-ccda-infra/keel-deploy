@@ -1,4 +1,4 @@
-# Path "/" catches every dev.canfar.net request that no longer prefix route
+# Path "/" catches every dev.canfar.net request that no more specific path
 # (/reg, /comet, /access, ...) claims.
 ingress:
   enabled: true
@@ -8,13 +8,9 @@ ingress:
         - path: /
           pathType: Prefix
 
-# Dev pairs with the staging CADC stack, like staging.yaml.
-advancedSearchUrl: "https://rc-www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/search/"
-groupManagementUrl: "https://rc-www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/groups/"
+advancedSearchUrl: "https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/search/"
+groupManagementUrl: "https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/groups/"
 certificateUrl: "https://staging-cadc-west-01.canfar.net/cred/generate?daysValid=30"
 
 service:
   port: 8000
-
-imagePullSecrets:
-  - name: bucket-registry-auth
