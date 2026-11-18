@@ -11,7 +11,7 @@ spec:
   project: canfar
   sources:
     - repoURL: oci://bucket.canfar.net/charts/canfar-web-portal
-      targetRevision: 0.2.5
+      targetRevision: 0.2.6
       path: .
       helm:
         valueFiles:
