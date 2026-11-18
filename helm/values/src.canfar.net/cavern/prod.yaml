@@ -1,8 +1,8 @@
-#replicaCount: "2"
-#autoscaling:
-#  enabled: false
-#  minReplicas: "0"
-#  maxReplicas: "0"
+replicaCount: "2"
+autoscaling:
+  enabled: false
+  minReplicas: "0"
+  maxReplicas: "0"
 deployment:
   hostname: src.canfar.net
   cavern:
@@ -15,7 +15,7 @@ deployment:
 
     registryURL:
       - "https://spsrc27.iaa.csic.es/reg"
-      - "https://reg.swesrc.chalmers.se"
+      #- "https://reg.swesrc.chalmers.se"
 
     filesystem:
       dataDir: "/data"
@@ -40,7 +40,7 @@ storage:
   service:
     spec:
       persistentVolumeClaim:
-        claimName: cavern-renewal-pvc
+        claimName: cavern-renewal-storage
 
 # detail=min → heartbeat(); full /availability → getStatus() (registry + dependency checks).
 livenessProbe:
