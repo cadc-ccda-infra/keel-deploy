@@ -27,6 +27,10 @@ ingress:
   className: ""
   annotations: {}
 
+env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:-UseBASE64Intrinsics"
+
 affinity:
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
