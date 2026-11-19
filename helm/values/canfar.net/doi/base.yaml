@@ -32,10 +32,6 @@ securityContext:
 
 replicaCount: 1
 
-extraEnv:
-  - name: JAVA_TOOL_OPTIONS
-    value: "-XX:-UseBASE64Intrinsics"
-
 volumeInit:
   podSecurityContext:
     seccompProfile:
@@ -62,6 +58,10 @@ application:
 
   loggingGroups:
     - "ivo://cadc.nrc.ca/gms?CADC"
+
+  extraEnv:
+    - name: JAVA_TOOL_OPTIONS
+      value: "-XX:-UseBASE64Intrinsics"
 
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
