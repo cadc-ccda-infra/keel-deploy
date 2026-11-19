@@ -54,6 +54,11 @@ resources:
     memory: "1Gi"
     cpu: "750m"
 
+# CVE-2026-114938: Disable BASE64Intrinsics to avoid potential security issues.
+env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:-UseBASE64Intrinsics"
+
 affinity:
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
