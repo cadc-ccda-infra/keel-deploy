@@ -76,6 +76,11 @@ nodeAffinity:
           - key: nvidia.com/gpu.count
             operator: DoesNotExist
 
+# CVE-2026-114938: Disable BASE64Intrinsics to avoid potential security issues.
+extraEnv:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:-UseBASE64Intrinsics"
+
 application:
   endpoint: /ac
   resourceID: ivo://cadc.nrc.ca/gms
