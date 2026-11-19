@@ -32,6 +32,10 @@ securityContext:
 
 replicaCount: 1
 
+extraEnv:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:-UseBASE64Intrinsics"
+
 volumeInit:
   podSecurityContext:
     seccompProfile:

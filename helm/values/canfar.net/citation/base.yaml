@@ -5,6 +5,11 @@
 # image.repository / image.tag / image.pullPolicy: use the chart's values.yaml
 # (released with each chart version) unless overridden per environment.
 
+# CVE-2026-114938: Disable BASE64Intrinsics to avoid potential security issues.
+env:
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:-UseBASE64Intrinsics"
+
 podSecurityContext:
   runAsNonRoot: true
   runAsUser: 8675309
