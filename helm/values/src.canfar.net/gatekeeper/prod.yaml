@@ -8,6 +8,19 @@ gatekeeper:
   resolver: 169.254.25.10
   # resolver: 10.96.0.10
   namespace: canfar-src-production
+
+  volumes:
+    # This is a workaround for a CVE in NGINx.  The Volume was created manually by the deployer.
+    # jenkinsd - 2026.11.19
+    #
+    - name: gatekeeper-nginx-cve-fix
+      configMap:
+        name: gatekeeper-nginx-cve-fix
+  volumeMounts:
+    - name: gatekeeper-nginx-cve-fix
+      mountPath: /etc/nginx/conf.d/default.conf
+      subPath: default.conf
+
   image:
     repository: at88mph/ska-src-dm-da-service-gatekeeper
     tag: 0.3.3

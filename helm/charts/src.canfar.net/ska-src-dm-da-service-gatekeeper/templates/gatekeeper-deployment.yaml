@@ -69,6 +69,9 @@ spec:
               mountPath: /etc/nginx/conf.d/resolver.conf
               subPath: resolver.conf
             {{- end }}
+            {{ with .Values.gatekeeper.volumeMounts }}
+            {{ toYaml . | nindent 8 }}
+            {{ end }}
 
       volumes:
         - name: gatekeeper-config
@@ -79,3 +82,7 @@ spec:
           configMap:
             name: gatekeeper-nginx-resolver
         {{- end }}
+        {{ with .Values.gatekeeper.volumes }}
+        {{ toYaml . | nindent 8 }}
+        {{ end }}
+      
