@@ -13,7 +13,7 @@ spec:
     # Same chart and version as production.
     - repoURL: oci://bucket.canfar.net/charts/access
       path: .
-      targetRevision: 0.3.2
+      targetRevision: 0.3.3
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/access/base.yaml
