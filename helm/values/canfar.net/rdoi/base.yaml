@@ -60,6 +60,10 @@ application:
   loggingGroups:
     - "ivo://cadc.nrc.ca/gms?CADC"
 
+  extraEnv:
+    - name: JAVA_TOOL_OPTIONS
+      value: "-XX:-UseBASE64Intrinsics"
+
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
     - weight: 50

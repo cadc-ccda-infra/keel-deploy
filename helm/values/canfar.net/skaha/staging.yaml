@@ -93,10 +93,6 @@ deployment:
 
     registryHosts: "images.canfar.net images-integration.canfar.net"
 
-    extraEnv:
-      - name: JAVA_TOOL_OPTIONS
-        value: "-XX:-UseBASE64Intrinsics"
-
     sessions:
       hostname: workloads.canfar.net
       namespace: 

@@ -25,6 +25,10 @@ securityContext:
 # Skaha web service deployment
 deployment:
   skaha:
+    extraEnv:
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:-UseBASE64Intrinsics"
+
     imagePullSecrets:
       - name: bucket-registry-auth
     imagePullPolicy: Always
