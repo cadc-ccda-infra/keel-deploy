@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: oci://images.opencadc.org/core/charts/reg
       path: .
-      targetRevision: 1.2.2
+      targetRevision: 1.2.3
       helm:
         valueFiles:
           - $values/helm/values/cadc-west.canfar.net/reg/base.yaml
