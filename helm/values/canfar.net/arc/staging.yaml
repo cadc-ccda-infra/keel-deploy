@@ -27,6 +27,10 @@ deployment:
         # Postgres User default in the postgres:13 image
         runUID: 999
 
+    extraEnv:
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:-UseBASE64Intrinsics"
+
 # Set these appropriately to match your Persistent Volume Claim labels.
 storage:
   service:
