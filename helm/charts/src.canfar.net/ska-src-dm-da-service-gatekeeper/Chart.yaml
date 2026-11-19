@@ -7,4 +7,4 @@ name: ska-src-dm-da-service-gatekeeper
 sources:
 - https://gitlab.com/ska-telescope/src/src-dm/ska-src-dm-da-service-gatekeeper
 type: application
-version: 0.3.4
+version: 0.3.5
