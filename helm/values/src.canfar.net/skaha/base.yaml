@@ -45,6 +45,10 @@ livenessProbe:
 
 deployment:
   skaha:
+    extraEnv:
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:-UseBASE64Intrinsics"
+
     imagePullPolicy: Always
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:

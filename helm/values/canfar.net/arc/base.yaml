@@ -11,6 +11,10 @@ kubernetesClusterDomain: keel-prod.local
 # Arc web service deployment
 deployment:
   cavern:
+    extraEnv:
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:-UseBASE64Intrinsics"
+          
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 50

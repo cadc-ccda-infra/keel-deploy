@@ -23,6 +23,10 @@ securityContext:
 
 deployment:
   posixMapper:
+    extraEnv:
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:-UseBASE64Intrinsics"
+        
     loggingGroups:
       - "ivo://skao.int/gms?roles/prod/user"
 

@@ -7,6 +7,10 @@ replicaCount: 1
 
 deployment:
   cavern:
+    extraEnv:
+      - name: JAVA_TOOL_OPTIONS
+        value: "-XX:-UseBASE64Intrinsics"
+
     imagePullPolicy: Always
 
     oidcURI: https://ska-iam.stfc.ac.uk/
