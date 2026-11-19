@@ -76,11 +76,6 @@ nodeAffinity:
           - key: nvidia.com/gpu.count
             operator: DoesNotExist
 
-# CVE-2026-114938: Disable BASE64Intrinsics to avoid potential security issues.
-extraEnv:
-  - name: JAVA_TOOL_OPTIONS
-    value: "-XX:-UseBASE64Intrinsics"
-
 application:
   endpoint: /ac
   resourceID: ivo://cadc.nrc.ca/gms
@@ -218,8 +213,12 @@ application:
           - memberOf
         signDocuments: true
 
-# Point the JVM at a pre-built truststore so LDAP TLS works without sudo.
 extraEnv:
+  # CVE-2026-114938: Disable BASE64Intrinsics to avoid potential security issues.
+  - name: JAVA_TOOL_OPTIONS
+    value: "-XX:-UseBASE64Intrinsics"
+
+  # Point the JVM at a pre-built truststore so LDAP TLS works without sudo.
   - name: CATALINA_OPTS
     value: "-Djavax.net.ssl.trustStore=/config/java-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
 
