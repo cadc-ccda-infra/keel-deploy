@@ -16,6 +16,8 @@ application:
       url: "https://staging-cadc-west-01.canfar.net/ac/capabilities"
     - id: "ivo://cadc.nrc.ca/cred"
       url: "https://staging-cadc-west-01.canfar.net/cred/capabilities"
+    - id: "ivo://cadc.nrc.ca/arc"
+      url: "https://dev.canfar.net/arc/capabilities"
 
 ingress:
   hosts:

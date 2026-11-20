@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: canfar-system-dev-cavern-pvc
+  namespace: canfar-system-dev
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1000Gi
+  storageClassName: ""
+  volumeMode: Filesystem
+  volumeName: cephfs-legacy-system-dev-cavern-pv
