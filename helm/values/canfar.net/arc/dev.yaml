@@ -1,0 +1,57 @@
+kubernetesClusterDomain: keel-dev.local
+
+# Quoted because the chart uses Helm `default`, which treats an unquoted 0 as empty.
+replicaCount: "1"
+
+deployment:
+  hostname: dev.canfar.net
+
+  cavern:
+    imagePullPolicy: Always
+    registryURL: https://dev.canfar.net/reg
+
+    cookieSignaturePublicKey:
+      existingSecret:
+        name: cookie-signature-public-key
+        path: RsaSignaturePub.key
+
+    # Dev runs its own PostgreSQL instead of the shared quokka arcdb, which is
+    # unreachable from keel-dev. No storage is set, so job records are lost when
+    # the postgres pod restarts. arc-uws-db-auth (username, password) must exist.
+    uws:
+      db:
+        install: true
+        auth:
+          existingSecret: arc-uws-db-auth
+
+storage:
+  service:
+    spec:
+      persistentVolumeClaim:
+        claimName: canfar-system-dev-cavern-pvc
+
+# Same probes as production.
+livenessProbe:
+  httpGet:
+    path: /arc/availability?detail=min
+    port: 8080
+  periodSeconds: 120
+  timeoutSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /arc/availability
+    port: 8080
+  periodSeconds: 180
+  timeoutSeconds: 60
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /arc/availability?detail=min
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 20
+  timeoutSeconds: 30
+  failureThreshold: 30
