@@ -44,7 +44,7 @@ celeryWorker:
                 values: ["core", "celery-worker"]
           topologyKey: kubernetes.io/hostname
     nodeAffinity:
-       preferredDuringSchedulingIgnoredDuringExecution:
+        preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 50
             preference:
               matchExpressions:
@@ -84,7 +84,7 @@ rabbitmqService:
         - ALL
 
   nodeSelector: {}
-  affinity: 
+  affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 50
