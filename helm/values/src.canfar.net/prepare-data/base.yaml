@@ -43,6 +43,20 @@ celeryWorker:
                 operator: In
                 values: ["core", "celery-worker"]
           topologyKey: kubernetes.io/hostname
+    nodeAffinity:
+       preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+                - key: skaha.opencadc.org/node-type
+                  operator: In
+                  values:
+                    - service-node
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
 
 service:
   type: ClusterIP
@@ -70,7 +84,21 @@ rabbitmqService:
         - ALL
 
   nodeSelector: {}
-  affinity: {}
+  affinity: 
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+                - key: skaha.opencadc.org/node-type
+                  operator: In
+                  values:
+                    - service-node
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.count
+                operator: DoesNotExist
 
 serviceAccount: {}
 
@@ -100,17 +128,17 @@ affinity:
               operator: In
               values: ["core", "celery-worker"]
         topologyKey: kubernetes.io/hostname
-#  nodeAffinity:
-#    preferredDuringSchedulingIgnoredDuringExecution:
-#    - weight: 50
-#      preference:
-#        matchExpressions:
-#        - key: skaha.opencadc.org/node-type
-#          operator: In
-#          values:
-#          - service-node
-#    requiredDuringSchedulingIgnoredDuringExecution:
-#      nodeSelectorTerms:
-#      - matchExpressions:
-#        - key: nvidia.com/gpu.count
-#          operator: DoesNotExist
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+           - key: skaha.opencadc.org/node-type
+             operator: In
+             values:
+               - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: nvidia.com/gpu.count
+          operator: DoesNotExist
