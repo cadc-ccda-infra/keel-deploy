@@ -146,3 +146,18 @@ redis:
       timeoutSeconds: 5
       periodSeconds: 10
       failureThreshold: 6
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 50
+          preference:
+            matchExpressions:
+             - key: skaha.opencadc.org/node-type
+               operator: In
+               values:
+                 - service-node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: nvidia.com/gpu.count
+            operator: DoesNotExist
