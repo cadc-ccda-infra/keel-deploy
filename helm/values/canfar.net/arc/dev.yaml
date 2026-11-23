@@ -28,7 +28,7 @@ storage:
   service:
     spec:
       persistentVolumeClaim:
-        claimName: canfar-system-dev-cavern-pvc
+        claimName: cavern-pvc
 
 # Same probes as production.
 livenessProbe:

@@ -1,14 +1,18 @@
+# Mounts the keel-dev-test Arbutus share (canfar-cadc project). The PV is created
+# from this PVC by the self-serve controller, named <namespace>-<pvc-name>.
+# Secret arc-cephx (userID, userKey) must exist first.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: canfar-system-dev-cavern-pvc
+  name: cavern-pvc
   namespace: canfar-system-dev
+  annotations:
+    rcs.uvic.ca/share-path: /volumes/_nogroup/02ce42c4-04ac-459c-bbb3-eb075ad0ce32/6fd125f0-a35a-4604-beb7-b7295bf1c82a
+    rcs.uvic.ca/share-secret: arc-cephx
 spec:
-  accessModes:
-  - ReadWriteMany
+  storageClassName: ''
+  volumeName: canfar-system-dev-cavern-pvc
+  accessModes: [ReadWriteMany]
   resources:
     requests:
       storage: 1000Gi
-  storageClassName: ""
-  volumeMode: Filesystem
-  volumeName: cephfs-legacy-system-dev-cavern-pv
