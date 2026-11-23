@@ -120,14 +120,14 @@ securityContext:
 nodeSelector: {}
 
 affinity:
-  podAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-            - key: app
-              operator: In
-              values: ["core", "celery-worker"]
-        topologyKey: kubernetes.io/hostname
+  #podAffinity:
+  #  requiredDuringSchedulingIgnoredDuringExecution:
+  #    - labelSelector:
+  #        matchExpressions:
+  #          - key: app
+  #            operator: In
+  #            values: ["core", "celery-worker"]
+  #      topologyKey: kubernetes.io/hostname
   nodeAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - weight: 50
