@@ -10,7 +10,7 @@ ingress:
 
 advancedSearchUrl: "https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/search/"
 groupManagementUrl: "https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/en/groups/"
-certificateUrl: "https://staging-cadc-west-01.canfar.net/cred/generate?daysValid=30"
+certificateUrl: "https://cadc-west-01.canfar.net/cred/generate?daysValid=30"
 
 service:
   port: 8000
