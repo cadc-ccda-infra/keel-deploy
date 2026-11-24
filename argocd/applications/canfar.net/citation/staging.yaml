@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: oci://bucket.canfar.net/charts/citation
       path: .
-      targetRevision: 1.0.5
+      targetRevision: 1.0.6
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/citation/base.yaml
