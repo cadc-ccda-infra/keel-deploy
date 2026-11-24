@@ -60,6 +60,30 @@ application:
   loggingGroups:
     - "ivo://cadc.nrc.ca/gms?CADC"
 
+  # Mount the pre-auth service account PEM
+  extraVolumeMounts:
+    - mountPath: /usr/share/tomcat/.ssl
+      name: client-certs
+      readOnly: true
+
+  # Create the CA certificate volume to be mounted in extraVolumeMounts
+  # This will combine the servops and doiadmin PEMs into a single volume
+  # to avoid bind mounting the files and ignoring the secrets when they are patched.
+  extraVolumes:
+    - name: client-certs
+      projected:
+        sources:
+          - secret:
+              name: servops-clientcert
+              items:
+                - key: cadcproxy.pem
+                  path: cadcproxy.pem
+          - secret:
+              name: doiadmin-clientcert
+              items:
+                - key: doiadmin.pem
+                  path: doiadmin.pem
+
   extraEnv:
     - name: JAVA_TOOL_OPTIONS
       value: "-XX:-UseBASE64Intrinsics"
