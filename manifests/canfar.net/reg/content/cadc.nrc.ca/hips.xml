@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/hips</identifier>
+        <datestamp>2019-06-15T21:15:18Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2018-02-05T09:19:24Z" status="active" updated="2019-06-15T21:15:18Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vr:Service" >
+          <title xmlns="">CADC image/cube HiPS service (Collection 1)</title>
+          <identifier xmlns="">ivo://cadc.nrc.ca/hips</identifier>
+          <curation xmlns="">
+            <publisher>CADC</publisher>
+            <creator>
+              <name>Canadian Astronomy Data Centre</name>
+            </creator>
+            <contact>
+              <name>CADC Helpdesk</name>
+              <email>cadc@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject>CADC image/cube HiPS service</subject>
+            <description>The CADC provides a collection of reference surveys available using the HiPS protocol.  All collections are clones of the main HIPS server at CDS (http://aladin.u-strasbg.fr/hips/). Additional services will be added as they become available.</description>
+            <referenceURL>http://aladin.u-strasbg.fr/hips/</referenceURL>
+            <type>Archive</type>
+            <contentLevel>Research</contentLevel>
+          </content>
+          <capability standardID="ivo://ivoa.net/std/hips#hipslist-1.0" xmlns="">
+            <interface role="std" xsi:type="vs:ParamHTTP">
+              <accessURL use="full">https://hips.canfar.net/hipslist.txt</accessURL>
+            </interface>
+          </capability>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>

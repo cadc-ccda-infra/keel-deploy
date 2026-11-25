@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header status="deleted">
+        <identifier>ivo://cadc.nrc.ca/hips2</identifier>
+        <datestamp>2019-09-20T16:00:30Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+    </record>
+  </GetRecord>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca</identifier>
+        <datestamp>2019-09-20T16:00:02Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2005-01-27T21:58:27Z" status="active" updated="2019-09-20T16:00:02Z" 
+                xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                xmlns:vg="http://www.ivoa.net/xml/VORegistry/v1.0" 
+                xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vg:Authority" >
+          <title xmlns="">Canadian Astronomy Data Centre</title>
+          <shortName xmlns="">CADC</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca</identifier>
+          <curation xmlns="">
+            <publisher>Canadian Astronomy Data Centre</publisher>
+            <contact>
+              <name>JJ Kavelaars</name>
+              <address>5071 West Saanich Rd, Victoria, BC, Canada V9E 2E7</address>
+              <email>JJ.Kavelaars@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject>virtual observatory</subject>
+            <description>authority for CADC</description>
+            <referenceURL>https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/</referenceURL>
+            <type>Other</type>
+            <contentLevel>General</contentLevel>
+          </content>
+          <managingOrg xmlns="">Canadian Astronomy Data Centre</managingOrg>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>
