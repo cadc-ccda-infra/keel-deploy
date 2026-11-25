@@ -17,9 +17,15 @@ env:
   COMET_PUBLIC_URL: https://dev.canfar.net/comet
   # Shared CADC sign-in stays off until COMET_MMP_CLIENT_SECRET is in comet-secrets.
   MMP_BASE_URL: https://staging.portal.candiapl.ca
+  # All AC endpoints must share one host: a code from /authorize is only valid
+  # at the same AC's /token. Drop these once COMET discovers UMS/GMS via reg.
   CADC_LOGIN_URL: https://cadc-west-01.canfar.net/ac/login
+  CADC_OIDC_AUTHORIZE_URL: https://cadc-west-01.canfar.net/ac/authorize
   CADC_OIDC_TOKEN_URL: https://cadc-west-01.canfar.net/ac/token
   CADC_OIDC_USERINFO_URL: https://cadc-west-01.canfar.net/ac/userinfo
+  # UMS user lookup. COMET only honours this once CADC_AC_USERS_URL is read
+  # from the environment in its config.
+  CADC_AC_USERS_URL: https://cadc-west-01.canfar.net/ac/users
   CADC_CRED_DELEGATION_HOST: cadc-west-01.canfar.net
   CADC_OIDC_CLIENT_ID: candiapl
   CANFAR_ARC_FILES_URL: https://ws-uv.canfar.net/arc/files
