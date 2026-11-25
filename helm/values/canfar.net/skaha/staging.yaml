@@ -86,7 +86,6 @@ deployment:
   hostname: staging.canfar.net
 
   skaha:
-    image: images-integration.canfar.net/skaha-system/skaha:almalinux-10-SNAPSHOT
     imagePullPolicy: Always
     registryURL:
       - https://staging.canfar.net/reg
