@@ -22,6 +22,22 @@ securityContext:
   seccompProfile:
     type: RuntimeDefault
 
+metrics:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        preference:
+          matchExpressions:
+            - key: skaha.opencadc.org/node-type
+              operator: In
+              values:
+                - service-node
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: nvidia.com/gpu.count
+              operator: DoesNotExist
+
 # Skaha web service deployment
 deployment:
   skaha:
@@ -176,5 +192,20 @@ redis:
       timeoutSeconds: 5
       periodSeconds: 10
       failureThreshold: 6
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+                - key: skaha.opencadc.org/node-type
+                  operator: In
+                  values:
+                    - service-node
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: nvidia.com/gpu.count
+                  operator: DoesNotExist
 
 # deployment.hostname: integration.yaml, staging.yaml, prod.yaml

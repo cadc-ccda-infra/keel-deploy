@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: oci://images.opencadc.org/platform/charts/skaha
       path: .
-      targetRevision: 1.10.2
+      targetRevision: 1.10.4
       helm:
         valueFiles:
           - $values/helm/values/canfar.net/skaha/base.yaml
