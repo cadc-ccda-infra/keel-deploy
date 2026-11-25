@@ -10,6 +10,10 @@ deployment:
     imagePullPolicy: Always
     registryURL: https://dev.canfar.net/reg
 
+    # The Arbutus share's rw cephx key can't set ceph.quota xattrs, so no
+    # per-user quotas on dev (same as SRC cavern on its Arbutus share).
+    quotaPlugin: NoQuotaPlugin
+
     cookieSignaturePublicKey:
       existingSecret:
         name: cookie-signature-public-key
