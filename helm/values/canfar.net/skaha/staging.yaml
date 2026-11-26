@@ -107,6 +107,9 @@ deployment:
           priorityClass: "high"
         headless:
           priorityClass: "low"
+      # The chart ships no community. This map is the whole configuration.
+      # The key is the Community name stamped as canfar.net/community.
+      # Exactly one entry sets default: true. clusterQueue is that Community's ClusterQueue.
       communities:
         cadc:
           default: true
