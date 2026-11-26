@@ -10,9 +10,9 @@ metadata:
 spec:
   project: canfar
   sources:
-    - repoURL: https://github.com/cadc-ccda-infra/keel-deploy.git
-      targetRevision: main
-      path: helm/charts/src.canfar.net/ska-src-dm-local-data-preparer
+    - repoURL: https://artefact.skao.int/repository/helm-internal/
+      chart: ska-src-dm-local-data-preparer
+      targetRevision: 0.3.10
       helm:
         releaseName: dpapi
         valueFiles:
