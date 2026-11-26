@@ -1,4 +1,4 @@
-# Production overlays for SKA Prepare Data (dpapi) on src.canfar.net (namespace canfar-cansrc).
+# Staging overlays for SKA Prepare Data (dpapi) on src.canfar.net (namespace canfar-cansrc).
 
 localPreparerCore:
   image:
@@ -31,9 +31,9 @@ env:
   API_ROOT_PATH:
 
 pvc:
-  rse: xrootd-pvc
+  rse: xrootd-storage-ro
   rsePath: /rse
-  cavern: src-cavern-pvc
+  cavern: cavern-renewal-pvc
   cavernPath: /user-storage/
   celeryCache: celery-cache-pvc
   celeryCachePath: /celery/cache
