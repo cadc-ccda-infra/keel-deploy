@@ -92,7 +92,7 @@ livenessProbe:
     path: /cred/availability
     port: http
   initialDelaySeconds: 10
-  periodSeconds: 60
+  periodSeconds: 600
   timeoutSeconds: 30
   failureThreshold: 3
 
@@ -101,7 +101,7 @@ readinessProbe:
     path: /cred/availability
     port: http
   initialDelaySeconds: 10
-  periodSeconds: 60
+  periodSeconds: 600
   timeoutSeconds: 30
   failureThreshold: 3
 
