@@ -18,14 +18,14 @@ env:
   ABS_PATH_USER_AREA_ROOT: /user-storage/cavern/home
   ABS_PATH_RSE_ROOT: /rse/data/dev/deterministic
   ABS_PATH_CELERY_RESULTS: /celery/cache
-  CAVERN_API_URL: https://src.canfar.net/cavern
-  POSIX_MAPPER_URL: https://src.canfar.net/posix-mapper
+  CAVERN_API_URL: https://staging-src.canfar.net/cavern
+  POSIX_MAPPER_URL: https://staging-src.canfar.net/posix-mapper
   IVO_AUTHORITY_PATH: "canfar.net~src~cavern"
   CAVERN_API_SSL_VERIFY: "false"
   CAVERN_ROOT_USER: canfarops
   IAM_GMS: ivo://skao.int/gms
   GROUP: roles/int/oper
-  QUOTA: 524288000
+  QUOTA: 1000000
   SUPPORTED_APPROACHES: cavern
   DEFAULT_APPROACH: cavern
   API_ROOT_PATH:
