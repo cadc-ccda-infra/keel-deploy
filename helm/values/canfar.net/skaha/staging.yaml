@@ -103,14 +103,17 @@ deployment:
           persistentVolumeClaim:
             claimName: canfar-workloads-staging-pvc
       kueue:
-        rbac:
-          create: true
         default:
-          queueName: "cadc-default"
           priorityClass: "high"
         headless:
-          queueName: "cadc-default"
           priorityClass: "low"
+      # The chart ships no community. This map is the whole configuration.
+      # The key is the Community name stamped as canfar.net/community.
+      # Exactly one entry sets default: true. clusterQueue is that Community's ClusterQueue.
+      communities:
+        cadc:
+          default: true
+          clusterQueue: cadc
 
       # Values that represent boundaries for the session resources.  Tune to your Cluster's capacity.
       limitRange:
