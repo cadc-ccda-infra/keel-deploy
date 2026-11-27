@@ -1,6 +1,6 @@
 application:
-  # Ensure OAI is disabled.
-  authority: ""
+  # enable OAI publishing
+  authority: "cadc.nrc.ca"
 
   identityManagerClass: ca.nrc.cadc.ac.ACIdentityManager
   rsaSignaturePublicKey:

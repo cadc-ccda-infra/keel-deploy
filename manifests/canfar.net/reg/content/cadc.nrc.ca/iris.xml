@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/IRIS</identifier>
+        <datestamp>2019-06-15T21:15:14Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2016-10-10T10:01:27Z" status="active" updated="2019-06-15T21:15:14Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xsi:type="vs:DataCollection" 
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <title xmlns="">IRIS Archive</title>
+          <shortName xmlns="">IRIS Archive</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca/IRIS</identifier>
+          <curation xmlns="">
+            <publisher ivo-id="ivo://cadc.nrc.ca/org"> Canadian Astronomy Data Centre </publisher>
+            <contact>
+              <name>JJ Kavelaars</name>
+              <address>5071 West Saanich Rd Victoria, BC, Canada V9E 2E7</address>
+              <email>JJ.Kavelaars@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject />
+            <description />
+            <referenceURL>https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/</referenceURL>
+            <type>Archive</type>
+            <contentLevel>Research</contentLevel>
+            <relationship>
+              <relationshipType>isServedBy</relationshipType>
+              <relatedResource ivo-id="ivo://cadc.nrc.ca/sia">CADC SIA 2.0 Service</relatedResource>
+            </relationship>
+            <relationship>
+              <relationshipType>isServedBy</relationshipType>
+              <relatedResource ivo-id="ivo://cadc.nrc.ca/argus">CADC Archive TAP Service</relatedResource>
+            </relationship>
+          </content>
+          <coverage xmlns="" />
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>

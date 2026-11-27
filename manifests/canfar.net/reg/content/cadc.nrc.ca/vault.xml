@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/vault</identifier>
+        <datestamp>2019-07-23T20:30:00Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2019-07-23T20:30:00Z" status="active" updated="2019-07-23T20:30:00Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vr:Service" >
+          <title xmlns="">CANFAR VOSpace Service</title>
+          <shortName xmlns="">CANFAR VOSpace</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca/vault</identifier>
+          <curation xmlns="">
+            <publisher ivo-id="ivo://cadc.nrc.ca/org"> Canadian Astronomy Data Centre </publisher>
+            <creator>
+              <name />
+            </creator>
+            <contact>
+              <name>John Ouellette</name>
+              <address>5071 West Saanich Rd Victoria, BC, Canada V9E 2E7</address>
+              <email>John.Ouellette@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject />
+            <description />
+            <referenceURL>https://www.canfar.net/</referenceURL>
+            <type>Other</type>
+          </content>
+          <capability standardID="ivo://ivoa.net/std/VOSI#capabilities">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/capabilities</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#availability">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/availability</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="vos://cadc.nrc.ca~vospace/CADC/std/LOGGING#logControl-1.0">
+            <interface xsi:type="vs:ParamHTTP" role="std" version="1.0">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/logControl</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSpace/v2.0#views">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/views</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSpace/v2.0#nodes">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/nodes</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/nodes</accessURL>
+              <securityMethod standardID="vos://cadc.nrc.ca~vospace/CADC/std/Auth#token-1.0" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/nodes</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/nodes</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/nodes</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/nodes</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSpace/v2.0#transfers">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/transfers</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/transfers</accessURL>
+              <securityMethod standardID="vos://cadc.nrc.ca~vospace/CADC/std/Auth#token-1.0" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/transfers</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/auth/transfers</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/transfers</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/transfers</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/transfers</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSpace/v2.0#sync">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+              <securityMethod standardID="vos://cadc.nrc.ca~vospace/CADC/std/Auth#token-1.0" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/auth/synctrans</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSpace#sync-2.1">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+              <securityMethod standardID="vos://cadc.nrc.ca~vospace/CADC/std/Auth#token-1.0" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/auth/synctrans</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/synctrans</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSpace/v2.x#files">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/files</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/files</accessURL>
+              <securityMethod standardID="vos://cadc.nrc.ca~vospace/CADC/std/Auth#token-1.0" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/files</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/files</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/files</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="vos://cadc.nrc.ca~vospace/CADC/std/UWS#update-1.0">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/jobUpdater</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/jobUpdater</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/auth/jobUpdater</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/jobUpdater</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/jobUpdater</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="vos://cadc.nrc.ca~vospace/CADC/std/VOSpace#xfer">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/xfer</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/xfer</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/xfer</accessURL>
+              <securityMethod standardID="vos://cadc.nrc.ca~vospace/CADC/std/Auth#token-1.0" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/auth/xfer</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/xfer</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/xfer</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+          <capability standardID="vos://cadc.nrc.ca~vospace/CADC/std/VOSpace#nodeprops">
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/nodeprops</accessURL>
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/nodeprops</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/auth/nodeprops</accessURL>
+              <securityMethod standardID="http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="base">https://ws-cadc.canfar.net/vault/auth/nodeprops</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#BasicAA" />
+            </interface>
+            <interface xsi:type="vs:ParamHTTP" role="std">
+              <accessURL use="full">https://ws-cadc.canfar.net/vault/nodeprops</accessURL>
+              <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+            </interface>
+          </capability>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/MOST</identifier>
+        <datestamp>2019-06-15T21:15:12Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2016-10-10T10:05:38Z" status="active" updated="2019-06-15T21:15:12Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xsi:type="vs:DataCollection" 
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <title xmlns="">Microvariability and Oscillation of Stars Satellite Archive</title>
+          <shortName xmlns="">MOST Archive</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca/MOST</identifier>
+          <curation xmlns="">
+            <publisher ivo-id="ivo://cadc.nrc.ca/org"> Canadian Astronomy Data Centre </publisher>
+            <contact>
+              <name>David Bohlender</name>
+              <address>5071 West Saanich Rd Victoria, BC, Canada V9E 2E7</address>
+              <email>David.Bohlender@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject />
+            <description />
+            <referenceURL>https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/</referenceURL>
+            <type>Archive</type>
+            <contentLevel>Research</contentLevel>
+          </content>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>

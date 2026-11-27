@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header status="deleted">
+        <identifier>ivo://cadc.nrc.ca/vospace</identifier>
+        <datestamp>2019-09-20T16:00:20Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+    </record>
+  </GetRecord>

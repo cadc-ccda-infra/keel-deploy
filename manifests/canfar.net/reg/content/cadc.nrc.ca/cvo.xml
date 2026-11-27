@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/cvo</identifier>
+        <datestamp>2019-06-15T21:15:24Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2012-04-26T15:58:20Z" status="active" updated="2019-06-15T21:15:24Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xsi:type="vs:DataCollection" 
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <title xmlns="">Canadian Virtual Observatory</title>
+          <shortName xmlns="">CVO</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca/cvo</identifier>
+          <curation xmlns="">
+            <publisher ivo-id="ivo://cadc.nrc.ca/org">
+         Canadian Astronomy Data Centre
+      </publisher>
+            <contact>
+              <name>Patrick Dowler</name>
+              <address>5071 West Saanich Rd Victoria, BC, Canada V9E 2E7</address>
+              <email>patrick.dowler@nrc-cnrc.gc.ca</email>
+              <telephone>250-363-6914</telephone>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject />
+            <description>CVO web site</description>
+            <referenceURL>https://services.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/cvo/</referenceURL>
+            <type>Organisation</type>
+            <contentLevel>Research</contentLevel>
+          </content>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/gms</identifier>
+        <datestamp>2021-10-29T18:00:00Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2021-10-29T18:00:00Z" status="active" updated="2021-10-29T18:00:00Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vr:Service" >
+          <title xmlns="">CADC/CANFAR Group Membership Service</title>
+          <shortName xmlns="">CADC/CANFAR GMS</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca/gms</identifier>
+          <curation xmlns="">
+            <publisher ivo-id="ivo://cadc.nrc.ca/org"> Canadian Astronomy Data Centre </publisher>
+            <creator>
+              <name />
+            </creator>
+            <contact>
+              <name>John Ouellette</name>
+              <address>5071 West Saanich Rd Victoria, BC, Canada V9E 2E7</address>
+              <email>John.Ouellette@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject />
+            <description>This is the CADC/CANFAR login and Group Membership service</description>
+            <referenceURL>https://www.canfar.net/</referenceURL>
+            <type>Other</type>
+          </content>
+            <capability standardID="ivo://ivoa.net/std/VOSI#capabilities">
+                <interface xsi:type="vs:ParamHTTP" role="std">
+                    <accessURL use="full">https://ws-cadc.canfar.net/ac/capabilities</accessURL>
+                </interface>
+            </capability>
+            
+            <capability standardID="ivo://ivoa.net/std/VOSI#availability">
+                <interface xsi:type="vs:ParamHTTP" role="std">
+                    <accessURL use="full">https://ws-cadc.canfar.net/ac/availability</accessURL>
+                </interface>
+            </capability>
+            
+            <capability standardID="ivo://ivoa.net/std/GMS#search-1.0">
+                <interface xsi:type="vs:ParamHTTP" role="std" version="1.0">
+                    <accessURL use="base">https://ws-cadc.canfar.net/ac/search</accessURL>
+                    <securityMethod standardID="ivo://ivoa.net/sso#cookie" />
+                    <securityMethod standardID="ivo://ivoa.net/sso#tls-with-certificate" />
+                    <securityMethod standardID="ivo://ivoa.net/sso#token" />
+                </interface>
+            </capability>
+            
+            <capability standardID="ivo://ivoa.net/sso#tls-with-password">
+                <interface xsi:type="vs:ParamHTTP" role="std" version="2.0">
+                    <accessURL use="base">https://ws-cadc.canfar.net/ac/login</accessURL>
+                </interface>
+            </capability>
+            
+            <capability standardID="ivo://ivoa.net/sso#OpenID">
+                <interface xsi:type="vs:ParamHTTP" role="std" version="2.0">
+                    <accessURL use="base">https://ws-cadc.canfar.net/ac</accessURL>
+                </interface>
+            </capability>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>

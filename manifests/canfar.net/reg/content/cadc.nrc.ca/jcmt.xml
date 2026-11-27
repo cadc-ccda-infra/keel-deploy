@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <GetRecord>
+    <record>
+      <header>
+        <identifier>ivo://cadc.nrc.ca/JCMT</identifier>
+        <datestamp>2019-06-15T21:15:13Z</datestamp>
+        <setSpec>ivo_managed</setSpec>
+      </header>
+      <metadata>
+        <ri:Resource created="2016-10-10T09:33:09Z" status="active" updated="2019-06-15T21:15:13Z" 
+                     xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" 
+                     xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" 
+                     xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" 
+                     xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+                     xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xsi:type="vs:DataCollection" 
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <title xmlns="">James Clerk Maxwell Telescope Archive</title>
+          <shortName xmlns="">JCMT Archive</shortName>
+          <identifier xmlns="">ivo://cadc.nrc.ca/JCMT</identifier>
+          <curation xmlns="">
+            <publisher ivo-id="ivo://cadc.nrc.ca/org"> Canadian Astronomy Data Centre </publisher>
+            <contact>
+              <name>JJ Kavelaars</name>
+              <address>5071 West Saanich Rd Victoria, BC, Canada V9E 2E7</address>
+              <email>JJ.Kavelaars@nrc-cnrc.gc.ca</email>
+            </contact>
+          </curation>
+          <content xmlns="">
+            <subject />
+            <description />
+            <referenceURL>https://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/</referenceURL>
+            <type>Archive</type>
+            <contentLevel>Research</contentLevel>
+          </content>
+        </ri:Resource>
+      </metadata>
+    </record>
+  </GetRecord>
