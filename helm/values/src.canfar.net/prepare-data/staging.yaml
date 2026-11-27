@@ -1,4 +1,4 @@
-# Staging overlays for SKA Prepare Data (dpapi) on src.canfar.net (namespace canfar-cansrc).
+# Staging overlays for SKA Prepare Data (dpapi) on src.canfar.net (namespace canfar-src-staging).
 
 localPreparerCore:
   image:
@@ -16,7 +16,7 @@ celeryWorker:
 
 env:
   ABS_PATH_USER_AREA_ROOT: /user-storage/cavern/home
-  ABS_PATH_RSE_ROOT: /rse/data/dev/deterministic
+  ABS_PATH_RSE_ROOT: /rse/data
   ABS_PATH_CELERY_RESULTS: /celery/cache
   CAVERN_API_URL: https://staging-src.canfar.net/cavern
   POSIX_MAPPER_URL: https://staging-src.canfar.net/posix-mapper
@@ -25,13 +25,13 @@ env:
   CAVERN_ROOT_USER: canfarops
   IAM_GMS: ivo://skao.int/gms
   GROUP: roles/int/oper
-  QUOTA: 1000000
+  QUOTA: 524288000
   SUPPORTED_APPROACHES: cavern
   DEFAULT_APPROACH: cavern
   API_ROOT_PATH:
 
 pvc:
-  rse: xrootd-storage-ro
+  rse: xrootd-staging-ro
   rsePath: /rse
   cavern: cavern-renewal-pvc
   cavernPath: /user-storage/
